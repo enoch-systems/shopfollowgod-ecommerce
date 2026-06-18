@@ -5,7 +5,7 @@ import snapchatIcon from '../assets/snapchat.svg'
 import instaIcon from '../assets/insta.svg'
 import tiktokIcon from '../assets/tiktok.svg'
 import eye from '../assets/eye.png' 
-import { MapPinCheck, Mail, Phone, Send } from 'lucide-react' 
+import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react' 
 
 const Footer = () => {
   const [showTerms, setShowTerms] = useState(false);
@@ -46,7 +46,7 @@ const Footer = () => {
     }
   };
 
-  const edsBrown = '#5C3D2E'
+  const deepGreen = '#064e3b'
 
   const linkStyle = {
     background: 'none',
@@ -59,6 +59,14 @@ const Footer = () => {
     textAlign: 'left',
     transition: 'color 0.2s ease',
     fontFamily: 'inherit',
+  }
+
+  const contactLinkStyle = {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: 13,
+    textDecoration: 'none',
+    transition: 'color 0.2s ease, textShadow 0.2s ease',
+    cursor: 'pointer',
   }
 
   const ModalContent = ({ title, children, onClose }) => (
@@ -79,7 +87,8 @@ const Footer = () => {
   )
 
   return (
-    <footer style={{ backgroundColor: edsBrown, color: 'rgba(255,255,255,0.9)' }}>
+    <footer style={{ backgroundColor: deepGreen, color: 'rgba(255,255,255,0.9)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(0,0,0,0.25) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0,0,0,0.2) 0%, transparent 45%), radial-gradient(ellipse at 60% 80%, rgba(0,0,0,0.15) 0%, transparent 50%)', pointerEvents: 'none' }} />
       {/* Main footer content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 24px 40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 40 }}>
@@ -173,7 +182,9 @@ const Footer = () => {
               </div>
               <button
                 disabled={isSubscribing}
-                style={{ padding: '10px 18px', borderRadius: 10, background: isSubscribing ? 'rgba(255,255,255,0.3)' : '#111827', color: '#ffffff', fontSize: 13, fontWeight: 600, border: 'none', cursor: isSubscribing ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
+                style={{ padding: '10px 18px', borderRadius: 10, background: 'transparent', color: '#ffffff', fontSize: 13, fontWeight: 600, border: '1px solid rgba(255,255,255,0.2)', cursor: isSubscribing ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', transition: 'border-color 0.2s ease, background 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.background = 'rgba(74,222,128,0.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.background = 'transparent'; }}
               >
                 {isSubscribing ? 'Subscribing...' : <><Send size={14} />Subscribe</>}
               </button>
@@ -188,20 +199,31 @@ const Footer = () => {
             </form>
             {thankYouHtml && <div style={{ marginTop: 8, fontSize: 13, color: '#fbbf24' }}>{thankYouHtml}</div>}
 
-            <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Mail size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
                 <a
                   href="mailto:followgodng01@gmail.com"
                   onClick={(e) => { e.preventDefault(); openMail('followgodng01@gmail.com', 'Reaching out from folllowgod website'); }}
-                  style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, textDecoration: 'none' }}
+                  style={contactLinkStyle}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.textShadow = '0 0 8px rgba(255,255,255,0.3)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.textShadow = 'none'; }}
+                  className="contact-link"
                 >
                   followgodng01@gmail.com
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Phone size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
-                <a href="tel:+2349031161058" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, textDecoration: 'none' }}>+234 903 116 1058</a>
+                <a
+                  href="tel:+2349031161058"
+                  style={contactLinkStyle}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.textShadow = '0 0 8px rgba(255,255,255,0.3)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.textShadow = 'none'; }}
+                  className="contact-link"
+                >
+                  +234 903 116 1058
+                </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <MapPinCheck size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
@@ -235,7 +257,9 @@ const Footer = () => {
               href="https://wa.me/2349162919586?text=Hello%20Enoch%2C%20Reaching%20out%20from%20followgod%20web"
               target="_blank"
               rel="noreferrer"
-              style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: 13, textDecoration: 'none', transition: 'background 0.2s' }}
+              style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: 13, textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.color = '#86efac'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
             >
               Reach Us
             </a>

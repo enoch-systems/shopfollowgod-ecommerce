@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import { Link, useNavigate } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 import soldBadge from '../assets/soldout.png'
 import MountReveal from '../components/MountReveal' 
 
@@ -189,11 +190,11 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 28 }}>
         <button
           onClick={() => navigate('/shop')}
-          style={{ padding: '10px 28px', background: '#111827', color: '#ffffff', fontSize: 12, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+          style={{ padding: '10px 24px', background: '#111827', color: '#ffffff', fontSize: 12, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', transition: 'transform 0.15s ease, box-shadow 0.15s ease', display: 'inline-flex', alignItems: 'center', gap: 8 }}
           onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)' }}
           onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)' }}
         >
-          See More Products
+          See More Products <ArrowRight size={14} style={{ display: 'inline-block' }} />
         </button>
       </div>
     </MountReveal>
