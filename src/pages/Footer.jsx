@@ -102,24 +102,24 @@ const Footer = () => {
             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 260 }}>
               Faith-inspired fashion for everyday wear. Shop curated collections made with care and purpose.
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
-              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
+              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/seavzviiwkmbtj8los9h.png" alt="Instagram" style={{ width: 22, height: 22 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/seavzviiwkmbtj8los9h.png" alt="Instagram" style={{ width: 28, height: 28 }} />
               </a>
-              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.85)' }}
+              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/pbk0dqwcybkbgxowpjo1.png" alt="TikTok" style={{ width: 22, height: 22 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/pbk0dqwcybkbgxowpjo1.png" alt="TikTok" style={{ width: 28, height: 28 }} />
               </a>
-              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/ttvtvkyijvf3k6ojljid.png" alt="Snapchat" style={{ width: 22, height: 22 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/ttvtvkyijvf3k6ojljid.png" alt="Snapchat" style={{ width: 28, height: 28 }} />
               </a>
             </div>
           </div>
