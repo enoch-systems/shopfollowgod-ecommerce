@@ -3,7 +3,8 @@ import Footer from "../pages/Footer";
 import { useCart } from '../context/CartContext'
 
 import { products } from '../data/products'
-import soldBadge from '../assets/soldout.png'
+import { cld } from '../utils/cloudinary'
+const soldBadge = cld('soldout', { width: 200 })
 import { Link } from 'react-router-dom'
 import MountReveal from '../components/MountReveal'
 import { ChevronLeft, ChevronRight } from 'lucide-react'

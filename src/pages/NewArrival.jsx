@@ -3,7 +3,8 @@ import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import soldBadge from '../assets/soldout.png'
+import { cld } from '../utils/cloudinary'
+const soldBadge = cld('soldout', { width: 200 })
 import MountReveal from '../components/MountReveal' 
 
 // cache preloaded image urls to avoid duplicate Image objects

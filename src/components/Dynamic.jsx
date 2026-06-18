@@ -8,7 +8,7 @@ import Footer from '../pages/Footer'
 import { cld } from '../utils/cloudinary'
 import leftIcon from '../assets/left.svg'
 import rightIcon from '../assets/right.svg'
-import soldBadge from '../assets/soldout.png'
+const soldBadge = cld('soldout', { width: 200 })
 import MountReveal from '../components/MountReveal' 
 
 // Product metadata (colors and descriptions)

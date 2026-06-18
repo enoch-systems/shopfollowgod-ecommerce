@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-const logo = '/images/blacklogo-480.avif'
-import snapchatIcon from '../assets/snapchat.svg' 
-import instaIcon from '../assets/insta.svg'
-import tiktokIcon from '../assets/tiktok.svg'
-import eye from '../assets/eye.png' 
+import { cld } from '../utils/cloudinary'
+
+const logo = cld('blacklogo', { width: 480 })
+const snapchatIcon = cld('snapchat', { width: 36 })
+const instaIcon = cld('insta', { width: 36 })
+const tiktokIcon = cld('tiktok', { width: 36 })
+const eye = cld('eye', { width: 48 })
 import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react' 
 
 const Footer = () => {

@@ -1,11 +1,12 @@
 import { Menu, X, Home, ShoppingCart, Layers, HelpCircle, CreditCard } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/nano.png';
+import { cld } from '../utils/cloudinary'
+const logo = cld('logo', { width: 120 })
 import { useCart } from '../context/CartContext'
 import { createPortal } from 'react-dom'
 import { products } from '../data/products'
-import searchIcon from '../assets/search.svg'
+const searchIcon = cld('search', { width: 48 })
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
