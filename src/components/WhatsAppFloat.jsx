@@ -16,7 +16,7 @@ export default function WhatsAppFloat() {
         style={{ lineHeight: 0 }}
         aria-label="Open WhatsApp"
       >
-        <img src={whatsapp} alt="WhatsApp" className="w-14 h-14 rounded-full" />
+        <img src={whatsapp} alt="WhatsApp" className="w-12 h-12 rounded-full" />
       </a>
     </div>
   );
