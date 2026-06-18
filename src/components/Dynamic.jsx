@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { ChevronLeft } from 'lucide-react'
 import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import NewArrival from '../pages/NewArrival'
@@ -239,7 +240,7 @@ function Dynamic({ product: propProduct }) {
       </div>
       <div className="lg:max-w-8xl mx-auto lg:px-28 py-10 px-0">
         {/* Back button */}
-        <Link to="/" className="inline-flex items-center gap-3 px-4 py-2 rounded-md border border-gray-400 bg-black/1 text-sm font-semibold shadow-sm">← Back</Link>
+        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-400 bg-black/1 text-sm font-semibold shadow-sm"><ChevronLeft size={18} /> Back</Link>
 
         {/* Top area */}
         <div className="mt-7  lg:ml-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 items-start">
