@@ -245,20 +245,20 @@ const Home = () => {
         style={{ backgroundColor: 'white' }}
       >
         {/* Hero content moved above the background image */}
-        {/* Mobile search (visible on small screens, hidden at md+) */}
-        <div className="w-full px-4 sm:px-0 flex justify-center md:hidden mt-2">
-          <div ref={searchRef} className="w-full max-w-md relative bg-white/45 backdrop-blur-md rounded-full px-4 py-2 flex items-center shadow-md border border-white/30 ">
+        {/* Mobile search */}
+        <div className="w-full px-4 flex justify-center md:hidden mt-2">
+          <div ref={searchRef} className="w-full max-w-md relative flex items-center gap-2" style={{ background: '#f5f5f5', borderRadius: 999, padding: '10px 16px', border: '1px solid #e5e7eb' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, color: '#9ca3af', flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z" />
+            </svg>
             <input
               value={query}
               onChange={onChange}
               id="mobile-search"
-              className="flex-1 bg-transparent mr-3 placeholder:text-gray-500 text-gray-700 outline-none text-base"
-              style={{ fontSize: 16 }}
+              className="bg-transparent flex-1 outline-none"
+              style={{ fontSize: 16, color: '#111827', fontWeight: 400 }}
               placeholder="Search products..."
             />
-            <img src={searchIcon} alt="search" className="h-5 w-5 text-gray-500" width="20" height="20" loading="eager" fetchPriority="high" decoding="async" />
-
-            {/* dropdown will be rendered via portal to avoid stacking context issues */}
           </div>
         </div>
         <main>
