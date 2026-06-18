@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import soldBadge from '../assets/soldout.png'
 import MountReveal from '../components/MountReveal' 
 
@@ -24,6 +24,7 @@ const preloadImages = (p) => {
 
 function NewArrival({ limit, className = '', hideTitle = false, product = null }) {
   const cart = useCart()
+  const navigate = useNavigate()
   // show temporary "Added" state per product when user clicks add-to-cart
   const [addedIds, setAddedIds] = useState(() => new Set())
   const addedTimers = useRef({})
@@ -62,6 +63,21 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
     markAdded(p.id)
   }
 
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200)
+
+  useEffect(() => {
+    const onResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  const getLimit = () => {
+    if (typeof limit === 'number') return limit
+    if (windowWidth >= 1024) return 14
+    if (windowWidth >= 768) return 12
+    return 8
+  }
+
   const [items, setItems] = useState(() => {
     let pool = products
     if (product && product.title) {
@@ -77,7 +93,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
       const j = Math.floor(Math.random() * (i + 1))
       ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
-    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled
+    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled.slice(0, 8)
     // Remove duplicates based on id
     return result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index)
   })
@@ -96,10 +112,11 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
       const j = Math.floor(Math.random() * (i + 1))
       ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
-    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled
+    const currentLimit = getLimit()
+    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled.slice(0, currentLimit)
     // Remove duplicates based on id
     setItems(result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index))
-  }, [limit, product])
+  }, [limit, product, windowWidth])
 
   return (
     <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>
@@ -167,6 +184,17 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
             </div>
           </div>
         ))}
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 28 }}>
+        <button
+          onClick={() => navigate('/shop')}
+          style={{ padding: '10px 28px', background: '#111827', color: '#ffffff', fontSize: 12, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)' }}
+        >
+          See More Products
+        </button>
       </div>
     </MountReveal>
   )
