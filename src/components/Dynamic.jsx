@@ -5,9 +5,9 @@ import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import NewArrival from '../pages/NewArrival'
 import Footer from '../pages/Footer'
-import { cld } from '../utils/cloudinary'
-import leftIcon from '../assets/left.svg'
-import rightIcon from '../assets/right.svg'
+import { cld, cldRaw } from '../utils/cloudinary'
+const leftIcon = cldRaw('left.svg')
+const rightIcon = cldRaw('right.svg')
 const soldBadge = cld('soldout', { width: 200 })
 import MountReveal from '../components/MountReveal' 
 

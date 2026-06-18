@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import instaIcon from '../assets/insta.svg'
-import tiktokIcon from '../assets/tiktok.svg'
-import snapchatIcon from '../assets/snapchat.svg'
-import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react' 
+import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react'
+import { cld, cldRaw } from '../utils/cloudinary'
+const instaIcon = cldRaw('insta.svg')
+const tiktokIcon = cldRaw('tiktok.svg')
+const snapchatIcon = cldRaw('snapchat.svg')
+const logo = cld('logo.jpg', { width: 320 })
+const eye = cld('eye', { width: 32 })
 
 const Footer = () => {
   const [showTerms, setShowTerms] = useState(false);

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import Footer from '../pages/Footer'
 import { useCart } from '../context/CartContext'
 import ConfirmModal from './ConfirmModal'
-import deleteIcon from '../assets/delete.png'
 import { jsPDF } from 'jspdf'
+import { cld } from '../utils/cloudinary'
+const deleteIcon = cld('delete', { width: 32 })
 
 function Checkout() {
   const [fullName, setFullName] = useState('')

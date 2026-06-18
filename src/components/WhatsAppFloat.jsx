@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import whatsapp from '../assets/whatsapp.svg';
+import { cldRaw } from '../utils/cloudinary';
+const whatsapp = cldRaw('whatsapp.svg');
 
 export default function WhatsAppFloat() {
   const ref = useRef(null);

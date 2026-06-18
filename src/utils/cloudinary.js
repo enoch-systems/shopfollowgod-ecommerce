@@ -1,7 +1,6 @@
-// Cloudinary image URL helper
-// Usage: cld('em1') → returns the Cloudinary transformation URL
 const CLOUD_NAME = 'djdbcoyot'
 const CLOUD_BASE = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`
+const CLOUD_RAW = `https://res.cloudinary.com/${CLOUD_NAME}/raw/upload`
 
 export function cld(name, options = {}) {
   const {
@@ -17,11 +16,12 @@ export function cld(name, options = {}) {
   if (height) transforms.push(`h_${height}`)
   transforms.push('c_' + crop)
 
-  const transformStr = transforms.join(',')
-  // All uploaded images live in followgod/assets
-  const folder = 'followgod/assets'
-
-  return `${CLOUD_BASE}/${transformStr}/${folder}/${name}`
+  return `${CLOUD_BASE}/${transforms.join(',')}/followgod/assets/${name}`
 }
 
-export default { image: cld }
+/** For SVG / raw assets uploaded with resource_type: 'raw' */
+export function cldRaw(name) {
+  return `${CLOUD_RAW}/followgod/assets/${name}`
+}
+
+export default { image: cld, raw: cldRaw }

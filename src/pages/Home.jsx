@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import NewArrival from './NewArrival'
 import Footer from './Footer'
+import { products } from '../data/products'
 import { cld } from '../utils/cloudinary'
 // Hero images served via Cloudinary CDN
 const em1 = cld('em1', { width: 1024 })
@@ -11,7 +12,6 @@ const em4 = cld('em4', { width: 1024 })
 const em5 = cld('em5', { width: 1024 })
 const em6 = cld('em6', { width: 1024 })
 const searchIcon = cld('search', { width: 48 })
-import { products } from '../data/products'
 
 const Carousel = () => {
   const slides = [
