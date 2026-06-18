@@ -71,9 +71,9 @@ const Footer = () => {
   }
 
   const ModalContent = ({ title, children, onClose }) => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="z-10 w-full max-w-lg mx-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={onClose}>
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="z-10 w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
         <div style={{ background: '#ffffff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 48px rgba(0,0,0,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
             <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827', margin: 0 }}>{title}</h2>
