@@ -44,11 +44,11 @@ const Carousel = () => {
           {[...slides, ...slides].map((s, i) => {
             const img = i % 5 === 0 ? em1 : i % 5 === 1 ? em2 : i % 5 === 2 ? em4 : i % 5 === 3 ? em5 : em6
             return (
-              <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '280px', height: 'auto' }}>
+              <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '380px', height: 'auto' }}>
                 <img
                   src={img}
                   alt={s.title}
-                  style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '280px' }}
+                  style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '380px' }}
                   loading="eager"
                   fetchPriority="high"
                   decoding="sync"
