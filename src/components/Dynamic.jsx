@@ -238,22 +238,22 @@ function Dynamic({ product: propProduct }) {
       <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${toastVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'}`} role="status" aria-live="polite">
         <div className="bg-black text-gray-400 px-7 py-2 text-sm rounded-md shadow">{toastMsg}</div>
       </div>
-      <div className="lg:max-w-8xl mx-auto lg:px-28 py-10 px-0">
+      <div className="lg:max-w-8xl mx-auto lg:px-28 py-6 px-3">
         {/* Back button */}
-        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-400 bg-black/1 text-sm font-semibold shadow-sm"><ChevronLeft size={18} /> Back</Link>
+        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 text-sm font-semibold shadow-sm hover:bg-gray-50 transition-colors"><ChevronLeft size={18} /> Back</Link>
 
         {/* Top area */}
-        <div className="mt-7  lg:ml-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 items-start">
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-10 lg:gap-14 items-start">
           {/* Left: Image */}
           <div className="md:col-span-1 lg:col-span-1">
-            <div className="relative bg-[hsl(44,45%,98%)] p-0 rounded-xl overflow-hidden">
+            <div className="relative bg-[hsl(44,45%,98%)] rounded-xl overflow-hidden flex flex-col items-center justify-center">
               {/* previous/next controls */}
-              <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-blue-300/20 rounded-full border border-gray-300 shadow-sm hover:scale-105">
-                <img src={leftIcon} alt="Previous" className="w-5 h-5" />
+              <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+                <img src={leftIcon} alt="Previous" className="w-4 h-4 md:w-5 md:h-5" />
               </button>
 
-              <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-blue-300/20 rounded-full border  border-gray-300 shadow-sm hover:scale-105">
-                <img src={rightIcon} alt="Next" className="w-5 h-5" />
+              <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+                <img src={rightIcon} alt="Next" className="w-4 h-4 md:w-5 md:h-5" />
               </button>
 
               <img
@@ -272,16 +272,15 @@ function Dynamic({ product: propProduct }) {
                     }
                   } catch (err) { void err }
                 }}
-                className={`w-full h-[420px] md:h-[600px]  lg:h-[800px]  object-cover  rounded-md ${flipMain ? 'transform -scale-x-100' : ''}`}
-                style={undefined}
+                className="w-full h-auto object-contain max-h-[320px] md:max-h-[480px] lg:max-h-[600px]"
               />
 
               {product.soldOut && (
-                <img src={soldBadge} alt="Sold out" className="absolute top-4 right-4 w-25 h-25 pointer-events-none z-30" />
+                <img src={soldBadge} alt="Sold out" className="absolute top-4 right-4 w-20 h-20 md:w-25 md:h-25 pointer-events-none z-30" />
               )}
 
-              {/* Thumbnails: use product.images if present, otherwise show the main image */}
-              <div className="p-3 flex items-center gap-3 bg-white rounded-md">
+              {/* Thumbnails */}
+              <div className="p-3 flex items-center gap-3 bg-white w-full overflow-x-auto">
                 {thumbImages.map((src, idx) => (
                   <button
                     key={idx}
@@ -293,57 +292,60 @@ function Dynamic({ product: propProduct }) {
                     }}
                     className={`${THUMB_CLASS} rounded-md overflow-hidden flex-shrink-0 border ${selectedThumb === idx ? 'ring-2 ring-amber-400 border-transparent' : 'border-gray-100'}`}
                     aria-label={`Show image ${idx + 1}`}>
-                    <img src={src} alt={`${product.title} ${idx + 1}`} loading="eager" decoding="async" fetchPriority="high" width="80" height="80" className={`w-full h-full object-cover`} />
+                    <img src={src} alt={`${product.title} ${idx + 1}`} loading="eager" decoding="async" fetchPriority="high" width="80" height="80" className="w-full h-full object-cover" />
                   </button>
                 ))}
 
-                {/* Offscreen preloader images (force immediate multi-download) */}
+                {/* Offscreen preloader images */}
                 <div aria-hidden="true" style={{position: 'absolute', left: -9999, top: -9999, width: 1, height: 1, overflow: 'hidden', pointerEvents: 'none'}}>
                   {thumbImages.map((s, i) => (
                     <img key={`pre-${i}`} src={s} alt="" loading="eager" decoding="sync" fetchPriority="high" width={1} height={1} style={{width: 1, height: 1}} />
                   ))}
                 </div>
               </div>
-         
             </div>
           </div>
 
           {/* Right: Details */}
-          <div className="max-w-xl -mt-4 md:mt-3 ml-4 md:ml-0 md:col-span-1 lg:col-span-1">
-            <h2 className="text-base  md:text-3xl font-bold tracking-widest uppercase">{product.title}</h2>
+          <div className="md:col-span-1 lg:col-span-1 flex flex-col gap-5">
+            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest uppercase leading-tight">{product.title}</h2>
 
-            <div className="flex items-center gap-3 mt-3 text-sm text-gray-400">
+            <div className="flex items-center gap-3 text-sm text-gray-400">
               <div className="flex items-center gap-1 text-amber-400">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <svg key={i} className={`w-4 h-4 ${i < Math.round(product.rating) ? 'fill-current' : 'text-gray-200'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L24 9.75l-6 5.847 1.417 8.27L12 19.77l-7.417 4.097L6 15.597 0 9.75l8.332-1.732z"/></svg>
+                  <svg key={i} className={`w-3.5 h-3.5 md:w-4 md:h-4 ${i < Math.round(product.rating) ? 'fill-current' : 'text-gray-200'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L24 9.75l-6 5.847 1.417 8.27L12 19.77l-7.417 4.097L6 15.597 0 9.75l8.332-1.732z"/></svg>
                 ))}
               </div>
-              <span className="text-gray-400">({product.rating} reviews)</span>
+              <span className="text-xs md:text-sm">({product.rating} reviews)</span>
             </div>
 
-            <div className="md:text-3xl text-xl font-[verdana] font-extrabold text-[#111] mt-6">N{product.price.toLocaleString()}</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-extrabold text-[#111]">N{product.price.toLocaleString()}</div>
 
-            <p className="text-gray-500 text-sm leading-7 mt-3 md:mt-6 font-[verdana] md:text-base font-thin ">{PRODUCT_META[product.id]?.description || 'Structured FG product description not available.'}</p>
+            <p className="text-gray-500 text-sm md:text-base leading-7">{PRODUCT_META[product.id]?.description || 'Structured FG product description not available.'}</p>
 
-            <div className="mt-8">
-              <div>
-                <div className="text-xs text-gray-500 font-semibold mb-2 uppercase">Quantity</div>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20">−</button>
-                  <div className="min-w-[48px] text-center border border-gray-100 rounded-md py-2">{qty}</div>
-                  <button onClick={() => setQty(q => q + 1)} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20">+</button>
-                </div>
+            <div className="mt-2">
+              <div className="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Quantity</div>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">−</button>
+                <div className="min-w-[48px] text-center border border-gray-100 rounded-md py-2 text-sm">{qty}</div>
+                <button onClick={() => setQty(q => q + 1)} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">+</button>
               </div>
             </div>
 
-            <div className="mt-8 flex items-center gap-4">
+            <div className="mt-2 flex items-center gap-3">
               {(() => {
                 const isAdded = justAdded
                 return (
                   <button
                     onClick={!product.soldOut && !isAdded ? handleAddToCart : undefined}
                     disabled={product.soldOut || isAdded}
-                    className={`${product.soldOut ? 'flex items-center gap-1 bg-gray-300 text-gray-600 px-4 py-3 rounded-md font-semibold shadow-sm cursor-not-allowed' : isAdded ? 'flex items-center gap-2 bg-green-500 text-white px-4 py-3 rounded-md font-semibold shadow-sm cursor-not-allowed' : 'flex items-center gap-1 bg-black text-xs text-white px-4 py-3 rounded-md font-semibold shadow-sm cursor-pointer hover:opacity-95 hover:scale-[1.01] transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-amber-400'}`}>
+                    className={`${
+                      product.soldOut
+                        ? 'flex items-center gap-1 bg-gray-300 text-gray-600 px-5 py-3 rounded-md font-semibold text-xs cursor-not-allowed'
+                        : isAdded
+                        ? 'flex items-center gap-2 bg-green-500 text-white px-5 py-3 rounded-md font-semibold text-xs cursor-not-allowed'
+                        : 'flex items-center gap-1 bg-black text-xs text-white px-5 py-3 rounded-md font-semibold cursor-pointer hover:opacity-90 transition-opacity'
+                    }`}>
                     {product.soldOut ? (
                       'SOLD OUT'
                     ) : isAdded ? (
@@ -353,7 +355,7 @@ function Dynamic({ product: propProduct }) {
                       </>
                     ) : (
                       <>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="20" r="1"/><circle cx="20" cy="20" r="1"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="20" r="1"/><circle cx="20" cy="20" r="1"/></svg>
                         ADD TO CART
                       </>
                     )}
@@ -362,14 +364,14 @@ function Dynamic({ product: propProduct }) {
               })()}
 
               {!product.soldOut && (
-                <button onClick={handleBuyNow} className="px-4 py-3 rounded-md border border-black/20 text-xs font-semibold cursor-pointer hover:bg-black hover:text-white transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-200">BUY NOW</button>
+                <button onClick={handleBuyNow} className="px-5 py-3 rounded-md border border-black/20 text-xs font-semibold cursor-pointer hover:bg-black hover:text-white transition-colors">BUY NOW</button>
               )}
 
               <button
                 onClick={toggleFavorite}
                 aria-pressed={isFavorite}
-                className={`w-11 h-11 rounded-md border flex items-center justify-center ${isFavorite ? 'border-red-300 bg-red-50 text-red-600' : 'border-gray-200 text-gray-600'}`}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor">
+                className={`w-10 h-10 md:w-11 md:h-11 rounded-md border flex items-center justify-center transition-colors ${isFavorite ? 'border-red-300 bg-red-50 text-red-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
               </button>
