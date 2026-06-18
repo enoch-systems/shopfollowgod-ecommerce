@@ -1,73 +1,75 @@
-// Use the prebuilt .avif images from the public /images folder
-// Prefer 1024 where available, otherwise fall back to 768, then 480
-const fg_army1 = '/images/fg_army1-768.avif'
-const fg_army2 = '/images/fg_army2-768.avif'
-const fg_black1 = '/images/fg_black1-768.avif'
-const fg_black2 = '/images/fg_black2-768.avif'
-const fg_blue1 = '/images/fg_blue1-768.avif'
-const fg_blue2 = '/images/fg_blue2-768.avif'
-const fg_grey1 = '/images/fg_grey1-768.avif'
-const fg_grey2 = '/images/fg_grey2-768.avif'
-const fg_orange1 = '/images/fg_orange1-768.avif'
-const fg_orange2 = '/images/fg_orange2-768.avif'
-const fg_red1 = '/images/fg_red1-768.avif'
-const fg_red2 = '/images/fg_red2-768.avif'
-const fg_violet1 = '/images/fg_violet1-768.avif'
-const fg_violet2 = '/images/fg_violet2-768.avif'
-const fg_mili1 = '/images/fg_mili1-768.avif'
-const fg_mili2 = '/images/fg_mili2-768.avif'
-const fg_bluee1 = '/images/fg_bluee1-768.avif'
-const fg_bluee2 = '/images/fg_bluee2-768.avif'
-const fg_red1_1 = '/images/fg_red1.1-768.avif'
-const fg_red1_2 = '/images/fg_red1.2-768.avif'
+// Product images served via Cloudinary CDN with auto format/quality
+import { cld } from '../utils/cloudinary'
 
-const bean_army1 = '/images/bean_army1-768.avif'
-const bean_army2 = '/images/bean_army2-768.avif'
-const bean_black1 = '/images/bean_black1-768.avif'
-const bean_black2 = '/images/bean_black2-768.avif'
-const bean_brown1 = '/images/bean_brown1-768.avif'
-const bean_brown2 = '/images/bean_brown2-768.avif'
-const bean_green1 = '/images/bean_green1-768.avif'
-const bean_green2 = '/images/bean_green2-768.avif'
-const bean_grey1 = '/images/bean_grey1-768.avif'
-const bean_grey2 = '/images/bean_grey2-768.avif'
-const bean_indigo1 = '/images/bean_indigo1-768.avif'
-const bean_indigo2 = '/images/bean_indigo2-768.avif'
-const bean_purple1 = '/images/bean_purple1-768.avif'
-const bean_purple2 = '/images/bean_purple2-768.avif'
-const bean_red1 = '/images/bean_red1-768.avif'
-const bean_red2 = '/images/bean_red2-768.avif'
-const inspired1 = '/images/inspired1-1024.avif'
-const inspired2 = '/images/inspired2-1024.avif'
-const neverfly1 = '/images/neverfly1-1024.avif'
-const neverfly2 = '/images/neverfly2-768.avif'
-const nvblack1 = '/images/nvblack1-1024.avif'
-const nvblack2 = '/images/nvblack2-1024.avif'
-const _1percent2 = '/images/1percent2-1024.avif'
-const nonamee = '/images/nonamee-1024.avif'
-const highway = '/images/highway-1024.avif'
-const jesus = '/images/jesus-1024.avif'
-const tactical_camo = '/images/tactical_camo-1024.avif'
-const tactical_camo2 = '/images/tactical_camo2-1024.avif'
-const tactical_gray = '/images/tactical_gray-1024.avif'
-const tactical_gray2 = '/images/tactical_gray2-1024.avif'
-const tactical_navyblue = '/images/tactical_navyblue-1024.avif'
-const tactical_navyblue2 = '/images/tactical_navyblue2-1024.avif'
-const Signaturecap_black = '/images/Signaturecap_black-1024.avif'
-const Signaturecap_black2 = '/images/Signaturecap_black2-1024.avif'
-const Signaturecap_black3 = '/images/Signaturecap_black3-1024.avif'
-const Signaturecap_pink = '/images/Signaturecap_pink-1024.avif'
-const Signaturecap_pink2 = '/images/Signaturecap_pink2-1024.avif'
-const Signaturecap_pink3 = '/images/Signaturecap_pink3-1024.avif'
-const Signaturecap_gray = '/images/Signaturecap_gray-1024.avif'
-const Signaturecap_gray2 = '/images/Signaturecap_gray2-1024.avif'
-const Signaturecap_gray3 = '/images/Signaturecap_gray3-1024.avif'
-const Signaturecap_red = '/images/Signaturecap_red-1024.avif'
-const Signaturecap_red2 = '/images/Signaturecap_red2-1024.avif'
-const Signaturecap_red3 = '/images/Signaturecap_red3-1024.avif'
-const signred = '/images/signred-1024.avif'
-const signblack = '/images/signblack-1024.avif' 
+// Product image helpers - Cloudinary handles responsive sizing, format negotiation (AVIF/WebP/JPEG), and CDN delivery
+const fg_army1 = cld('fg_army1', { width: 768 })
+const fg_army2 = cld('fg_army2', { width: 768 })
+const fg_black1 = cld('fg_black1', { width: 768 })
+const fg_black2 = cld('fg_black2', { width: 768 })
+const fg_blue1 = cld('fg_blue1', { width: 768 })
+const fg_blue2 = cld('fg_blue2', { width: 768 })
+const fg_grey1 = cld('fg_grey1', { width: 768 })
+const fg_grey2 = cld('fg_grey2', { width: 768 })
+const fg_orange1 = cld('fg_orange1', { width: 768 })
+const fg_orange2 = cld('fg_orange2', { width: 768 })
+const fg_red1 = cld('fg_red1', { width: 768 })
+const fg_red2 = cld('fg_red2', { width: 768 })
+const fg_violet1 = cld('fg_violet1', { width: 768 })
+const fg_violet2 = cld('fg_violet2', { width: 768 })
+const fg_mili1 = cld('fg_mili1', { width: 768 })
+const fg_mili2 = cld('fg_mili2', { width: 768 })
+const fg_bluee1 = cld('fg_bluee1', { width: 768 })
+const fg_bluee2 = cld('fg_bluee2', { width: 768 })
+const fg_red1_1 = cld('fg_red1.1', { width: 768 })
+const fg_red1_2 = cld('fg_red1.2', { width: 768 })
 
+const bean_army1 = cld('bean_army1', { width: 768 })
+const bean_army2 = cld('bean_army2', { width: 768 })
+const bean_black1 = cld('bean_black1', { width: 768 })
+const bean_black2 = cld('bean_black2', { width: 768 })
+const bean_brown1 = cld('bean_brown1', { width: 768 })
+const bean_brown2 = cld('bean_brown2', { width: 768 })
+const bean_green1 = cld('bean_green1', { width: 768 })
+const bean_green2 = cld('bean_green2', { width: 768 })
+const bean_grey1 = cld('bean_grey1', { width: 768 })
+const bean_grey2 = cld('bean_grey2', { width: 768 })
+const bean_indigo1 = cld('bean_indigo1', { width: 768 })
+const bean_indigo2 = cld('bean_indigo2', { width: 768 })
+const bean_purple1 = cld('bean_purple1', { width: 768 })
+const bean_purple2 = cld('bean_purple2', { width: 768 })
+const bean_red1 = cld('bean_red1', { width: 768 })
+const bean_red2 = cld('bean_red2', { width: 768 })
+
+const inspired1 = cld('inspired1', { width: 1024 })
+const inspired2 = cld('inspired2', { width: 1024 })
+const neverfly1 = cld('neverfly1', { width: 1024 })
+const neverfly2 = cld('neverfly2', { width: 768 })
+const nvblack1 = cld('nvblack1', { width: 1024 })
+const nvblack2 = cld('nvblack2', { width: 1024 })
+const _1percent2 = cld('1percent2', { width: 1024 })
+const nonamee = cld('nonamee', { width: 1024 })
+const highway = cld('highway', { width: 1024 })
+const jesus = cld('jesus', { width: 1024 })
+const tactical_camo = cld('tactical_camo', { width: 1024 })
+const tactical_camo2 = cld('tactical_camo2', { width: 1024 })
+const tactical_gray = cld('tactical_gray', { width: 1024 })
+const tactical_gray2 = cld('tactical_gray2', { width: 1024 })
+const tactical_navyblue = cld('tactical_navyblue', { width: 1024 })
+const tactical_navyblue2 = cld('tactical_navyblue2', { width: 1024 })
+const Signaturecap_black = cld('Signaturecap_black', { width: 1024 })
+const Signaturecap_black2 = cld('Signaturecap_black2', { width: 1024 })
+const Signaturecap_black3 = cld('Signaturecap_black3', { width: 1024 })
+const Signaturecap_pink = cld('Signaturecap_pink', { width: 1024 })
+const Signaturecap_pink2 = cld('Signaturecap_pink2', { width: 1024 })
+const Signaturecap_pink3 = cld('Signaturecap_pink3', { width: 1024 })
+const Signaturecap_gray = cld('Signaturecap_gray', { width: 1024 })
+const Signaturecap_gray2 = cld('Signaturecap_gray2', { width: 1024 })
+const Signaturecap_gray3 = cld('Signaturecap_gray3', { width: 1024 })
+const Signaturecap_red = cld('Signaturecap_red', { width: 1024 })
+const Signaturecap_red2 = cld('Signaturecap_red2', { width: 1024 })
+const Signaturecap_red3 = cld('Signaturecap_red3', { width: 1024 })
+const signred = cld('signred', { width: 1024 })
+const signblack = cld('signblack', { width: 1024 })
 
 export const products = [
   { id:1, title:'CAMO YELLOW TRUCKER', price:15000, image:fg_army1, images:[fg_army1, fg_army2], rating:5 },
@@ -104,8 +106,6 @@ export const products = [
   { id:32, title:'FG SIGNATURE CAP (RED)', price:20000, image:Signaturecap_red, images:[Signaturecap_red, Signaturecap_red2, Signaturecap_red3], rating:5},
   { id:30, title:'FG SIGNATURE BEANIE (RED)', price:10000, image:signred, images:[signred], rating:5},
   { id:31, title:'FG SIGNATURE BEANIE (BLACK)', price:10000, image:signblack, images:[signblack], rating:5},
-
- 
 ]
 
-export default products;
+export default products

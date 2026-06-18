@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import NewArrival from './NewArrival'
 import Footer from './Footer'
-// Use avif hero images from /images - prefer 1024
-const em1 = '/images/em1-1024.avif'
-const em2 = '/images/em2-1024.avif'
-const em4 = '/images/em4-1024.avif'
-const em5 = '/images/em5-1024.avif'
-const em6 = '/images/em6-1024.avif'
-import searchIcon from '../assets/search.svg' 
+import { cld } from '../utils/cloudinary'
+// Hero images served via Cloudinary CDN
+const em1 = cld('em1', { width: 1024 })
+const em2 = cld('em2', { width: 1024 })
+const em4 = cld('em4', { width: 1024 })
+const em5 = cld('em5', { width: 1024 })
+const em6 = cld('em6', { width: 1024 })
+const searchIcon = cld('search', { width: 48 })
 import { products } from '../data/products'
 
 const Carousel = () => {
