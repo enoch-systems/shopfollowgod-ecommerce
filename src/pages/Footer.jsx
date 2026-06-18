@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react'
-import { cld, cldRaw } from '../utils/cloudinary'
-const instaIcon = cldRaw('insta.svg')
-const tiktokIcon = cldRaw('tiktok.svg')
-const snapchatIcon = cldRaw('snapchat.svg')
+import { cld } from '../utils/cloudinary'
 const logo = cld('logo.jpg', { width: 320 })
 const eye = cld('eye', { width: 32 })
 
@@ -110,19 +107,19 @@ const Footer = () => {
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
               >
-                <img src={instaIcon} alt="Instagram" style={{ width: 18, height: 18 }} />
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               </a>
               <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.85)' }}
               >
-                <img src={tiktokIcon} alt="TikTok" style={{ width: 16, height: 16 }} />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#111" stroke="none"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
               </a>
               <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
               >
-                <img src={snapchatIcon} alt="Snapchat" style={{ width: 18, height: 18 }} />
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8.5c0-3.31-2.69-6-6-6s-6 2.69-6 6v3c0 1.1.2 2.16.57 3.13.15.39.36.76.62 1.09.3.36.67.65 1.06.85.13.07.27.14.41.21.32.15.63.33.93.54.61.42 1.13.97 1.52 1.6.41.66.67 1.42.78 2.22.02.12.1.21.22.26.51.25 1.09.35 1.67.31.17-.01.34-.03.51-.06.14-.02.29.03.4.12 1.05.9 2.28 1.5 3.67 1.65.06.01.13-.01.16-.06.09-.16.22-.28.4-.34 2.04-.68 3.37-2.69 3.37-5.06V8.5z"/></svg>
               </a>
             </div>
           </div>
