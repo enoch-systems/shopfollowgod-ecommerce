@@ -74,23 +74,27 @@ const Navbar = () => {
 
     return (
       <>
-        <div ref={searchRef} className="ml-3 w-full flex items-center gap-3">
+        <div ref={searchRef} className="ml-3 w-full flex items-center gap-2" style={{ background: '#f5f5f5', borderRadius: 999, padding: '8px 14px' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, color: '#9ca3af', flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z" />
+          </svg>
           <input
             value={query}
             onChange={onChange}
-            className="bg-transparent w-full placeholder:text-gray-500 text-gray-700 outline-none"
+            className="bg-transparent w-full outline-none"
+            style={{ fontSize: 14, color: '#111827', fontWeight: 400, letterSpacing: '0.01em' }}
             placeholder="Search products..."
           />
-          <img src={searchIcon} alt="search" className="h-5 w-5 text-gray-500" width="20" height="20" loading="eager" fetchPriority="high" decoding="async" />
+          <kbd style={{ fontSize: 11, color: '#9ca3af', background: '#e5e5e5', borderRadius: 4, padding: '2px 6px', fontFamily: 'inherit', lineHeight: '1.4', flexShrink: 0, fontWeight: 500 }}>⌘K</kbd>
         </div>
         {results && results.length > 0 && coords && createPortal(
-          <div ref={dropdownRef} style={{ position: 'fixed', top: coords.top + 'px', left: coords.left + 'px', width: coords.width + 'px' }} className="bg-white rounded-lg shadow-lg max-h-64 overflow-auto z-[4000]">
+          <div ref={dropdownRef} style={{ position: 'fixed', top: coords.top + 4 + 'px', left: coords.left + 'px', width: coords.width + 'px', border: '1px solid #e5e7eb', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }} className="bg-white rounded-xl shadow-lg max-h-80 overflow-auto z-[4000]">
             {results.map(r => (
-              <button key={r.id} onClick={() => onSelect(r)} className="w-full flex items-center gap-3 p-2 hover:bg-gray-100">
-                <img src={r.image} alt={r.title} className="w-12 h-12 object-cover rounded" width="48" height="48" loading="eager" fetchPriority="high" decoding="async" />
+              <button key={r.id} onClick={() => onSelect(r)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0" style={{ transition: 'background 0.15s ease' }}>
+                <img src={r.image} alt={r.title} className="w-12 h-12 object-cover rounded-lg" width="48" height="48" loading="eager" fetchPriority="high" decoding="async" style={{ borderRadius: 8 }} />
                 <div className="text-left">
-                  <div className="text-sm font-medium text-gray-800">{r.title}</div>
-                  <div className="text-xs text-gray-500">NGN {Number(r.price).toLocaleString()}</div>
+                  <div className="text-sm font-medium text-gray-900">{r.title}</div>
+                  <div className="text-xs text-gray-500" style={{ marginTop: 2 }}>NGN {Number(r.price).toLocaleString()}</div>
                 </div>
               </button>
             ))}
@@ -127,11 +131,7 @@ const Navbar = () => {
 
         {/* Search (desktop only) - placed between logo and nav links */}
         <div className="hidden md:flex items-center md:flex-1 md:justify-center md:mx-6">
-          <div ref={null} className="w-full max-w-md bg-white/90 backdrop-blur-md rounded-full px-4 py-2 flex items-center shadow-md border border-white/30 relative">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z" />
-            </svg>
-            {/* Controlled search input with dropdown portal */}
+          <div className="w-full max-w-md relative">
             <DesktopSearch />
           </div>
         </div>
