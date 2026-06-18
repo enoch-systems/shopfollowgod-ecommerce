@@ -61,6 +61,9 @@ const Footer = () => {
     fontFamily: 'inherit',
   }
 
+  const handleLinkEnter = (e) => { e.currentTarget.style.color = '#4ade80' }
+  const handleLinkLeave = (e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }
+
   const contactLinkStyle = {
     color: 'rgba(255,255,255,0.7)',
     fontSize: 13,
@@ -118,8 +121,8 @@ const Footer = () => {
           <div>
             <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Shop</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <li><button onClick={() => navigate('/shop')} style={linkStyle}>All Products</button></li>
-              <li><button onClick={() => navigate('/shop?category=best-sellers')} style={linkStyle}>Best Sellers</button></li>
+              <li><button onClick={() => navigate('/shop')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>All Products</button></li>
+              <li><button onClick={() => navigate('/shop?category=best-sellers')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Best Sellers</button></li>
             </ul>
           </div>
 
@@ -127,7 +130,7 @@ const Footer = () => {
           <div>
             <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Company</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <li><button onClick={() => setShowAbout(true)} style={linkStyle}>About Us</button></li>
+              <li><button onClick={() => setShowAbout(true)} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>About Us</button></li>
             </ul>
           </div>
 
@@ -135,8 +138,8 @@ const Footer = () => {
           <div>
             <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Support</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <li><button onClick={() => navigate('/faq')} style={linkStyle}>FAQs</button></li>
-              <li><button onClick={() => setShowReturns(true)} style={linkStyle}>Returns & Refunds</button></li>
+              <li><button onClick={() => navigate('/faq')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>FAQs</button></li>
+              <li><button onClick={() => setShowReturns(true)} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Returns & Refunds</button></li>
             </ul>
           </div>
 
@@ -241,9 +244,9 @@ const Footer = () => {
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', paddingBottom: '20px' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }}>Terms</button>
-              <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }}>Privacy</button>
-              <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }}>Returns</button>
+              <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Terms</button>
+              <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Privacy</button>
+              <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Returns</button>
             </div>
 
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
