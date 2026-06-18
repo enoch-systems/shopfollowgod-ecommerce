@@ -2,7 +2,7 @@ import { Menu, X, Home, ShoppingCart, Layers, HelpCircle, CreditCard } from 'luc
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { cld } from '../utils/cloudinary'
-const logo = cld('logo', { width: 120 })
+const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp64sddl6r4e7stmelk.png'
 import { useCart } from '../context/CartContext'
 import { createPortal } from 'react-dom'
 import { products } from '../data/products'

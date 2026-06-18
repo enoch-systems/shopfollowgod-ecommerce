@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react'
 import { cld } from '../utils/cloudinary'
-const logo = cld('logo.jpg', { width: 320 })
+const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp64sddl6r4e7stmelk.png'
 const eye = cld('eye', { width: 32 })
 
 const Footer = () => {
@@ -103,23 +103,23 @@ const Footer = () => {
               Faith-inspired fashion for everyday wear. Shop curated collections made with care and purpose.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
-              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/seavzviiwkmbtj8los9h.png" alt="Instagram" style={{ width: 18, height: 18 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/seavzviiwkmbtj8los9h.png" alt="Instagram" style={{ width: 22, height: 22 }} />
               </a>
-              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.85)' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/pbk0dqwcybkbgxowpjo1.png" alt="TikTok" style={{ width: 18, height: 18 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/pbk0dqwcybkbgxowpjo1.png" alt="TikTok" style={{ width: 22, height: 22 }} />
               </a>
-              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
               >
-                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/ttvtvkyijvf3k6ojljid.png" alt="Snapchat" style={{ width: 18, height: 18 }} />
+                <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/ttvtvkyijvf3k6ojljid.png" alt="Snapchat" style={{ width: 22, height: 22 }} />
               </a>
             </div>
           </div>
