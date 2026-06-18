@@ -102,8 +102,8 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
   }, [limit, product])
 
   return (
-    <MountReveal className={`${className}`} style={{ maxWidth: 1200, margin: '0 auto', padding: '0 12px 40px' }}>
-      {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, paddingLeft: 4, letterSpacing: '-0.01em' }}>New Arrivals</div>}
+    <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>
+      {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, letterSpacing: '-0.01em' }}>New Arrivals</div>}
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3">
         {items.map((p) => (
