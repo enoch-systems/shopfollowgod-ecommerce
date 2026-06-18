@@ -113,31 +113,31 @@ const Navbar = () => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 w-full  text-black font-semibold pt-3"
+      className="fixed top-0 left-0 right-0 z-50 w-full text-black pt-3"
       style={{
         backgroundColor: 'white',
       }}
     >
-      <div className="relative max-w-7xl mx-auto px-4 py-6 flex justify-between items-center md:px-20">
+      <div className="relative max-w-7xl mx-auto px-4 py-6 flex items-center md:px-20">
         {/* Mobile Menu Toggle */}
-        <button className="md:hidden z-20" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} aria-controls="mobile-menu">
+        <button className="md:hidden z-20 flex-shrink-0" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} aria-controls="mobile-menu">
           {isOpen ? <X /> : <Menu />}
         </button>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center logo-left-413 absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none z-10">
-          <img src={logo} alt="Logo" className="h-12 w-auto" width="48" height="48" loading="eager" fetchPriority="high" decoding="sync" style={{objectFit: 'contain'}} />
+        <Link to="/" className="flex items-center flex-shrink-0 absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none md:mr-6 lg:mr-10 z-10">
+          <img src={logo} alt="Logo" className="h-10 md:h-11 lg:h-12 w-auto" width="48" height="48" loading="eager" fetchPriority="high" decoding="sync" style={{objectFit: 'contain'}} />
         </Link>
 
-        {/* Search (desktop only) - placed between logo and nav links */}
-        <div className="hidden md:flex items-center md:flex-1 md:justify-center md:mx-6">
-          <div className="w-full max-w-md relative">
+        {/* Search (desktop only) */}
+        <div className="hidden md:flex items-center flex-1 justify-center md:mx-4 lg:mx-8">
+          <div className="w-full max-w-xs lg:max-w-md xl:max-w-lg relative">
             <DesktopSearch />
           </div>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex gap-7 items-center md:order-3">
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2 flex-shrink-0 md:ml-4 lg:ml-8">
           {['/home', '/shop', '/collections', '/faq'].map((path) => {
             const labelMap = {
               '/home': 'Home',
@@ -146,12 +146,13 @@ const Navbar = () => {
               '/faq': 'FAQ',
             };
             const label = labelMap[path];
+            const commonClasses = "relative inline-block text-sm lg:text-base font-normal text-gray-700 transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900";
             if (path === '/collections') {
               return (
                 <button
                   key={path}
                   onClick={(e) => { e.preventDefault(); setShowCollections(true); }}
-                  className="text-gray-700 hover:text-orange-600"
+                  className={`${commonClasses} px-3 py-2`}
                   aria-haspopup="dialog"
                 >
                   {label}
@@ -163,21 +164,19 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home'}
-                className={({ isActive }) => isActive ? 'text-red-900 font-bold' : 'text-gray-700 hover:text-orange-600'}
+                className={({ isActive }) => `${commonClasses} px-3 py-2 ${isActive ? 'text-gray-900 after:w-full' : ''}`}
               >
                 {label}
               </NavLink>
             );
           })}
-
         </nav>
 
         {/* Cart Icon (always visible) */}
-        {/* Cart button navigates to checkout */}
-        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="ml-4 mr-1 flex items-center relative z-20 cart-left-413 md:order-4 md:ml-10" aria-label="Go to checkout">
-            <div id="cart-icon" className="relative inline-flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100">
-            <ShoppingCart size={19} className="text-black" />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{cart.count || 0}</span>
+        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 ml-2 md:ml-4 lg:ml-6 relative z-20" aria-label="Go to checkout">
+          <div id="cart-icon" className="relative inline-flex items-center justify-center h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 rounded-full hover:bg-gray-100 transition-colors duration-200">
+            <ShoppingCart size={18} className="md:w-[19px] md:h-[19px] lg:w-5 lg:h-5 text-black" />
+            <span className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 bg-red-500 text-white text-[10px] md:text-xs min-w-[18px] md:min-w-[20px] h-[18px] md:h-[20px] rounded-full flex items-center justify-center px-1 font-medium shadow-sm">{cart.count || 0}</span>
           </div>
         </button>
       </div>
