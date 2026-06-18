@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { cld } from '../utils/cloudinary'
-
-const logo = cld('blacklogo', { width: 480 })
-const snapchatIcon = cld('snapchat', { width: 36 })
-const instaIcon = cld('insta', { width: 36 })
-const tiktokIcon = cld('tiktok', { width: 36 })
-const eye = cld('eye', { width: 48 })
+import instaIcon from '../assets/insta.svg'
+import tiktokIcon from '../assets/tiktok.svg'
+import snapchatIcon from '../assets/snapchat.svg'
 import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react' 
 
 const Footer = () => {
