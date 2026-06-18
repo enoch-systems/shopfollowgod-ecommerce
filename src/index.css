@@ -148,3 +148,13 @@ input, textarea, select {
   }
 }
 
+/* Hero carousel scroll ticker - all images side by side scrolling right to left */
+@keyframes scrollTicker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+

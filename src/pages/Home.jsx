@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
@@ -38,67 +37,64 @@ const Carousel = () => {
   }, [autoplay, slides.length])
 
   return (
-    <div className="w-full overflow-hidden relative mt-5 ">
-      <div className="flex transition-transform duration-700 md:duration-600 ease-in-out" style={{ transform: `translate3d(-${index * 100}%, 0, 0)`, willChange: 'transform' }}>
-                {slides.map((s, i) => (
-          <div key={s.id} className="flex-shrink-0 min-w-full">
-            <div
-              className={`slide-bg relative w-full px-0 pt-20 md:pt-35 pb-36 md:pb-55 flex flex-col items-center mt-3 text-center bg-transparent transition-transform duration-700 ease-in-out ${i === index ? 'scale-105 shadow-2xl' : ''}`}
-              style={{ overflow: 'hidden' }}
-            >
-              {(() => {
-                const img = i === 0 ? em1 : i === 1 ? em2 : i === 2 ? em4 : i === 3 ? em5 : i === 4 ? em6 : null
-                return img ? (
-                  <img
-                    src={img}
-                    alt={s.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
-                    width="1600"
-                    height="900"
-                    aria-hidden="true"
-                  />
-                ) : null
-              })()}
-
-              <div className="absolute top-0 left-0 w-full h-59 bg-gradient-to-b from-blue-200/40 to-transparent pointer-events-none z-10" />
-              <div className="mt-30 w-full max-w-xl relative z-20">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-roboto text-gray-900 tracking-wide uppercase white-text-shadow">
-                  {s.title}
-                </h1>
-                <p className="mt-3 text-orange-100 text-sm sm:text-base font-roboto white-text-shadow">{s.subtitle}</p>
-
-                <div className="mt-8 flex justify-center">
-                  <button className="hero-cta" type="button" onClick={() => navigate('/shop')}>
-                    {(`SHOP ${String(s.title).trim()}`).toUpperCase()}
-                  </button>
+    <>
+      {/* Mobile carousel - all images side by side scrolling right to left slowly */}
+      <div className="w-full overflow-hidden relative md:hidden" style={{ marginTop: 12 }}>
+        <div className="flex" style={{ animation: 'scrollTicker 30s linear infinite', width: 'max-content' }}>
+          {[...slides, ...slides].map((s, i) => {
+            const img = i % 5 === 0 ? em1 : i % 5 === 1 ? em2 : i % 5 === 2 ? em4 : i % 5 === 3 ? em5 : em6
+            return (
+              <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '280px', height: 'auto' }}>
+                <img
+                  src={img}
+                  alt={s.title}
+                  style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '280px' }}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
+                  aria-hidden="true"
+                />
+                <div className="absolute bottom-0 left-0 right-0" style={{ height: 60, background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)', pointerEvents: 'none' }} />
+                <div className="absolute bottom-0 left-0 right-0 p-3 text-center" style={{ pointerEvents: 'none' }}>
+                  <h2 className="text-white font-bold" style={{ fontSize: 13, textShadow: '0 2px 6px rgba(0,0,0,0.4)' }}>{s.title}</h2>
+                  <p className="text-white/90" style={{ fontSize: 11, marginTop: 1, textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>{s.subtitle}</p>
                 </div>
               </div>
-              <div className="absolute bottom-0 left-0 w-full h-59 bg-gradient-to-t from-blue-200/70 to-transparent pointer-events-none z-10" />
-            </div>
-          </div>
-        ))}
+            )
+          })}
+        </div>
       </div>
 
-      <button aria-label="Previous slide" onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/100 rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button aria-label="Next slide" onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/100 rounded-full p-2 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-4 flex gap-2">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} aria-label={`Go to slide ${i + 1}`} className={`w-2 h-2 rounded-full ${i === index ? 'bg-gray-800' : 'bg-gray-300'}`} />
-        ))}
+      {/* Desktop/Tablet carousel - all images at original size side by side scrolling right to left slowly */}
+      <div className="hidden md:block w-full overflow-hidden relative" style={{ margin: '0 auto' }}>
+        <div className="flex" style={{ animation: 'scrollTicker 40s linear infinite', width: 'max-content' }}>
+          {/* Duplicate slides twice for seamless loop */}
+          {[...slides, ...slides].map((s, i) => {
+            const img = i % 5 === 0 ? em1 : i % 5 === 1 ? em2 : i % 5 === 2 ? em4 : i % 5 === 3 ? em5 : em6
+            return (
+              <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '380px', height: 'auto' }}>
+                <img
+                  src={img}
+                  alt={s.title}
+                  className="md:max-h-[300px] lg:max-h-[380px]"
+                  style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%' }}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
+                  aria-hidden="true"
+                />
+                {/* Gradient overlay at bottom for text readability */}
+                <div className="absolute bottom-0 left-0 right-0" style={{ height: 80, background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)', pointerEvents: 'none' }} />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-center" style={{ pointerEvents: 'none' }}>
+                  <h2 className="text-white font-bold" style={{ fontSize: 16, textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>{s.title}</h2>
+                  <p className="text-white/90" style={{ fontSize: 13, marginTop: 2, textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>{s.subtitle}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
