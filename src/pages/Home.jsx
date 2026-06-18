@@ -38,11 +38,13 @@ const Carousel = () => {
 
   return (
     <>
-      {/* Mobile carousel - all images side by side scrolling right to left slowly */}
+      {/* Mobile carousel */}
       <div className="w-full overflow-hidden relative md:hidden" style={{ marginTop: 12 }}>
         <div className="flex" style={{ animation: 'scrollTicker 30s linear infinite', width: 'max-content' }}>
           {[...slides, ...slides].map((s, i) => {
             const img = i % 5 === 0 ? em1 : i % 5 === 1 ? em2 : i % 5 === 2 ? em4 : i % 5 === 3 ? em5 : em6
+            // Alternate text alignment per slide
+            const isLeft = i % 2 === 0
             return (
               <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '380px', height: 'auto' }}>
                 <img
@@ -54,10 +56,29 @@ const Carousel = () => {
                   decoding="sync"
                   aria-hidden="true"
                 />
-                <div className="absolute bottom-0 left-0 right-0" style={{ height: 60, background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)', pointerEvents: 'none' }} />
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center" style={{ pointerEvents: 'none' }}>
-                  <h2 className="text-white font-bold" style={{ fontSize: 13, textShadow: '0 2px 6px rgba(0,0,0,0.4)' }}>{s.title}</h2>
-                  <p className="text-white/90" style={{ fontSize: 11, marginTop: 1, textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>{s.subtitle}</p>
+                {/* Full dim overlay for readability */}
+                <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.40)', pointerEvents: 'none' }} />
+                {/* Extra dark gradient at bottom */}
+                <div className="absolute bottom-0 left-0 right-0" style={{ height: '50%', background: 'linear-gradient(to top, rgba(0,0,0,0.60), transparent)', pointerEvents: 'none' }} />
+                {/* Content - alternating positions */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: isLeft ? 'flex-end' : 'center', alignItems: isLeft ? 'flex-start' : 'center', padding: isLeft ? '20px 16px' : '0 16px', pointerEvents: 'none' }}>
+                  <div style={{ maxWidth: '90%' }}>
+                    <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', borderRadius: 999, padding: '3px 10px', fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', color: '#ffffff', textTransform: 'uppercase', marginBottom: 6 }}>New Collection</span>
+                    <h3 style={{ color: '#ffffff', fontSize: 17, fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.15, textShadow: '0 2px 12px rgba(0,0,0,0.6)', textTransform: 'uppercase' }}>
+                      {s.title.trim()}
+                    </h3>
+                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12, marginTop: 4, letterSpacing: '0.01em', textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>
+                      {s.subtitle}
+                    </p>
+                    <button
+                      onClick={() => navigate('/shop')}
+                      style={{ marginTop: 10, padding: '8px 20px', background: '#111827', color: '#ffffff', fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', pointerEvents: 'auto', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)' }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.2)' }}
+                    >
+                      Shop Now
+                    </button>
+                  </div>
                 </div>
               </div>
             )
@@ -65,12 +86,14 @@ const Carousel = () => {
         </div>
       </div>
 
-      {/* Desktop/Tablet carousel - all images at original size side by side scrolling right to left slowly */}
+      {/* Desktop/Tablet carousel */}
       <div className="hidden md:block w-full overflow-hidden relative" style={{ margin: '0 auto' }}>
         <div className="flex" style={{ animation: 'scrollTicker 40s linear infinite', width: 'max-content' }}>
-          {/* Duplicate slides twice for seamless loop */}
           {[...slides, ...slides].map((s, i) => {
             const img = i % 5 === 0 ? em1 : i % 5 === 1 ? em2 : i % 5 === 2 ? em4 : i % 5 === 3 ? em5 : em6
+            // Alternate text alignment per slide
+            const isLeft = i % 2 === 0
+            const isCenter = i % 3 === 1
             return (
               <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '380px', height: 'auto' }}>
                 <img
@@ -83,11 +106,29 @@ const Carousel = () => {
                   decoding="sync"
                   aria-hidden="true"
                 />
-                {/* Gradient overlay at bottom for text readability */}
-                <div className="absolute bottom-0 left-0 right-0" style={{ height: 80, background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)', pointerEvents: 'none' }} />
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-center" style={{ pointerEvents: 'none' }}>
-                  <h2 className="text-white font-bold" style={{ fontSize: 16, textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>{s.title}</h2>
-                  <p className="text-white/90" style={{ fontSize: 13, marginTop: 2, textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>{s.subtitle}</p>
+                {/* Full dim overlay for readability */}
+                <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.35)', pointerEvents: 'none' }} />
+                {/* Extra dark gradient at bottom */}
+                <div className="absolute bottom-0 left-0 right-0" style={{ height: '50%', background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)', pointerEvents: 'none' }} />
+                {/* Content - varied positioning */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: isCenter ? 'center' : 'flex-end', alignItems: isLeft ? 'flex-start' : 'center', padding: isLeft ? '28px 24px' : isCenter ? '0 24px' : '28px 24px', pointerEvents: 'none' }}>
+                  <div style={{ maxWidth: isCenter ? '70%' : '85%' }}>
+                    <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(6px)', borderRadius: 999, padding: '4px 12px', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', color: '#ffffff', textTransform: 'uppercase', marginBottom: 8 }}>New Collection</span>
+                    <h3 style={{ color: '#ffffff', fontSize: isCenter ? 26 : 22, fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.15, textShadow: '0 3px 16px rgba(0,0,0,0.6)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center', textTransform: 'uppercase' }}>
+                      {s.title.trim()}
+                    </h3>
+                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 14, marginTop: 5, letterSpacing: '0.01em', textShadow: '0 1px 10px rgba(0,0,0,0.5)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center' }}>
+                      {s.subtitle}
+                    </p>
+                    <button
+                      onClick={() => navigate('/shop')}
+                      style={{ marginTop: 14, padding: '10px 26px', background: '#111827', color: '#ffffff', fontSize: 12, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', pointerEvents: 'auto', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.04)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)' }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)' }}
+                    >
+                      Shop Now
+                    </button>
+                  </div>
                 </div>
               </div>
             )
