@@ -276,7 +276,7 @@ function Checkout() {
 
   const fmt = (v) => '₦' + Number(v || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-  // Progress: step 1 = active, step 2 = processing (shown during submit), step 3 = WhatsApp
+  // Progress: step 1 = Filling, step 2 = Order (placed), step 3 = WhatsApp Checkout
   const step = isProcessing ? 2 : 1
 
   return (
@@ -308,7 +308,7 @@ function Checkout() {
                 <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-colors duration-300 ${step >= 1 ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-500'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
-                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Order</span>
+                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Filling</span>
               </div>
 
               {/* Step 2 */}
@@ -323,7 +323,7 @@ function Checkout() {
                     '2'
                   )}
                 </div>
-                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Processing</span>
+                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Order</span>
               </div>
 
               {/* Step 3 */}
