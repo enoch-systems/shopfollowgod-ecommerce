@@ -105,13 +105,22 @@ const Footer = () => {
               Faith-inspired fashion for everyday wear. Shop curated collections made with care and purpose.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
-              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}>
+              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+              >
                 <img src={instaIcon} alt="Instagram" style={{ width: 18, height: 18 }} />
               </a>
-              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}>
+              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.85)' }}
+              >
                 <img src={tiktokIcon} alt="TikTok" style={{ width: 16, height: 16 }} />
               </a>
-              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}>
+              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.2)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+              >
                 <img src={snapchatIcon} alt="Snapchat" style={{ width: 18, height: 18 }} />
               </a>
             </div>
