@@ -2,8 +2,6 @@
 
 Faith-inspired fashion and streetwear brand. A curated e-commerce platform delivering exclusive drops, limited-edition collections, and early-access releases to a community-driven audience.
 
----
-
 ## Problem Statement
 
 The streetwear and faith-inspired apparel market is fragmented. Consumers seeking meaningful, purpose-driven fashion often struggle to find brands that combine aesthetic quality with spiritual identity. Existing platforms lack curated discovery, early-access mechanics, and a seamless mobile-first shopping experience tailored to this niche.
@@ -15,8 +13,6 @@ FOLLOW GOD bridges this gap by providing:
 - High-performance image delivery through Cloudinary CDN
 - Responsive, mobile-first interface optimized for conversion
 - Real-time cart management and checkout flow
-
----
 
 ## Tech Stack
 
@@ -37,8 +33,6 @@ FOLLOW GOD bridges this gap by providing:
 - **Cloudinary SDK** for image transformations, preloading, and responsive srcsets
 - **Tailwind CSS Vite plugin** for zero-configuration utility-first styling
 - **Vercel edge caching** with one-year immutable cache for images, one-hour cache for HTML
-
----
 
 ## Architecture
 
@@ -83,8 +77,6 @@ followgod/
 └── eslint.config.js
 ```
 
----
-
 ## Performance Optimizations
 
 - **Image preloading**: Priority-based `<link rel="preload">` injection for product images using `useLayoutEffect`
@@ -92,8 +84,6 @@ followgod/
 - **CDN caching**: One-year immutable cache headers for all image assets via Cloudinary and Vercel configuration
 - **Client-side caching**: In-memory image preloader using JavaScript `Image()` constructor during layout phase
 - **Mobile-first responsive design**: Adaptive layouts with Tailwind breakpoints
-
----
 
 ## Local Development
 
@@ -111,8 +101,6 @@ npm run build
 npm run preview
 ```
 
----
-
 ## Deployment
 
 The site is deployed on Vercel with the following configuration:
@@ -121,8 +109,6 @@ The site is deployed on Vercel with the following configuration:
 - Custom cache headers for static assets (`max-age=31536000, immutable`)
 - HTML caching with revalidation (`max-age=3600, must-revalidate`)
 - Environment variables managed via Vercel dashboard
-
----
 
 ## License
 
