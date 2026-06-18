@@ -1,13 +1,11 @@
 import React, { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import NewArrival from '../pages/NewArrival'
 import Footer from '../pages/Footer'
-import { cld, cldRaw } from '../utils/cloudinary'
-const leftIcon = cldRaw('left.svg')
-const rightIcon = cldRaw('right.svg')
+import { cld } from '../utils/cloudinary'
 const soldBadge = cld('soldout', { width: 200 })
 import MountReveal from '../components/MountReveal' 
 
@@ -250,11 +248,11 @@ function Dynamic({ product: propProduct }) {
             <div className="relative bg-[hsl(44,45%,98%)] rounded-xl overflow-hidden flex flex-col items-center justify-center">
               {/* previous/next controls */}
               <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
-                <img src={leftIcon} alt="Previous" className="w-4 h-4 md:w-5 md:h-5" />
+                <ChevronLeft size={20} className="text-gray-700" />
               </button>
 
               <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
-                <img src={rightIcon} alt="Next" className="w-4 h-4 md:w-5 md:h-5" />
+                <ChevronRight size={20} className="text-gray-700" />
               </button>
 
               <img
