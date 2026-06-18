@@ -206,8 +206,8 @@ const Footer = () => {
                   href="mailto:followgodng01@gmail.com"
                   onClick={(e) => { e.preventDefault(); openMail('followgodng01@gmail.com', 'Reaching out from folllowgod website'); }}
                   style={contactLinkStyle}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.textShadow = '0 0 8px rgba(255,255,255,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.textShadow = 'none'; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#4ade80'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
                   className="contact-link"
                 >
                   followgodng01@gmail.com
@@ -218,8 +218,8 @@ const Footer = () => {
                 <a
                   href="tel:+2349031161058"
                   style={contactLinkStyle}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.textShadow = '0 0 8px rgba(255,255,255,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.textShadow = 'none'; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#4ade80'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
                   className="contact-link"
                 >
                   +234 903 116 1058
@@ -235,34 +235,38 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }}>Terms</button>
-            <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }}>Privacy</button>
-            <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }}>Returns</button>
-          </div>
+      <div style={{ position: 'relative' }}>
+        {/* Cloudy gradient blend at top to soften transition into white section above */}
+        <div style={{ position: 'absolute', top: -50, left: 0, right: 0, height: 50, background: 'radial-gradient(ellipse at center, rgba(6,78,59,0.3) 0%, transparent 70%)', pointerEvents: 'none', filter: 'blur(8px)' }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', paddingBottom: '20px' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }}>Terms</button>
+              <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }}>Privacy</button>
+              <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }}>Returns</button>
+            </div>
 
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
-            © {new Date().getFullYear()} FOLLOW GOD. All rights reserved.
-          </div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
+              © {new Date().getFullYear()} FOLLOW GOD. All rights reserved.
+            </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Built with</span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <img src={eye} alt="Byund" style={{ width: 16, height: 16 }} />
-              Byund Technologies
-            </span>
-            <a
-              href="https://wa.me/2349162919586?text=Hello%20Enoch%2C%20Reaching%20out%20from%20followgod%20web"
-              target="_blank"
-              rel="noreferrer"
-              style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: 13, textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.color = '#86efac'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
-            >
-              Reach Us
-            </a>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Built with</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <img src={eye} alt="Byund" style={{ width: 16, height: 16 }} />
+                Byund Technologies
+              </span>
+              <a
+                href="https://wa.me/2349162919586?text=Hello%20Enoch%2C%20Reaching%20out%20from%20followgod%20web"
+                target="_blank"
+                rel="noreferrer"
+                style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: 13, textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.color = '#86efac'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
+              >
+                Reach Us
+              </a>
+            </div>
           </div>
         </div>
       </div>
