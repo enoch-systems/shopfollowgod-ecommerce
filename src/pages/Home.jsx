@@ -95,11 +95,11 @@ const Carousel = () => {
             const isLeft = i % 2 === 0
             const isCenter = i % 3 === 1
             return (
-              <div key={i} className="flex-shrink-0 relative" style={{ maxHeight: '380px', height: 'auto' }}>
+              <div key={i} className="flex-shrink-0 relative md:max-h-[420px] lg:max-h-[520px]" style={{ height: 'auto' }}>
                 <img
                   src={img}
                   alt={s.title}
-                  className="md:max-h-[300px] lg:max-h-[380px]"
+                  className="md:max-h-[420px] lg:max-h-[520px]"
                   style={{ display: 'block', width: 'auto', height: 'auto', maxWidth: '100%' }}
                   loading="eager"
                   fetchPriority="high"
@@ -113,16 +113,16 @@ const Carousel = () => {
                 {/* Content - varied positioning */}
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: isCenter ? 'center' : 'flex-end', alignItems: isLeft ? 'flex-start' : 'center', padding: isLeft ? '28px 24px' : isCenter ? '0 24px' : '28px 24px', pointerEvents: 'none' }}>
                   <div style={{ maxWidth: isCenter ? '70%' : '85%' }}>
-                    <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(6px)', borderRadius: 999, padding: '4px 12px', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', color: '#ffffff', textTransform: 'uppercase', marginBottom: 8 }}>New Collection</span>
-                    <h3 style={{ color: '#ffffff', fontSize: isCenter ? 26 : 22, fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.15, textShadow: '0 3px 16px rgba(0,0,0,0.6)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center', textTransform: 'uppercase' }}>
+                    <span className="text-[10px] md:text-[11px] lg:text-[12px]" style={{ display: 'inline-block', background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(6px)', borderRadius: 999, padding: '4px 12px', fontWeight: 600, letterSpacing: '0.08em', color: '#ffffff', textTransform: 'uppercase', marginBottom: 8 }}>New Collection</span>
+                    <h3 style={{ color: '#ffffff', fontSize: isCenter ? 'clamp(22px, 3vw, 32px)' : 'clamp(20px, 2.5vw, 28px)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.15, textShadow: '0 3px 16px rgba(0,0,0,0.6)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center', textTransform: 'uppercase' }}>
                       {s.title.trim()}
                     </h3>
-                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 14, marginTop: 5, letterSpacing: '0.01em', textShadow: '0 1px 10px rgba(0,0,0,0.5)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 'clamp(13px, 1.5vw, 16px)', marginTop: 5, letterSpacing: '0.01em', textShadow: '0 1px 10px rgba(0,0,0,0.5)', textAlign: isCenter ? 'center' : isLeft ? 'left' : 'center' }}>
                       {s.subtitle}
                     </p>
                     <button
                       onClick={() => navigate('/shop')}
-                      style={{ marginTop: 14, padding: '10px 26px', background: '#111827', color: '#ffffff', fontSize: 12, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', pointerEvents: 'auto', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+                      style={{ marginTop: 14, padding: '10px 26px', background: '#111827', color: '#ffffff', fontSize: 'clamp(11px, 1.2vw, 13px)', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 999, border: 'none', cursor: 'pointer', pointerEvents: 'auto', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
                       onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.04)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)' }}
                       onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)' }}
                     >
