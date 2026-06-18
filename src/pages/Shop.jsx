@@ -29,6 +29,15 @@ const Shop = () => {
   // temporary added state per product for visual feedback after clicking Add to cart
   const [addedIds, setAddedIds] = useState(() => new Set())
   const addedTimers = useRef({})
+  const productsRef = useRef(null)
+
+  const scrollToTop = () => {
+    if (productsRef.current) {
+      productsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   useEffect(() => {
     return () => {
@@ -88,6 +97,11 @@ const Shop = () => {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+    setTimeout(() => scrollToTop(), 50)
+  }
+
   const getPageSize = () => {
     if (windowWidth >= 1024) return 21
     if (windowWidth >= 768) return 20
@@ -145,17 +159,18 @@ const Shop = () => {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 36,
-    height: 36,
-    padding: '0 10px',
-    borderRadius: 8,
+    minWidth: 42,
+    height: 42,
+    padding: '0 14px',
+    borderRadius: 10,
     border: '1px solid #e5e7eb',
     background: '#ffffff',
     color: '#111827',
-    fontSize: 13,
-    fontWeight: 500,
+    fontSize: 14,
+    fontWeight: 600,
     cursor: 'pointer',
-    transition: 'background 0.15s ease, border-color 0.15s ease, color 0.15s ease',
+    transition: 'background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
   }
 
   const btnActive = {
@@ -163,12 +178,53 @@ const Shop = () => {
     background: '#111827',
     borderColor: '#111827',
     color: '#ffffff',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
   }
+
+  const Pagination = () => totalPages > 1 ? (
+    <div className="flex items-center justify-center gap-2 flex-wrap" style={{ padding: '10px 0' }}>
+      <button
+        onClick={() => handlePageChange(Math.max(1, safePage - 1))}
+        disabled={safePage === 1}
+        style={{
+          ...btnBase,
+          opacity: safePage === 1 ? 0.5 : 1,
+          cursor: safePage === 1 ? 'not-allowed' : 'pointer',
+        }}
+      >
+        <ChevronLeft size={18} />
+      </button>
+
+      {pageNumbers.map(num => (
+        <button
+          key={num}
+          onClick={() => handlePageChange(num)}
+          style={num === safePage ? btnActive : btnBase}
+          onMouseEnter={e => { if (num !== safePage) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)'; } }}
+          onMouseLeave={e => { if (num !== safePage) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)'; } }}
+        >
+          {num}
+        </button>
+      ))}
+
+      <button
+        onClick={() => handlePageChange(Math.min(totalPages, safePage + 1))}
+        disabled={safePage === totalPages}
+        style={{
+          ...btnBase,
+          opacity: safePage === totalPages ? 0.5 : 1,
+          cursor: safePage === totalPages ? 'not-allowed' : 'pointer',
+        }}
+      >
+        <ChevronRight size={18} />
+      </button>
+    </div>
+  ) : null
 
   return (
     <>
       <MountReveal className="min-h-screen py-8 md:pt-28" style={{ backgroundColor: 'white' }}>
-        <div className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
+        <div ref={productsRef} className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
             <div>
               <p className="text-black font-semibold uppercase text-lg md:text-xl lg:text-2xl" style={{ letterSpacing: '-0.01em' }}>Shop</p>
@@ -200,7 +256,10 @@ const Shop = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3">
+          {/* Top pagination */}
+          {Pagination()}
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
             {pageItems.map((p) => (
               <div key={p.id} className="rounded-lg overflow-hidden" style={{
                 backgroundColor: 'white',
@@ -254,46 +313,10 @@ const Shop = () => {
             ))}
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
-              <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                disabled={safePage === 1}
-                style={{
-                  ...btnBase,
-                  opacity: safePage === 1 ? 0.5 : 1,
-                  cursor: safePage === 1 ? 'not-allowed' : 'pointer',
-                }}
-              >
-                <ChevronLeft size={16} />
-              </button>
-
-              {pageNumbers.map(num => (
-                <button
-                  key={num}
-                  onClick={() => setPage(num)}
-                  style={num === safePage ? btnActive : btnBase}
-                  onMouseEnter={e => { if (num !== safePage) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
-                  onMouseLeave={e => { if (num !== safePage) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
-                >
-                  {num}
-                </button>
-              ))}
-
-              <button
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                disabled={safePage === totalPages}
-                style={{
-                  ...btnBase,
-                  opacity: safePage === totalPages ? 0.5 : 1,
-                  cursor: safePage === totalPages ? 'not-allowed' : 'pointer',
-                }}
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )}
+          {/* Bottom pagination */}
+          <div style={{ marginTop: 28 }}>
+            {Pagination()}
+          </div>
         </div>
       </MountReveal>
       <Footer />
