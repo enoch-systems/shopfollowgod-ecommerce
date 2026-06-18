@@ -6,6 +6,7 @@ import { products } from '../data/products'
 import soldBadge from '../assets/soldout.png'
 import { Link } from 'react-router-dom'
 import MountReveal from '../components/MountReveal'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 // cache preloaded image urls so we don't create duplicate Image objects
 const preloadedImages = new Set()
@@ -78,6 +79,20 @@ const Shop = () => {
 
   const [sort, setSort] = useState('default');
   const [category, setCategory] = useState('all');
+  const [page, setPage] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200)
+
+  useEffect(() => {
+    const onResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  const getPageSize = () => {
+    if (windowWidth >= 1024) return 21
+    if (windowWidth >= 768) return 20
+    return 12
+  }
 
   const displayedProducts = useMemo(() => {
     let list = [...products];
@@ -100,11 +115,59 @@ const Shop = () => {
     return list;
   }, [sort, category]);
 
+  const pageSize = getPageSize()
+  const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
+  const safePage = Math.min(page, totalPages)
+  const startIdx = (safePage - 1) * pageSize
+  const pageItems = displayedProducts.slice(startIdx, startIdx + pageSize)
+
+  // Reset to page 1 when filters change
+  useEffect(() => { setPage(1) }, [sort, category, windowWidth])
+
+  // Compute a sliding window of 4 page numbers centered around current page
+  const getPageNumbers = () => {
+    const total = totalPages
+    const current = safePage
+    // Always show 4-page window
+    let start = current - 1
+    if (start < 1) start = 1
+    if (start + 3 > total) start = Math.max(1, total - 3)
+    const pages = []
+    for (let i = start; i < start + 4 && i <= total; i++) {
+      pages.push(i)
+    }
+    return pages
+  }
+
+  const pageNumbers = getPageNumbers()
+
+  const btnBase = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 36,
+    height: 36,
+    padding: '0 10px',
+    borderRadius: 8,
+    border: '1px solid #e5e7eb',
+    background: '#ffffff',
+    color: '#111827',
+    fontSize: 13,
+    fontWeight: 500,
+    cursor: 'pointer',
+    transition: 'background 0.15s ease, border-color 0.15s ease, color 0.15s ease',
+  }
+
+  const btnActive = {
+    ...btnBase,
+    background: '#111827',
+    borderColor: '#111827',
+    color: '#ffffff',
+  }
+
   return (
     <>
-      <MountReveal className="min-h-screen bg-gray-50 py-12 md:pt-30" style={{
-        backgroundColor: 'white',
-      }}>
+      <MountReveal className="min-h-screen py-8 md:pt-28" style={{ backgroundColor: 'white' }}>
         <div className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
             <div>
@@ -138,7 +201,7 @@ const Shop = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3">
-            {displayedProducts.map((p) => (
+            {pageItems.map((p) => (
               <div key={p.id} className="rounded-lg overflow-hidden" style={{
                 backgroundColor: 'white',
                 border: '1px solid #f5f5f5',
@@ -190,6 +253,47 @@ const Shop = () => {
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={safePage === 1}
+                style={{
+                  ...btnBase,
+                  opacity: safePage === 1 ? 0.5 : 1,
+                  cursor: safePage === 1 ? 'not-allowed' : 'pointer',
+                }}
+              >
+                <ChevronLeft size={16} />
+              </button>
+
+              {pageNumbers.map(num => (
+                <button
+                  key={num}
+                  onClick={() => setPage(num)}
+                  style={num === safePage ? btnActive : btnBase}
+                  onMouseEnter={e => { if (num !== safePage) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
+                  onMouseLeave={e => { if (num !== safePage) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
+                >
+                  {num}
+                </button>
+              ))}
+
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={safePage === totalPages}
+                style={{
+                  ...btnBase,
+                  opacity: safePage === totalPages ? 0.5 : 1,
+                  cursor: safePage === totalPages ? 'not-allowed' : 'pointer',
+                }}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </MountReveal>
       <Footer />
