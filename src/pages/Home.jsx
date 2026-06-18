@@ -278,7 +278,7 @@ const Home = () => {
           </div>
         , document.body)}
       </section>
-      <div className="md:mt-10 lg:mt-16">
+      <div className="md:mt-10 lg:mt-16 mt-7">
         <NewArrival />
       </div>
       <Footer />

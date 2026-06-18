@@ -141,7 +141,7 @@ const Shop = () => {
             {displayedProducts.map((p) => (
               <div key={p.id} className="rounded-lg overflow-hidden" style={{
                 backgroundColor: 'white',
-                border: '1px solid #f0f0f0',
+                border: '1px solid #f5f5f5',
                 borderRadius: 12,
                 transition: 'box-shadow 0.2s ease, transform 0.2s ease',
               }}>
