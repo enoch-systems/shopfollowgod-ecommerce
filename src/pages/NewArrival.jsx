@@ -102,30 +102,33 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
   }, [limit, product])
 
   return (
-    <MountReveal className={`max-w-7xl mx-auto px-3 py-10 ${className}`}>
-      {!hideTitle && <h3 className="text-xs tracking-widest uppercase text-gray-600 mb-6">New Arrivals</h3>}
+    <MountReveal className={`${className}`} style={{ maxWidth: 1200, margin: '0 auto', padding: '0 12px 40px' }}>
+      {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, paddingLeft: 4, letterSpacing: '-0.01em' }}>New Arrivals</div>}
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3">
         {items.map((p) => (
-          <div key={p.id} className="product-card rounded-lg overflow-hidden" style={{
-        backgroundColor: 'white',
-      }}>
-            <div className="h-50 md:h-80 bg-gray-100 flex items-center justify-center overflow-hidden relative">
+          <div key={p.id} className="rounded-lg overflow-hidden" style={{
+            backgroundColor: 'white',
+            border: '1px solid #f0f0f0',
+            borderRadius: 12,
+            transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+          }}>
+            <div className="relative" style={{ width: '100%', aspectRatio: '3/4', background: '#f5f5f5', overflow: 'hidden' }}>
                 <Link to={`/product/${p.id}`} className="w-full h-full block">
                   <img src={p.image} alt={p.title} data-product-image="true" className="w-full h-full object-cover" />
                 </Link>
-                {p.soldOut && <img src={soldBadge} alt="Sold out" className="absolute top-2 right-2 w-12 h-12 pointer-events-none" />}
+                {p.soldOut && <img src={soldBadge} alt="Sold out" style={{ position: 'absolute', top: 8, right: 8, width: 36, height: 36, pointerEvents: 'none' }} />}
               </div>
 
-            <div className="p-4 text-center">
-              <div className="text-[8px] tracking-widest uppercase text-gray-700 font-semibold -mt-1">{p.title}</div>
-              <div className="mt-2 font-semibold text-xs">{`₦ ${Number(p.price).toLocaleString()}`}</div>
+            <div style={{ padding: '10px 8px 12px', textAlign: 'center' }}>
+              <div style={{ fontSize: 8, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280', fontWeight: 600 }}>{p.title}</div>
+              <div style={{ marginTop: 6, fontWeight: 600, fontSize: 12, color: '#111827' }}>{`₦ ${Number(p.price).toLocaleString()}`}</div>
 
-              <div className="-mt-2 text-yellow-400">
+              <div style={{ marginTop: 4, color: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
                 {Array.from({ length: Math.floor(p.rating) }).map((_, i) => (
-                  <span key={i} className="text-[10px] leading-none mr-0.5">★</span>
+                  <span key={i} style={{ fontSize: 10 }}>★</span>
                 ))}
-                <span className="text-[10px] text-gray-500 ml-2 leading-none">{p.rating}</span>
+                <span style={{ fontSize: 10, color: '#9ca3af', marginLeft: 4 }}>{p.rating}</span>
               </div>
 
               {(() => {
@@ -134,10 +137,27 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
                   <button
                     onClick={!p.soldOut && !isAdded ? (e) => handleAdd(e, p) : undefined}
                     disabled={p.soldOut || isAdded}
-                    className={`${p.soldOut ? 'mt-1 w-full bg-gray-300 text-gray-600 py-2 rounded-md text-sm cursor-not-allowed' : isAdded ? 'mt-1 w-full bg-green-500 text-white py-2 rounded-md text-sm flex items-center justify-center gap-2' : 'mt-1 w-full bg-white text-black border border-gray-300 py-2 rounded-lg text-sm hover:opacity-95 hover:cursor-pointer hover:text-green-700'}`}>
+                    style={{
+                      marginTop: 8,
+                      width: '100%',
+                      padding: '7px 0',
+                      borderRadius: 8,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      border: p.soldOut ? 'none' : isAdded ? 'none' : '1px solid #d1d5db',
+                      background: p.soldOut ? '#e5e7eb' : isAdded ? '#15803d' : '#ffffff',
+                      color: p.soldOut ? '#9ca3af' : isAdded ? '#ffffff' : '#111827',
+                      cursor: p.soldOut || isAdded ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.15s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                    }}
+                  >
                     {p.soldOut ? 'SOLD OUT' : (isAdded ? (
                       <>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 14, height: 14 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                         <span>Added</span>
                       </>
                     ) : 'Add to cart')}
