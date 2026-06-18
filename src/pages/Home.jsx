@@ -278,7 +278,9 @@ const Home = () => {
           </div>
         , document.body)}
       </section>
-      <NewArrival />
+      <div className="md:mt-10 lg:mt-16">
+        <NewArrival />
+      </div>
       <Footer />
     </>
   );
