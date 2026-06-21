@@ -139,12 +139,13 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2 flex-shrink-0 md:ml-4 lg:ml-8">
-          {['/home', '/shop', '/collections', '/faq'].map((path) => {
+          {['/home', '/shop', '/collections', '/faq', '/checkout'].map((path) => {
             const labelMap = {
               '/home': 'Home',
               '/shop': 'Shop',
               '/collections': 'Collections',
               '/faq': 'FAQ',
+              '/checkout': 'Checkout',
             };
             const label = labelMap[path];
             const commonClasses = "relative inline-block text-sm lg:text-base font-normal text-gray-700 transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900";
@@ -166,7 +167,7 @@ const Navbar = () => {
                 to={path}
                 end={path === '/home'}
                 className={({ isActive }) => isActive
-                  ? 'relative inline-flex items-center text-sm lg:text-base font-medium text-white bg-gray-900 px-5 py-2 rounded-r-lg'
+                  ? 'relative inline-flex items-center text-sm lg:text-base font-medium text-white bg-gray-900 px-5 py-2 mr-2 rounded-r-lg'
                   : 'relative inline-block text-sm lg:text-base font-normal text-gray-700 px-3 py-2 transition-colors duration-200 after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900'}
               >
                 {label}
