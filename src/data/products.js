@@ -37,8 +37,6 @@ const bean_indigo1 = cld('bean_indigo1', { width: 768 })
 const bean_indigo2 = cld('bean_indigo2', { width: 768 })
 const bean_purple1 = cld('bean_purple1', { width: 768 })
 const bean_purple2 = cld('bean_purple2', { width: 768 })
-const bean_red1 = cld('bean_red1', { width: 768 })
-const bean_red2 = cld('bean_red2', { width: 768 })
 
 const inspired1 = cld('inspired1', { width: 1024 })
 const inspired2 = cld('inspired2', { width: 1024 })
@@ -90,7 +88,6 @@ export const products = [
   { id:15, title:'LIGHT GREY BEANIE', price:20000, image:bean_grey1, images:[bean_grey1, bean_grey2], rating:4 },
   { id:16, title:'NAVY BLUE BEANIE', price:20000, image:bean_indigo1, images:[bean_indigo1, bean_indigo2], rating:4.5 },
   { id:20, title:'FG 2FLY 2PRAY TEE WHITE', price:30000, image:neverfly2, images:[neverfly1, neverfly2], rating:4 },
-  { id:18, title:'WINE RED BEANIE', price:20000, image:bean_red1, images:[bean_red1, bean_red2], rating:4 },
   { id:19, title:'FG FEAR OF AVERAGE TEE', price:30000, image:inspired2, images:[inspired2, inspired1], rating:4 },
   { id:34, title:'FG  2FLY 2PRAY TEE BLACK', price:30000, image:nvblack2, images:[nvblack2, nvblack1], rating:4 },
   { id:17, title:'DEEP PURPLE BEANIE', price:20000, image:bean_purple1, images:[bean_purple1, bean_purple2], rating:5 },
