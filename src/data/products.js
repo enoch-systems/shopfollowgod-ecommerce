@@ -20,6 +20,8 @@ const fg_bluee1 = cld('fg_bluee1', { width: 768 })
 const fg_bluee2 = cld('fg_bluee2', { width: 768 })
 const fg_red1_1 = cld('fg_red1.1', { width: 768 })
 const fg_red1_2 = cld('fg_red1.2', { width: 768 })
+const fg_blue1 = cld('fg_blue1', { width: 768 })
+const fg_blue2 = cld('fg_blue2', { width: 768 })
 
 const bean_army1 = cld('bean_army1', { width: 768 })
 const bean_army2 = cld('bean_army2', { width: 768 })
