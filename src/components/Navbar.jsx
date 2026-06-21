@@ -165,7 +165,7 @@ const Navbar = () => {
               <NavLink
                 key={path}
                 to={path}
-                end={path === '/home'}
+                end={path === '/home' || path === '/checkout'}
                 className={({ isActive }) => isActive
                   ? 'relative inline-flex items-center text-sm lg:text-base font-medium text-white bg-gray-900 px-5 py-2 mr-2 rounded-r-lg'
                   : 'relative inline-block text-sm lg:text-base font-normal text-gray-700 px-3 py-2 transition-colors duration-200 after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900'}
@@ -211,19 +211,23 @@ const Navbar = () => {
             {mobileNavItems.map(({ path, label, Icon }) => {
               if (path === '/checkout') {
                 return (
-                  <button
+                  <NavLink
                     key={path}
-                    onClick={() => { navigate('/checkout'); setIsOpen(false); }}
-                    className={`flex items-center justify-between px-6 py-4 text-gray-800 hover:bg-gray-50`}
+                    to={path}
+                    onClick={() => setIsOpen(false)}
                   >
-                    <div className="flex items-center gap-4">
-                      <Icon size={18} className="text-gray-600" />
-                      <span>{label.replace(/ \(\d+\)/, '')}</span>
-                    </div>
-                    {(cart.count || 0) > 0 && (
-                      <span className="bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
+                    {({ isActive }) => (
+                      <div className={`flex items-center justify-between px-6 py-4 ${isActive ? 'text-white bg-gray-900' : 'text-gray-800 hover:bg-gray-50'}`}>
+                        <div className="flex items-center gap-4">
+                          <Icon size={18} className={isActive ? 'text-white' : 'text-gray-600'} />
+                          <span>{label.replace(/ \(\d+\)/, '')}</span>
+                        </div>
+                        {(cart.count || 0) > 0 && (
+                          <span className="bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
+                        )}
+                      </div>
                     )}
-                  </button>
+                  </NavLink>
                 );
               }
               if (path === '/collections') {
