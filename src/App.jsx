@@ -7,6 +7,8 @@ import Collections from "./pages/Collections";
 import Faq from "./pages/Faq";
 import Checkout from "./components/Checkout";
 import Dynamic from "./components/Dynamic";
+import AdminLogin from "./pages/AdminLogin";
+import Admin from "./pages/Admin";
 import ReactGA from "react-ga4";
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
           <Route path="collections" element={<Collections />} />
           <Route path="faq" element={<Faq />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="admin-login" element={<AdminLogin />} />
+          <Route path="admin" element={<Admin />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

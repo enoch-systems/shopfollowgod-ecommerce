@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import NewArrival from './NewArrival'
 import Footer from './Footer'
-import { products } from '../data/products'
+import { products, fetchProducts } from '../data/products'
 import { cld } from '../utils/cloudinary'
 // Hero images served via Cloudinary CDN
 const em1 = cld('em1', { width: 1024 })
@@ -163,6 +163,14 @@ const Home = () => {
     return () => cancelAnimationFrame(raf)
   }, [])
 
+  const [allProducts, setAllProducts] = useState([])
+
+  useEffect(() => {
+    fetchProducts().then(data => {
+      setAllProducts(data)
+    })
+  }, [])
+
   const onChange = (e) => {
     const v = e.target.value
     setQuery(v)
@@ -172,7 +180,7 @@ const Home = () => {
       setCoords(null)
       return
     }
-    const filtered = products.filter(p => String(p.title || '').toLowerCase().includes(q)).slice(0, 6)
+    const filtered = allProducts.filter(p => String(p.title || '').toLowerCase().includes(q)).slice(0, 6)
     setResults(filtered)
     // compute position for portal dropdown
     try {
