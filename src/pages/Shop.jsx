@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Footer from "../pages/Footer";
 import { useCart } from '../context/CartContext'
-i
+
 import { products } from '../data/products'
 import { cld } from '../utils/cloudinary'
 const soldBadge = cld('soldout', { width: 200 })
