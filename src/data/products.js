@@ -1,26 +1,5 @@
-// Product data fetched from Firebase Firestore
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../utils/firebase'
-
-// Helper to generate Cloudinary URL
-export function cld(name, options = {}) {
-  const CLOUD_NAME = 'djdbcoyot'
-  const CLOUD_BASE = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`
-  const {
-    width,
-    height,
-    format = 'auto',
-    quality = 'auto',
-    crop = 'limit',
-  } = options
-
-  const transforms = [`f_${format}`, `q_${quality}`]
-  if (width) transforms.push(`w_${width}`)
-  if (height) transforms.push(`h_${height}`)
-  transforms.push('c_' + crop)
-
-  return `${CLOUD_BASE}/${transforms.join(',')}/followgod/assets/${name}`
-}
+// Product data fetched from Supabase
+import { supabase } from '../utils/supabase'
 
 let cachedProducts = null
 let cachePromise = null
@@ -42,18 +21,15 @@ export async function fetchProducts() {
   // Start new fetch
   cachePromise = (async () => {
     try {
-      const q = query(collection(db, 'products'), orderBy('id', 'asc'))
-      const snapshot = await getDocs(q)
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: false })
+
+      if (error) throw error
       
-      // Sort by numeric id descending (newest first)
-      data.sort((a, b) => b.id - a.id)
-      
-      // Convert Cloudinary URLs to cld format for client-side usage
-      // Keep the URLs as-is since they're already full Cloudinary URLs from admin
-      
-      cachedProducts = data
-      return data
+      cachedProducts = data || []
+      return cachedProducts
     } catch (err) {
       console.error('Error fetching products:', err)
       // Return empty array on error

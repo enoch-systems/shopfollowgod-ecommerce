@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../utils/firebase'
+import { supabase } from '../utils/supabase'
 import { useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
@@ -16,10 +15,16 @@ const AdminLogin = () => {
     setLoading(true)
 
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      navigate('/admin')
+      // Simple credential check (can be replaced with Supabase Auth later)
+      if (email === 'admin@followgod.ng' && password === 'admin') {
+        // Store admin session
+        sessionStorage.setItem('admin', 'true')
+        navigate('/admin')
+      } else {
+        setError('Invalid credentials. Use admin@followgod.ng / admin')
+      }
     } catch (err) {
-      setError('Invalid credentials. Please try again.')
+      setError('Login failed. Please try again.')
       console.error(err)
     } finally {
       setLoading(false)
@@ -85,7 +90,7 @@ const AdminLogin = () => {
         </form>
 
         <p style={{ marginTop: 24, fontSize: 12, color: '#9ca3af', textAlign: 'center' }}>
-          Use admin@followgod.ng / admin
+          Demo: admin@followgod.ng / admin
         </p>
       </div>
     </div>

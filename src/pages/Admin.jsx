@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { collection, getDocs, deleteDoc, doc, updateDoc, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore'
-import { signOut } from 'firebase/auth'
-import { db, auth } from '../utils/firebase'
+import { supabase } from '../utils/supabase'
 import { useNavigate } from 'react-router-dom'
 import { cld, upload } from '../utils/cloudinary'
-import { Trash2, Edit3, Plus, LogOut, Search, Filter } from 'lucide-react'
+import { Trash2, Edit3, Plus, LogOut, Search } from 'lucide-react'
 
 const Admin = () => {
   const [products, setProducts] = useState([])
@@ -54,12 +52,13 @@ const Admin = () => {
 
   const fetchProducts = async () => {
     try {
-      const q = query(collection(db, 'products'), orderBy('id', 'asc'))
-      const snapshot = await getDocs(q)
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-      // Sort by numeric id descending
-      data.sort((a, b) => b.id - a.id)
-      setProducts(data)
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: false })
+
+      if (error) throw error
+      setProducts(data || [])
     } catch (err) {
       console.error('Error fetching products:', err)
     } finally {
@@ -67,18 +66,19 @@ const Admin = () => {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth)
-      navigate('/admin-login')
-    } catch (err) {
-      console.error('Logout error:', err)
-    }
+  const handleLogout = () => {
+    sessionStorage.removeItem('admin')
+    navigate('/admin-login')
   }
 
   const handleDelete = async (product) => {
     try {
-      await deleteDoc(doc(db, 'products', product.id))
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', product.id)
+
+      if (error) throw error
       setProducts(prev => prev.filter(p => p.id !== product.id))
       setDeleteConfirm(null)
     } catch (err) {
@@ -120,21 +120,25 @@ const Admin = () => {
         soldOut: formData.soldOut,
         image: imageUrl,
         images: imagesUrls,
-        updatedAt: serverTimestamp()
       }
 
       if (editingProduct) {
-        await updateDoc(doc(db, 'products', editingProduct.id), productData)
+        const { error } = await supabase
+          .from('products')
+          .update(productData)
+          .eq('id', editingProduct.id)
+
+        if (error) throw error
         setProducts(prev => prev.map(p => p.id === editingProduct.id ? { ...p, ...productData } : p))
       } else {
-        const maxId = products.length > 0 ? Math.max(...products.map(p => p.id)) : 0
-        const newProduct = {
-          ...productData,
-          id: maxId + 1,
-          createdAt: serverTimestamp()
-        }
-        const docRef = await addDoc(collection(db, 'products'), newProduct)
-        setProducts(prev => [...prev, { ...newProduct, id: docRef.id }])
+        const { data, error } = await supabase
+          .from('products')
+          .insert([{ ...productData, id: formData.title.substring(0, 3).toUpperCase() + Date.now() }])
+          .select()
+          .single()
+
+        if (error) throw error
+        if (data) setProducts(prev => [...prev, data])
       }
 
       resetForm()
