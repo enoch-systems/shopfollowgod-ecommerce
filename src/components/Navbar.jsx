@@ -214,18 +214,38 @@ const Navbar = () => {
                   <NavLink
                     key={path}
                     to={path}
+                    end
                     onClick={() => setIsOpen(false)}
+                    style={({ isActive }) => ({
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '16px 24px',
+                      color: isActive ? '#ffffff' : '#1f2937',
+                      backgroundColor: isActive ? '#111827' : 'transparent',
+                      textDecoration: 'none',
+                    })}
+                    onMouseEnter={e => {
+                      if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                        e.currentTarget.style.backgroundColor = '#f9fafb'
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     {({ isActive }) => (
-                      <div className={`flex items-center justify-between px-6 py-4 ${isActive ? 'text-white bg-gray-900' : 'text-gray-800 hover:bg-gray-50'}`}>
+                      <>
                         <div className="flex items-center gap-4">
-                          <Icon size={18} className={isActive ? 'text-white' : 'text-gray-600'} />
+                          <CreditCard size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
                           <span>{label.replace(/ \(\d+\)/, '')}</span>
                         </div>
                         {(cart.count || 0) > 0 && (
                           <span className="bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
                         )}
-                      </div>
+                      </>
                     )}
                   </NavLink>
                 );
