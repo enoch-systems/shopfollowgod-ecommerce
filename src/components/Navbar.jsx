@@ -166,9 +166,36 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home' || path === '/checkout'}
-                className={({ isActive }) => isActive
-                  ? 'relative inline-flex items-center text-sm lg:text-base font-medium text-white bg-gray-900 px-5 py-2 mr-2 rounded-r-lg'
-                  : 'relative inline-block text-sm lg:text-base font-normal text-gray-700 px-3 py-2 transition-colors duration-200 after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900'}
+                style={({ isActive }) => isActive ? {
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '8px 20px',
+                  marginRight: '8px',
+                  borderRadius: '0 8px 8px 0',
+                  fontSize: 'clamp(13px, 1.2vw, 15px)',
+                  fontWeight: 500,
+                  color: '#ffffff',
+                  backgroundColor: '#111827',
+                  textDecoration: 'none',
+                } : {
+                  display: 'inline-block',
+                  padding: '8px 12px',
+                  fontSize: 'clamp(13px, 1.2vw, 15px)',
+                  fontWeight: 400,
+                  color: '#374151',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => {
+                  if (!e.currentTarget.style.backgroundColor || e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                    e.currentTarget.style.backgroundColor = '#f3f4f6'
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!e.currentTarget.style.backgroundColor || e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }
+                }}
               >
                 {label}
               </NavLink>
@@ -273,12 +300,31 @@ const Navbar = () => {
                   key={path}
                   to={path}
                   onClick={() => setIsOpen(false)}
+                  style={({ isActive }) => ({
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    padding: '16px 24px',
+                    color: isActive ? '#ffffff' : '#1f2937',
+                    backgroundColor: isActive ? '#111827' : 'transparent',
+                    textDecoration: 'none',
+                  })}
+                  onMouseEnter={e => {
+                    if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                      e.currentTarget.style.backgroundColor = '#f9fafb'
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                    }
+                  }}
                 >
                   {({ isActive }) => (
-                    <div className={`flex items-center gap-4 px-6 py-4 ${isActive ? 'text-white bg-gray-900' : 'text-gray-800 hover:bg-gray-50'}`}>
-                      <Icon size={18} className={isActive ? 'text-white' : 'text-gray-600'} />
+                    <>
+                      <Icon size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
                       <span>{label}</span>
-                    </div>
+                    </>
                   )}
                 </NavLink>
               );
