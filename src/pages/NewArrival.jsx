@@ -124,7 +124,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
     <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>
       {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, letterSpacing: '-0.01em' }}>New Arrivals</div>}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3">
         {items.map((p) => (
           <div key={p.id} className="rounded-lg overflow-hidden" style={{
             backgroundColor: 'white',
@@ -139,15 +139,15 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
                 {p.soldOut && <img src={soldBadge} alt="Sold out" style={{ position: 'absolute', top: 8, right: 8, width: 36, height: 36, pointerEvents: 'none' }} />}
               </div>
 
-            <div style={{ padding: '10px 8px 12px', textAlign: 'center' }}>
-              <div style={{ fontSize: 8, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280', fontWeight: 600 }}>{p.title}</div>
-              <div style={{ marginTop: 6, fontWeight: 600, fontSize: 12, color: '#111827' }}>{`₦ ${Number(p.price).toLocaleString()}`}</div>
+            <div style={{ padding: '6px 4px 8px', textAlign: 'center' }}>
+              <div style={{ fontSize: 7, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title}</div>
+              <div style={{ marginTop: 2, fontWeight: 600, fontSize: 11, color: '#111827' }}>{`₦ ${Number(p.price).toLocaleString()}`}</div>
 
-              <div style={{ marginTop: 4, color: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+              <div style={{ marginTop: 2, color: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                 {Array.from({ length: Math.floor(p.rating) }).map((_, i) => (
-                  <span key={i} style={{ fontSize: 10 }}>★</span>
+                  <span key={i} style={{ fontSize: 9 }}>★</span>
                 ))}
-                <span style={{ fontSize: 10, color: '#9ca3af', marginLeft: 4 }}>{p.rating}</span>
+                <span style={{ fontSize: 9, color: '#9ca3af', marginLeft: 2 }}>{p.rating}</span>
               </div>
 
               {(() => {
@@ -157,11 +157,11 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
                     onClick={!p.soldOut && !isAdded ? (e) => handleAdd(e, p) : undefined}
                     disabled={p.soldOut || isAdded}
                     style={{
-                      marginTop: 8,
+                      marginTop: 6,
                       width: '100%',
-                      padding: '7px 0',
-                      borderRadius: 8,
-                      fontSize: 12,
+                      padding: '5px 0',
+                      borderRadius: 6,
+                      fontSize: 10,
                       fontWeight: 600,
                       border: p.soldOut ? 'none' : isAdded ? 'none' : '1px solid #d1d5db',
                       background: p.soldOut ? '#e5e7eb' : isAdded ? '#15803d' : '#ffffff',
