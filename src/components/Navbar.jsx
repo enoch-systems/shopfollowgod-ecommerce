@@ -211,15 +211,15 @@ const Navbar = () => {
                   <button
                     key={path}
                     onClick={() => { navigate('/checkout'); setIsOpen(false); }}
-                    className={`flex items-center gap-4 px-6 py-4 text-gray-800 hover:bg-gray-50 relative`}
+                    className={`flex items-center justify-between px-6 py-4 text-gray-800 hover:bg-gray-50`}
                   >
-                    <div className="relative inline-flex items-center justify-center">
+                    <div className="flex items-center gap-4">
                       <Icon size={18} className="text-gray-600" />
-                      {(cart.count || 0) > 0 && (
-                        <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
-                      )}
+                      <span>{label.replace(/ \(\d+\)/, '')}</span>
                     </div>
-                    <span>{label}</span>
+                    {(cart.count || 0) > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
+                    )}
                   </button>
                 );
               }
