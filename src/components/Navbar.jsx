@@ -1,6 +1,6 @@
 import { Menu, X, Home, ShoppingCart, Layers, HelpCircle, CreditCard } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { cld } from '../utils/cloudinary'
 const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp64sddl6r4e7stmelk.png'
 import { useCart } from '../context/CartContext'
@@ -12,6 +12,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showCollections, setShowCollections] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const cart = useCart();
 
   // DesktopSearch component inlined to keep Navbar self-contained
@@ -109,7 +110,6 @@ const Navbar = () => {
     { path: '/shop', label: 'Shop', Icon: ShoppingCart },
     { path: '/collections', label: 'Collections', Icon: Layers },
     { path: '/faq', label: 'FAQ', Icon: HelpCircle },
-    { path: '/checkout', label: `Checkout (${cart.count || 0})`, Icon: CreditCard },
   ];
 
   return (
@@ -166,35 +166,19 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home' || path === '/checkout'}
+                className="relative inline-flex items-center px-3 py-2 text-sm lg:text-base no-underline transition-all duration-200 hover:bg-gray-100"
                 style={({ isActive }) => isActive ? {
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  padding: '8px 20px',
-                  marginRight: '8px',
-                  borderRadius: '0 8px 8px 0',
-                  fontSize: 'clamp(13px, 1.2vw, 15px)',
-                  fontWeight: 500,
                   color: '#ffffff',
                   backgroundColor: '#111827',
-                  textDecoration: 'none',
+                  borderRadius: '0 8px 8px 0',
+                  marginRight: '8px',
+                  padding: '8px 20px',
                 } : {
-                  display: 'inline-block',
-                  padding: '8px 12px',
-                  fontSize: 'clamp(13px, 1.2vw, 15px)',
-                  fontWeight: 400,
                   color: '#374151',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                }}
-                onMouseEnter={e => {
-                  if (!e.currentTarget.style.backgroundColor || e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
-                    e.currentTarget.style.backgroundColor = '#f3f4f6'
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!e.currentTarget.style.backgroundColor || e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                  }
+                  backgroundColor: 'transparent',
+                  borderRadius: '0',
+                  marginRight: '0',
+                  padding: '8px 12px',
                 }}
               >
                 {label}
@@ -235,72 +219,19 @@ const Navbar = () => {
 
         <div className="flex-1 overflow-auto">
           <div className="divide-y divide-gray-100">
-            {mobileNavItems.map(({ path, label, Icon }) => {
-              if (path === '/checkout') {
-                return (
-                  <NavLink
-                    key={path}
-                    to={path}
-                    end
-                    onClick={() => setIsOpen(false)}
-                    style={({ isActive }) => ({
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '16px 24px',
-                      color: isActive ? '#ffffff' : '#1f2937',
-                      backgroundColor: isActive ? '#111827' : 'transparent',
-                      textDecoration: 'none',
-                    })}
-                    onMouseEnter={e => {
-                      if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
-                        e.currentTarget.style.backgroundColor = '#f9fafb'
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                      }
-                    }}
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <div className="flex items-center gap-4">
-                          <CreditCard size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
-                          <span>{label.replace(/ \(\d+\)/, '')}</span>
-                        </div>
-                        {(cart.count || 0) > 0 && (
-                          <span className="bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
-                        )}
-                      </>
-                    )}
-                  </NavLink>
-                );
-              }
-              if (path === '/collections') {
-                return (
-                  <button
-                    key={path}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsOpen(false);
-                      setShowCollections(true);
-                    }}
-                    className={`flex items-center gap-4 px-6 py-4 text-gray-800 hover:bg-gray-50`}
-                    aria-haspopup="dialog"
-                  >
-                    <Icon size={18} className="text-gray-600" />
-                    <span>{label}</span>
-                  </button>
-                );
-              }
-
+            {[
+              { path: '/home', label: 'Home', Icon: Home },
+              { path: '/shop', label: 'Shop', Icon: ShoppingCart },
+              { path: '/checkout', label: 'Checkout', Icon: CreditCard },
+              { path: '/faq', label: 'FAQ', Icon: HelpCircle },
+            ].map(({ path, label, Icon }) => {
+              const isActive = location.pathname === path
               return (
-                <NavLink
+                <Link
                   key={path}
                   to={path}
                   onClick={() => setIsOpen(false)}
-                  style={({ isActive }) => ({
+                  style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '16px',
@@ -308,26 +239,43 @@ const Navbar = () => {
                     color: isActive ? '#ffffff' : '#1f2937',
                     backgroundColor: isActive ? '#111827' : 'transparent',
                     textDecoration: 'none',
-                  })}
+                  }}
                   onMouseEnter={e => {
-                    if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                    const bg = e.currentTarget.style.backgroundColor
+                    if (bg !== 'rgb(17, 24, 39)' && bg !== '#111827') {
                       e.currentTarget.style.backgroundColor = '#f9fafb'
                     }
                   }}
                   onMouseLeave={e => {
-                    if (e.currentTarget.style.backgroundColor !== 'rgb(17, 24, 39)') {
+                    const bg = e.currentTarget.style.backgroundColor
+                    if (bg !== 'rgb(17, 24, 39)' && bg !== '#111827') {
                       e.currentTarget.style.backgroundColor = 'transparent'
                     }
                   }}
                 >
-                  {({ isActive }) => (
-                    <>
-                      <Icon size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
-                      <span>{label}</span>
-                    </>
+                  <Icon size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
+                  <span>{label}</span>
+                  {path === '/checkout' && (cart.count || 0) > 0 && (
+                    <span style={{
+                      backgroundColor: '#ef4444',
+                      color: '#ffffff',
+                      fontSize: '10px',
+                      minWidth: '16px',
+                      height: '16px',
+                      borderRadius: '9999px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0 2px',
+                      fontWeight: 500,
+                      marginLeft: 'auto',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+                    }}>
+                      {cart.count}
+                    </span>
                   )}
-                </NavLink>
-              );
+                </Link>
+              )
             })}
           </div>
 
