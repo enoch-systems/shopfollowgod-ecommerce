@@ -165,9 +165,9 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home'}
-                className={({ isActive }) => isActive
-                  ? 'inline-flex items-center px-3 py-2 rounded-lg text-sm lg:text-base font-medium text-white bg-gray-900 transition-colors duration-200'
-                  : 'inline-flex items-center px-3 py-2 rounded-lg text-sm lg:text-base font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200'}
+                className={({ isActive }) => `relative inline-block text-sm lg:text-base transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900 px-3 py-2 ${isActive
+                  ? 'text-white bg-gray-900 rounded-lg after:hidden'
+                  : 'text-gray-700 after:w-0'}`}
               >
                 {label}
               </NavLink>
