@@ -18,6 +18,8 @@ const fg_mili1 = cld('fg_mili1', { width: 768 })
 const fg_mili2 = cld('fg_mili2', { width: 768 })
 const fg_bluee1 = cld('fg_bluee1', { width: 768 })
 const fg_bluee2 = cld('fg_bluee2', { width: 768 })
+const fg_red1_1 = cld('fg_red1.1', { width: 768 })
+const fg_red1_2 = cld('fg_red1.2', { width: 768 })
 
 const bean_army1 = cld('bean_army1', { width: 768 })
 const bean_army2 = cld('bean_army2', { width: 768 })
@@ -67,6 +69,7 @@ const signred = cld('signred', { width: 1024 })
 export const products = [
   { id:1, title:'CAMO YELLOW TRUCKER', price:15000, image:fg_army1, images:[fg_army1, fg_army2], rating:5 },
   { id:2, title:'CLASSIC BLACK TRUCKER', price:15000, image:fg_black1, images:[fg_black1, fg_black2], rating:4.5 },
+  { id:3, title:'SKY BLUE TRUCKER', price:15000, image:fg_blue1, images:[fg_blue1, fg_blue2], rating:5 },
   { id:4, title:'SILVER GREY TRUCKER', price:15000, image:fg_grey1, images:[fg_grey1, fg_grey2], rating:4, soldOut: true },
   { id:5, title:'BURNT ORANGE TRUCKER', price:15000, image:fg_orange1, images:[fg_orange1, fg_orange2], rating:4.5 },
   { id:6, title:'DEEP RED TRUCKER', price:15000, image:fg_red1, images:[fg_red1, fg_red2], rating:5 },
@@ -74,6 +77,7 @@ export const products = [
   { id:33, title:'FG 1% BETTER TEE BLACK', price:30000, image:nonamee, images:[nonamee, inspired1], rating:4 },
   { id:8, title:'FOREST CAMO TRUCKER', price:15000, image:fg_mili1, images:[fg_mili1, fg_mili2], rating:4.5 },
   { id:9, title:'ROYAL PURPLE TRUCKER', price:15000, image:fg_bluee1, images:[fg_bluee1, fg_bluee2], rating:5 },
+  { id:10, title:'BRIGHT RED TRUCKER', price:15000, image:fg_red1_1, images:[fg_red1_1, fg_red1_2], rating:4.5 },
   { id:11, title:'CHARCOAL GREY BEANIE', price:20000, image:bean_army1, images:[bean_army1, bean_army2], rating:5, soldOut: true},
   { id:12, title:'JET BLACK BEANIE', price:20000, image:bean_black1, images:[bean_black1, bean_black2], rating:4, soldOut: true },
   { id:23, title:'FG LOGO TEE', price:30000, image:highway, images:[highway], rating:4 },
