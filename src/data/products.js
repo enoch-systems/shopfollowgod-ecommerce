@@ -66,7 +66,6 @@ const signred = cld('signred', { width: 1024 })
 export const products = [
   { id:1, title:'CAMO YELLOW TRUCKER', price:15000, image:fg_army1, images:[fg_army1, fg_army2], rating:5 },
   { id:2, title:'CLASSIC BLACK TRUCKER', price:15000, image:fg_black1, images:[fg_black1, fg_black2], rating:4.5 },
-  { id:3, title:'SKY BLUE TRUCKER', price:15000, image:fg_blue1, images:[fg_blue1, fg_blue2], rating:5 },
   { id:4, title:'SILVER GREY TRUCKER', price:15000, image:fg_grey1, images:[fg_grey1, fg_grey2], rating:4, soldOut: true },
   { id:5, title:'BURNT ORANGE TRUCKER', price:15000, image:fg_orange1, images:[fg_orange1, fg_orange2], rating:4.5 },
   { id:6, title:'DEEP RED TRUCKER', price:15000, image:fg_red1, images:[fg_red1, fg_red2], rating:5 },
