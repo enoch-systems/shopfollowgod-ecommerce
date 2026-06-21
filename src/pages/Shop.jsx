@@ -232,26 +232,72 @@ const Shop = () => {
             </div>
 
             <div className="w-full md:w-auto">
-              <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
                 <div className="w-full md:w-auto">
-                  <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Sort By</div>
-                  <select value={sort} onChange={(e) => setSort(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                    <option value="default">Default</option>
-                    <option value="low-high">Price: Low to High</option>
-                    <option value="high-low">Price: High to Low</option>
-                  </select>
+                  <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Sort By</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { value: 'default', label: 'Default' },
+                      { value: 'low-high', label: 'Low to High' },
+                      { value: 'high-low', label: 'High to Low' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setSort(opt.value)}
+                        style={{
+                          padding: '6px 14px',
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          border: 'none',
+                          background: sort === opt.value ? '#111827' : '#f3f4f6',
+                          color: sort === opt.value ? '#ffffff' : '#374151',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s ease, color 0.15s ease, transform 0.1s ease',
+                          letterSpacing: '0.02em',
+                        }}
+                        onMouseEnter={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#e5e7eb' } }}
+                        onMouseLeave={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#f3f4f6' } }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="w-full md:w-auto">
-                  <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Categories</div>
-                  <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                    <option value="all">All Categories</option>
-                    <option value="trucker">Trucker Caps</option>
-                    <option value="beanie">Beanies</option>
-                    <option value="signature">Signature Cap</option>
-                    <option value="tactical">Tactical Cap</option>
-                    <option value="tee">Tee</option>
-                  </select>
+                  <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Categories</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { value: 'all', label: 'All' },
+                      { value: 'trucker', label: 'Trucker' },
+                      { value: 'beanie', label: 'Beanie' },
+                      { value: 'signature', label: 'Signature' },
+                      { value: 'tactical', label: 'Tactical' },
+                      { value: 'tee', label: 'Tee' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setCategory(opt.value)}
+                        style={{
+                          padding: '6px 14px',
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          border: 'none',
+                          background: category === opt.value ? '#111827' : '#f3f4f6',
+                          color: category === opt.value ? '#ffffff' : '#374151',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s ease, color 0.15s ease, transform 0.1s ease',
+                          letterSpacing: '0.02em',
+                        }}
+                        onMouseEnter={e => { if (category !== opt.value) { e.currentTarget.style.background = '#e5e7eb' } }}
+                        onMouseLeave={e => { if (category !== opt.value) { e.currentTarget.style.background = '#f3f4f6' } }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
