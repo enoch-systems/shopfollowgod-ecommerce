@@ -75,9 +75,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
 
   const getLimit = () => {
     if (typeof limit === 'number') return limit
-    if (windowWidth >= 1024) return 14
-    if (windowWidth >= 768) return 12
-    return 8
+    return 12
   }
 
   const [items, setItems] = useState(() => {

@@ -50,23 +50,23 @@ const Footer = () => {
     background: 'none',
     border: 'none',
     cursor: 'pointer',
-    color: 'rgba(255,255,255,0.7)',
+    color: '#4b5563',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 500,
     padding: 0,
     textAlign: 'left',
     transition: 'color 0.2s ease',
     fontFamily: 'inherit',
   }
 
-  const handleLinkEnter = (e) => { e.currentTarget.style.color = '#4ade80' }
-  const handleLinkLeave = (e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }
+  const handleLinkEnter = (e) => { e.currentTarget.style.color = deepGreen }
+  const handleLinkLeave = (e) => { e.currentTarget.style.color = '#4b5563' }
 
   const contactLinkStyle = {
-    color: 'rgba(255,255,255,0.7)',
+    color: '#4b5563',
     fontSize: 13,
     textDecoration: 'none',
-    transition: 'color 0.2s ease, textShadow 0.2s ease',
+    transition: 'color 0.2s ease',
     cursor: 'pointer',
   }
 
@@ -76,7 +76,7 @@ const Footer = () => {
       <div className="z-10 w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
         <div style={{ background: '#ffffff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 24px 48px rgba(0,0,0,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827', margin: 0 }}>{title}</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-0.01em' }}>{title}</h2>
             <button onClick={onClose} style={{ background: '#f3f4f6', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#6b7280', fontSize: 18, fontWeight: 600 }}>×</button>
           </div>
           <div style={{ padding: '24px', maxHeight: '60vh', overflowY: 'auto', color: '#374151', fontSize: 14, lineHeight: 1.7 }}>
@@ -87,9 +87,29 @@ const Footer = () => {
     </div>
   )
 
+  const headingStyle = {
+    fontSize: 11,
+    fontWeight: 700,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: '#064e3b',
+    marginBottom: 16,
+    opacity: 0.85,
+  }
+
+  const sectionStyle = {
+    marginBottom: 32,
+  }
+
+  const socialLinkStyle = {
+    transition: 'opacity 0.2s',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
   return (
-    <footer style={{ backgroundColor: deepGreen, color: 'rgba(255,255,255,0.9)', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(0,0,0,0.25) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0,0,0,0.2) 0%, transparent 45%), radial-gradient(ellipse at 60% 80%, rgba(0,0,0,0.15) 0%, transparent 50%)', pointerEvents: 'none' }} />
+    <footer style={{ backgroundColor: '#ffffff', color: '#111827', position: 'relative', overflow: 'hidden' }}>
       {/* Main footer content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 24px 40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 40 }}>
@@ -99,24 +119,24 @@ const Footer = () => {
             <button onClick={() => navigate('/')} aria-label="Go to home" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
               <img src={logo} alt="Follow God" style={{ height: 40, width: 'auto', marginBottom: 16 }} />
             </button>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 260 }}>
+            <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.7, maxWidth: 260 }}>
               Faith-inspired fashion for everyday wear. Shop curated collections made with care and purpose.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
-              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+              <a href="https://www.instagram.com/followgod.ng" target="_blank" rel="noreferrer" aria-label="Instagram" style={socialLinkStyle}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
                 onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
                 <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/seavzviiwkmbtj8los9h.png" alt="Instagram" style={{ width: 28, height: 28 }} />
               </a>
-              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+              <a href="https://www.tiktok.com/@intro840?_r=1&_t=ZS-91ziswsgTLx" target="_blank" rel="noreferrer" aria-label="TikTok" style={socialLinkStyle}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
                 onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
                 <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/pbk0dqwcybkbgxowpjo1.png" alt="TikTok" style={{ width: 28, height: 28 }} />
               </a>
-              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.opacity = '0.7' }}
+              <a href="https://www.snapchat.com/add/nnebue2021?share_id=7YnRKIgbTnG3P9AJCCfNVQ&locale=en_001@rg=ngzzzz" target="_blank" rel="noreferrer" aria-label="Snapchat" style={socialLinkStyle}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
                 onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
                 <img src="https://res.cloudinary.com/djdbcoyot/image/upload/v1781776704/ttvtvkyijvf3k6ojljid.png" alt="Snapchat" style={{ width: 28, height: 28 }} />
@@ -125,8 +145,8 @@ const Footer = () => {
           </div>
 
           {/* Shop column */}
-          <div>
-            <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Shop</h4>
+          <div style={sectionStyle}>
+            <h4 style={headingStyle}>Shop</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li><button onClick={() => navigate('/shop')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>All Products</button></li>
               <li><button onClick={() => navigate('/shop?category=best-sellers')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Best Sellers</button></li>
@@ -134,16 +154,16 @@ const Footer = () => {
           </div>
 
           {/* Company column */}
-          <div>
-            <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Company</h4>
+          <div style={sectionStyle}>
+            <h4 style={headingStyle}>Company</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li><button onClick={() => setShowAbout(true)} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>About Us</button></li>
             </ul>
           </div>
 
           {/* Support column */}
-          <div>
-            <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Support</h4>
+          <div style={sectionStyle}>
+            <h4 style={headingStyle}>Support</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li><button onClick={() => navigate('/faq')} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>FAQs</button></li>
               <li><button onClick={() => setShowReturns(true)} style={linkStyle} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Returns & Refunds</button></li>
@@ -151,9 +171,9 @@ const Footer = () => {
           </div>
 
           {/* Stay in touch column */}
-          <div style={{ minWidth: 260 }}>
-            <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>Stay in Touch</h4>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 14, lineHeight: 1.5 }}>
+          <div style={{ ...sectionStyle, minWidth: 260 }}>
+            <h4 style={headingStyle}>Stay in Touch</h4>
+            <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 14, lineHeight: 1.5 }}>
               Sign up for exclusive offers and new drops.
             </p>
 
@@ -186,15 +206,15 @@ const Footer = () => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', color: '#ffffff', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: 10, background: '#f9fafb', border: '1px solid #d1d5db', color: '#111827', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
                 />
-                {emailError && <div style={{ fontSize: 12, color: '#fca5a5', marginTop: 4 }}>{emailError}</div>}
+                {emailError && <div style={{ fontSize: 12, color: '#dc2626', marginTop: 4 }}>{emailError}</div>}
               </div>
               <button
                 disabled={isSubscribing}
-                style={{ padding: '10px 18px', borderRadius: 10, background: 'transparent', color: '#ffffff', fontSize: 13, fontWeight: 600, border: '1px solid rgba(255,255,255,0.2)', cursor: isSubscribing ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', transition: 'border-color 0.2s ease, background 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.background = 'rgba(74,222,128,0.1)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.background = 'transparent'; }}
+                style={{ padding: '10px 18px', borderRadius: 10, background: deepGreen, color: '#ffffff', fontSize: 13, fontWeight: 600, border: 'none', cursor: isSubscribing ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', transition: 'opacity 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.85' }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
                 {isSubscribing ? 'Subscribing...' : <><Send size={14} />Subscribe</>}
               </button>
@@ -207,37 +227,37 @@ const Footer = () => {
                 </div>
               )}
             </form>
-            {thankYouHtml && <div style={{ marginTop: 8, fontSize: 13, color: '#fbbf24' }}>{thankYouHtml}</div>}
+            {thankYouHtml && <div style={{ marginTop: 8, fontSize: 13, color: deepGreen, fontWeight: 600 }}>{thankYouHtml}</div>}
 
-              <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Mail size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
+                <Mail size={15} style={{ color: '#9ca3af', flexShrink: 0 }} />
                 <a
                   href="mailto:followgodng01@gmail.com"
                   onClick={(e) => { e.preventDefault(); openMail('followgodng01@gmail.com', 'Reaching out from folllowgod website'); }}
                   style={contactLinkStyle}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#4ade80'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = deepGreen; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#4b5563'; }}
                   className="contact-link"
                 >
                   followgodng01@gmail.com
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Phone size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
+                <Phone size={15} style={{ color: '#9ca3af', flexShrink: 0 }} />
                 <a
                   href="tel:+2349031161058"
                   style={contactLinkStyle}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#4ade80'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = deepGreen; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#4b5563'; }}
                   className="contact-link"
                 >
                   +234 903 116 1058
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <MapPinCheck size={15} style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }} />
-                <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>Online Store</span>
+                <MapPinCheck size={15} style={{ color: '#9ca3af', flexShrink: 0 }} />
+                <span style={{ color: '#4b5563', fontSize: 13 }}>Online Store</span>
               </div>
             </div>
           </div>
@@ -245,38 +265,34 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ position: 'relative' }}>
-        {/* Cloudy gradient blend at top to soften transition into white section above */}
-        <div style={{ position: 'absolute', top: -50, left: 0, right: 0, height: 50, background: 'radial-gradient(ellipse at center, rgba(6,78,59,0.3) 0%, transparent 70%)', pointerEvents: 'none', filter: 'blur(8px)' }} />
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', paddingBottom: '20px' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Terms</button>
-              <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Privacy</button>
-              <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Returns</button>
-            </div>
+      <div style={{ position: 'relative', borderTop: '1px solid #e5e7eb' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button onClick={() => setShowTerms(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Terms</button>
+            <button onClick={() => setShowPrivacy(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Privacy</button>
+            <button onClick={() => setShowReturns(true)} style={{ ...linkStyle, fontSize: 13 }} onMouseEnter={handleLinkEnter} onMouseLeave={handleLinkLeave}>Returns</button>
+          </div>
 
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
-              © {new Date().getFullYear()} FOLLOW GOD. All rights reserved.
-            </div>
+          <div style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center' }}>
+            © {new Date().getFullYear()} FOLLOW GOD. All rights reserved.
+          </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Built with</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <img src={eye} alt="Byund" style={{ width: 16, height: 16 }} />
-                Byund Technologies
-              </span>
-              <a
-                href="https://wa.me/2349162919586?text=Hello%20Enoch%2C%20Reaching%20out%20from%20followgod%20web"
-                target="_blank"
-                rel="noreferrer"
-                style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)', fontSize: 13, textDecoration: 'none', transition: 'border-color 0.2s ease, color 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#4ade80'; e.currentTarget.style.color = '#86efac'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
-              >
-                Reach Us
-              </a>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <span style={{ fontSize: 13, color: '#9ca3af' }}>Built with</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#111827', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <img src={eye} alt="Byund" style={{ width: 16, height: 16 }} />
+              Byund Technologies
+            </span>
+            <a
+              href="https://wa.me/2349162919586?text=Hello%20Enoch%2C%20Reaching%20out%20from%20followgod%20web"
+              target="_blank"
+              rel="noreferrer"
+              style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid #d1d5db', color: '#111827', fontSize: 13, textDecoration: 'none', fontWeight: 600, transition: 'border-color 0.2s ease, color 0.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = deepGreen; e.currentTarget.style.color = deepGreen; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.color = '#111827'; }}
+            >
+              Reach Us
+            </a>
           </div>
         </div>
       </div>
