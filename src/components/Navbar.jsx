@@ -165,7 +165,9 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home'}
-                className={({ isActive }) => `${commonClasses} px-3 py-2 ${isActive ? 'text-gray-900 after:w-full' : ''}`}
+                className={({ isActive }) => isActive
+                  ? 'inline-flex items-center px-3 py-2 rounded-lg text-sm lg:text-base font-medium text-white bg-gray-900 transition-colors duration-200'
+                  : 'inline-flex items-center px-3 py-2 rounded-lg text-sm lg:text-base font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200'}
               >
                 {label}
               </NavLink>
@@ -246,10 +248,13 @@ const Navbar = () => {
                   key={path}
                   to={path}
                   onClick={() => setIsOpen(false)}
-                  className={({ isActive }) => `flex items-center gap-4 px-6 py-4 text-gray-800 hover:bg-gray-50 ${isActive ? 'bg-emerald-950/8 text-red-900 rounded-r-full' : ''}`}
                 >
-                  <Icon size={18} className="text-gray-600" />
-                  <span>{label}</span>
+                  {({ isActive }) => (
+                    <div className={`flex items-center gap-4 px-6 py-4 ${isActive ? 'text-white bg-gray-900' : 'text-gray-800 hover:bg-gray-50'}`}>
+                      <Icon size={18} className={isActive ? 'text-white' : 'text-gray-600'} />
+                      <span>{label}</span>
+                    </div>
+                  )}
                 </NavLink>
               );
             })}
