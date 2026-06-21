@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import Footer from "../pages/Footer";
 import { useCart } from '../context/CartContext'
 
-import { fetchProducts } from '../data/products'
+import { products } from '../data/products'
 import { cld } from '../utils/cloudinary'
 const soldBadge = cld('soldout', { width: 200 })
 import { Link } from 'react-router-dom'
@@ -30,8 +30,6 @@ const Shop = () => {
   const [addedIds, setAddedIds] = useState(() => new Set())
   const addedTimers = useRef({})
   const productsRef = useRef(null)
-  const [allProducts, setAllProducts] = useState([])
-  const [loading, setLoading] = useState(true)
 
   const scrollToTop = () => {
     if (productsRef.current) {
@@ -86,13 +84,6 @@ const Shop = () => {
     })
   }
 
-  useEffect(() => {
-    fetchProducts().then(data => {
-      setAllProducts(data)
-      setLoading(false)
-    })
-  }, [])
-
   const [sort, setSort] = useState('default');
   const [category, setCategory] = useState('all');
   const [page, setPage] = useState(1);
@@ -116,7 +107,7 @@ const Shop = () => {
   }
 
   const displayedProducts = useMemo(() => {
-    let list = [...allProducts];
+    let list = [...products];
     if (category && category !== 'all') {
       if (category === 'trucker') list = list.filter((p) => /trucker/i.test(p.title));
       if (category === 'beanie') list = list.filter((p) => /beanie/i.test(p.title));
@@ -133,7 +124,7 @@ const Shop = () => {
       }
     }
     return list;
-  }, [sort, category, allProducts]);
+  }, [sort, category]);
 
   const pageSize = getPageSize()
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
@@ -226,106 +217,102 @@ const Shop = () => {
 
   return (
     <>
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: 60, color: '#6b7280' }}>Loading products...</div>
-      ) : (
-        <MountReveal className="min-h-screen py-8 md:pt-28" style={{ backgroundColor: 'white' }}>
-          <div ref={productsRef} className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
-              <div>
-                <p className="text-black font-semibold uppercase text-lg md:text-xl lg:text-2xl" style={{ letterSpacing: '-0.01em' }}>Shop</p>
-              </div>
-
-              <div className="w-full md:w-auto">
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
-                  <div className="w-full md:w-auto">
-                    <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Sort By</div>
-                    <select value={sort} onChange={(e) => setSort(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                      <option value="default">Default</option>
-                      <option value="low-high">Price: Low to High</option>
-                      <option value="high-low">Price: High to Low</option>
-                    </select>
-                  </div>
-
-                  <div className="w-full md:w-auto">
-                    <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Categories</div>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                      <option value="all">All Categories</option>
-                      <option value="trucker">Trucker Caps</option>
-                      <option value="beanie">Beanies</option>
-                      <option value="signature">Signature Cap</option>
-                      <option value="tactical">Tactical Cap</option>
-                      <option value="tee">Tee</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+      <MountReveal className="min-h-screen py-8 md:pt-28" style={{ backgroundColor: 'white' }}>
+        <div ref={productsRef} className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
+            <div>
+              <p className="text-black font-semibold uppercase text-lg md:text-xl lg:text-2xl" style={{ letterSpacing: '-0.01em' }}>Shop</p>
             </div>
 
-            {/* Top pagination */}
-            {Pagination()}
-
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
-              {pageItems.map((p) => (
-                <div key={p.id} className="rounded-lg overflow-hidden" style={{
-                  backgroundColor: 'white',
-                  border: '1px solid #f5f5f5',
-                  borderRadius: 12,
-                  transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-                }}>
-                  <div className="relative" style={{ width: '100%', aspectRatio: '3/4', background: '#f5f5f5', overflow: 'hidden' }}>
-                      <Link
-                        to={`/product/${p.id}`}
-                        className="w-full h-full block"
-                        onMouseEnter={() => preloadImages(p)}
-                        onFocus={() => preloadImages(p)}
-                        onTouchStart={() => preloadImages(p)}
-                        onPointerOver={() => preloadImages(p)}
-                      >
-                        <img src={p.image} alt={p.title} data-product-image="true" className="w-full h-full object-cover" />
-                      </Link>
-                      {p.soldOut && <img src={soldBadge} alt="Sold out" className="absolute top-2 right-2 w-12 h-12 pointer-events-none" />}
-                    </div>
-
-                  <div className="p-4 text-center">
-                    <div className="text-[8px] tracking-widest uppercase text-gray-700 font-semibold -mt-1">{p.title}</div>
-                    <div className="mt-2 font-semibold text-xs">{`₦ ${Number(p.price).toLocaleString()}`}</div>
-
-                    <div className="-mt-2 text-yellow-400">
-                      {Array.from({ length: Math.floor(p.rating) }).map((_, i) => (
-                        <span key={i} className="text-[10px] leading-none mr-0.5">★</span>
-                      ))}
-                      <span className="text-[10px] text-gray-500 ml-2 leading-none">{p.rating}</span>
-                    </div>
-
-                    {(() => {
-                      const isAdded = addedIds.has(p.id)
-                      return (
-                        <button
-                          onClick={!p.soldOut && !isAdded ? (e) => handleAdd(e, p) : undefined}
-                          disabled={p.soldOut || isAdded}
-                          className={`${p.soldOut ? 'mt-1 w-full bg-gray-300 text-gray-600 py-2 rounded-md text-sm cursor-not-allowed' : isAdded ? 'mt-1 w-full bg-green-500 text-white py-2 rounded-md text-sm flex items-center justify-center gap-2' : 'mt-1 w-full bg-white text-black border border-gray-300 py-2 rounded-lg text-sm hover:opacity-95 hover:cursor-pointer hover:text-green-700'}`}>
-                          {p.soldOut ? 'SOLD OUT' : (isAdded ? (
-                            <>
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                              <span>Added</span>
-                            </>
-                          ) : 'Add to cart')}
-                        </button>
-                      )
-                    })()}
-                  </div>
+            <div className="w-full md:w-auto">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="w-full md:w-auto">
+                  <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Sort By</div>
+                  <select value={sort} onChange={(e) => setSort(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    <option value="default">Default</option>
+                    <option value="low-high">Price: Low to High</option>
+                    <option value="high-low">Price: High to Low</option>
+                  </select>
                 </div>
-              ))}
-            </div>
 
-            {/* Bottom pagination */}
-            <div style={{ marginTop: 28 }}>
-              {Pagination()}
+                <div className="w-full md:w-auto">
+                  <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Categories</div>
+                  <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    <option value="all">All Categories</option>
+                    <option value="trucker">Trucker Caps</option>
+                    <option value="beanie">Beanies</option>
+                    <option value="signature">Signature Cap</option>
+                    <option value="tactical">Tactical Cap</option>
+                    <option value="tee">Tee</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-        </MountReveal>
-      )}
+
+          {/* Top pagination */}
+          {Pagination()}
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
+            {pageItems.map((p) => (
+              <div key={p.id} className="rounded-lg overflow-hidden" style={{
+                backgroundColor: 'white',
+                border: '1px solid #f5f5f5',
+                borderRadius: 12,
+                transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+              }}>
+                <div className="relative" style={{ width: '100%', aspectRatio: '3/4', background: '#f5f5f5', overflow: 'hidden' }}>
+                    <Link
+                      to={`/product/${p.id}`}
+                      className="w-full h-full block"
+                      onMouseEnter={() => preloadImages(p)}
+                      onFocus={() => preloadImages(p)}
+                      onTouchStart={() => preloadImages(p)}
+                      onPointerOver={() => preloadImages(p)}
+                    >
+                      <img src={p.image} alt={p.title} data-product-image="true" className="w-full h-full object-cover" />
+                    </Link>
+                    {p.soldOut && <img src={soldBadge} alt="Sold out" className="absolute top-2 right-2 w-12 h-12 pointer-events-none" />}
+                  </div>
+
+                <div className="p-4 text-center">
+                  <div className="text-[8px] tracking-widest uppercase text-gray-700 font-semibold -mt-1">{p.title}</div>
+                  <div className="mt-2 font-semibold text-xs">{`₦ ${Number(p.price).toLocaleString()}`}</div>
+
+                  <div className="-mt-2 text-yellow-400">
+                    {Array.from({ length: Math.floor(p.rating) }).map((_, i) => (
+                      <span key={i} className="text-[10px] leading-none mr-0.5">★</span>
+                    ))}
+                    <span className="text-[10px] text-gray-500 ml-2 leading-none">{p.rating}</span>
+                  </div>
+
+                  {(() => {
+                    const isAdded = addedIds.has(p.id)
+                    return (
+                      <button
+                        onClick={!p.soldOut && !isAdded ? (e) => handleAdd(e, p) : undefined}
+                        disabled={p.soldOut || isAdded}
+                        className={`${p.soldOut ? 'mt-1 w-full bg-gray-300 text-gray-600 py-2 rounded-md text-sm cursor-not-allowed' : isAdded ? 'mt-1 w-full bg-green-500 text-white py-2 rounded-md text-sm flex items-center justify-center gap-2' : 'mt-1 w-full bg-white text-black border border-gray-300 py-2 rounded-lg text-sm hover:opacity-95 hover:cursor-pointer hover:text-green-700'}`}>
+                        {p.soldOut ? 'SOLD OUT' : (isAdded ? (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                            <span>Added</span>
+                          </>
+                        ) : 'Add to cart')}
+                      </button>
+                    )
+                  })()}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom pagination */}
+          <div style={{ marginTop: 28 }}>
+            {Pagination()}
+          </div>
+        </div>
+      </MountReveal>
       <Footer />
     </>
   );

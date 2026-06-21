@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { fetchProducts } from '../data/products'
+import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
@@ -66,15 +66,6 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
   }
 
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200)
-  const [allProducts, setAllProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchProducts().then(data => {
-      setAllProducts(data)
-      setLoading(false)
-    })
-  }, [])
 
   useEffect(() => {
     const onResize = () => setWindowWidth(window.innerWidth)
@@ -88,7 +79,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
   }
 
   const [items, setItems] = useState(() => {
-    let pool = allProducts
+    let pool = products
     if (product && product.title) {
       const t = product.title.toLowerCase()
       if (t.includes('trucker')) pool = products.filter(p => p.title.toLowerCase().includes('trucker'))
@@ -108,11 +99,11 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
   })
 
   useEffect(() => {
-    let pool = allProducts
+    let pool = products
     if (product && product.title) {
       const t = product.title.toLowerCase()
-      if (t.includes('trucker')) pool = allProducts.filter(p => p.title.toLowerCase().includes('trucker'))
-      else if (t.includes('beanie')) pool = allProducts.filter(p => p.title.toLowerCase().includes('beanie'))
+      if (t.includes('trucker')) pool = products.filter(p => p.title.toLowerCase().includes('trucker'))
+      else if (t.includes('beanie')) pool = products.filter(p => p.title.toLowerCase().includes('beanie'))
     }
     if (product && product.id) pool = pool.filter(p => p.id !== product.id)
 
@@ -125,13 +116,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
     const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled.slice(0, currentLimit)
     // Remove duplicates based on id
     setItems(result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index))
-  }, [limit, product, windowWidth, allProducts])
-
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#6b7280' }}>Loading products...</div>
-    )
-  }
+  }, [limit, product, windowWidth])
 
   return (
     <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>

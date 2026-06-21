@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import Footer from './Footer'
+import Footer from '../pages/Footer'
 import { useCart } from '../context/CartContext'
-import { fetchProducts, getProducts } from '../data/products'
+import { products } from '../data/products'
 import { cld } from '../utils/cloudinary'
 
 const Dynamic = () => {
@@ -10,27 +10,22 @@ const Dynamic = () => {
   const cart = useCart()
   const [product, setProduct] = useState(null)
   const [related, setRelated] = useState([])
-  const [loading, setLoading] = useState(true)
 
   const [qty, setQty] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
   const [added, setAdded] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
     setSelectedImage(0)
     setAdded(false)
     
-    fetchProducts().then(products => {
-      const found = products.find(p => String(p.id) === String(id))
-      setProduct(found || null)
-      
-      if (found) {
-        const related = products.filter(p => p.id !== found.id && p.category === found.category).slice(0, 6)
-        setRelated(related)
-      }
-      setLoading(false)
-    })
+    const found = products.find(p => String(p.id) === String(id))
+    setProduct(found || null)
+    
+    if (found) {
+      const related = products.filter(p => p.id !== found.id && p.category === found.category).slice(0, 6)
+      setRelated(related)
+    }
   }, [id])
 
   const handleAdd = () => {
@@ -38,14 +33,6 @@ const Dynamic = () => {
     cart.addItem(product, { qty })
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
-  }
-
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ color: '#6b7280', fontSize: 16 }}>Loading product...</div>
-      </div>
-    )
   }
 
   if (!product) {

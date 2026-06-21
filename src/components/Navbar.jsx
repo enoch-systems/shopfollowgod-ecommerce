@@ -5,7 +5,7 @@ import { cld } from '../utils/cloudinary'
 const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp64sddl6r4e7stmelk.png'
 import { useCart } from '../context/CartContext'
 import { createPortal } from 'react-dom'
-import { fetchProducts } from '../data/products'
+import { products } from '../data/products'
 const searchIcon = cld('search', { width: 48 })
 
 const Navbar = () => {
@@ -13,7 +13,6 @@ const Navbar = () => {
   const [showCollections, setShowCollections] = useState(false);
   const navigate = useNavigate();
   const cart = useCart();
-  const [allProducts, setAllProducts] = useState([])
 
   // DesktopSearch component inlined to keep Navbar self-contained
   function DesktopSearch() {
@@ -32,7 +31,7 @@ const Navbar = () => {
         setCoords(null)
         return
       }
-      const filtered = allProducts.filter(p => String(p.title || '').toLowerCase().includes(q)).slice(0, 6)
+      const filtered = products.filter(p => String(p.title || '').toLowerCase().includes(q)).slice(0, 6)
       setResults(filtered)
       try {
         const el = searchRef.current
@@ -105,10 +104,6 @@ const Navbar = () => {
       </>
     )
   }
-
-  useEffect(() => {
-    fetchProducts().then(data => setAllProducts(data))
-  }, [])
 
   const mobileNavItems = [
     { path: '/home', label: 'Home', Icon: Home },
