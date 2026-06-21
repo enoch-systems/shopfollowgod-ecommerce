@@ -1,197 +1,392 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import Footer from '../pages/Footer'
-import { useCart } from '../context/CartContext'
+import React, { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { products } from '../data/products'
+import { useCart } from '../context/CartContext'
+import NewArrival from '../pages/NewArrival'
+import Footer from '../pages/Footer'
 import { cld } from '../utils/cloudinary'
+const soldBadge = cld('soldout', { width: 200 })
+import MountReveal from '../components/MountReveal' 
 
-const Dynamic = () => {
-  const { id } = useParams()
-  const cart = useCart()
-  const [product, setProduct] = useState(null)
-  const [related, setRelated] = useState([])
+// Product metadata (colors and descriptions)
+const PRODUCT_META = {
+  1: { colors: ['Camo Yellow', 'Black', 'Olive', 'Khaki'], description: 'Structured FG trucker cap with a breathable mesh back and a curved brim. Features an embroidered front patch and an adjustable snapback for a comfortable, one-size fit — durable and ready for daily wear.' },
+  2: { colors: ['Black', 'Charcoal', 'White'], description: 'Classic FG black trucker with a reinforced front panel and lightweight mesh to keep you cool. Clean embroidered branding and an adjustable snap closure for secure fit.' },
+  3: { colors: ['Sky Blue', 'White', 'Navy'], description: 'FG sky-blue trucker featuring a soft front panel and airy mesh back. Embroidered branding and adjustable snapback combine style and function for everyday wear.' },
+  4: { colors: ['Silver Grey', 'Black', 'White'], description: 'Neutral silver-grey trucker with structured shape and breathable construction. Pairs effortlessly with layered streetwear looks.' },
+  5: { colors: ['Burnt Orange', 'Beige'], description: 'Bold burnt-orange trucker with a durable front panel and classic mesh back. Built to hold its shape while providing all-day comfort.' },
+  6: { colors: ['Deep Red', 'Black'], description: 'Deep-red FG trucker with premium embroidery and an adjustable snapback. Lightweight, breathable, and made to stand out.' },
+  7: { colors: ['Burgundy Camo', 'Forest'], description: 'Burgundy camo trucker — statement styling with a reinforced front and ventilated mesh for comfortable wear.' },
+  8: { colors: ['Forest Camo', 'Olive'], description: 'Forest camo FG trucker, designed for breathability and lasting shape. A versatile cap for casual and outdoor looks.' },
+  9: { colors: ['Royal Purple', 'Black'], description: 'Vibrant royal-purple trucker with a structured silhouette, embroidered logo, and adjustable snap for a personalized fit.' },
+  10: { colors: ['Bright Red', 'Black'], description: 'Bright-red FG trucker made for impact. Breathable mesh back and durable front deliver a standout everyday cap.' },
+  11: { colors: ['Charcoal Grey', 'Black'], description: 'FG charcoal beanie knitted from a soft acrylic blend with a folded cuff and subtle embroidered logo. Provides comfortable warmth and a snug fit.' },
+  12: { colors: ['Jet Black', 'Graphite'], description: 'Classic jet-black beanie with a ribbed knit and clean finish. Lightweight, insulating and easy to style.' },
+  13: { colors: ['Earth Brown', 'Tan'], description: 'Earth-brown FG beanie offering soft warmth and a relaxed silhouette. The folded cuff adds structure while keeping ears cozy.' },
+  14: { colors: ['Light Green', 'Mint'], description: 'Light-green beanie with a soft handfeel and a close, comfortable fit. Ideal for layering under hoods or wearing solo.' },
+  15: { colors: ['Light Grey', 'Heather'], description: 'Light-grey beanie crafted for everyday warmth. The classic ribbed knit and moderate stretch ensure a secure, flattering fit.' },
+  16: { colors: ['Navy Blue', 'Indigo'], description: 'Navy FG beanie combining a refined finish with insulating warmth. Subtle branding keeps the look clean and versatile.' },
+  17: { colors: ['Deep Purple', 'Plum'], description: 'Deep-purple beanie with a rich knit texture and snug fit. Comfortable for daily wear and cooler evenings.' },
+  18: { colors: ['Wine Red', 'Burgundy'], description: 'Wine-red FG beanie with a cozy ribbed knit and fold-over cuff. A stylish, warm accessory that complements fall and winter outfits.' },
+  19: { colors: ['Black', 'White', 'Grey'], description: 'FG Fear of Average Tee — a bold statement piece celebrating individuality and breaking away from mediocrity. Premium cotton blend with screen-printed graphics for everyday wear.' },
+  20: { colors: ['Black', 'Navy', 'Grey'], description: 'FG Too Fly to Pray Tee — a lifestyle tee that blends street culture with confidence. Crafted from soft, durable cotton with embroidered FG branding.' },
+  21: { colors: ['Black', 'White', 'Navy'], description: 'FG 1% Better Tee — celebrating the grind and constant improvement. Premium quality t-shirt with bold graphic design and comfortable fit for all-day wear.' },
+  22: { colors: ['Black', 'White', 'Grey'], description: 'FG Highway to Heaven Tee — a spiritual yet street-inspired design. Made from premium cotton, perfect for layering or wearing solo with premium finishing.' },
+  23: { colors: ['Black', 'Navy', 'Charcoal'], description: 'FG Logo Tee — classic FG branding with premium finishing. Made from durable cotton with a comfortable fit for everyday wear.' },
+  34: { colors: ['Black'], description: 'FG Too Fly to Pray Tee (Black) — a lifestyle tee that blends street culture with confidence. Crafted from soft, durable cotton with printed graphics for everyday wear.' },
+  24: { colors: ['Camo', 'Olive'], description: 'FG Tactical Cap (Camo) — rugged and versatile with a tactical design. Features reinforced stitching and an adjustable strap for a secure fit in any condition.' },
+  25: { colors: ['Grey', 'Charcoal'], description: 'FG Tactical Cap (Grey) — sleek and functional design perfect for tactical or casual styling. Built with durable materials and an adjustable closure.' },
+  26: { colors: ['Navy Blue', 'Black'], description: 'FG Tactical Cap (Navy Blue) — professional and versatile tactical cap with a structured design. Features breathable construction and adjustable fit.' },
+  27: { colors: ['Black', 'White'], description: 'FG Signature Cap (Black) — iconic FG signature design in classic black. Premium embroidery and quality construction for a distinctive look.' },
+  28: { colors: ['Pink', 'White'], description: 'FG Signature Cap (Pink) — bold and vibrant FG signature style. Stand out with this premium quality cap in a striking pink color.' },
+  29: { colors: ['Gray', 'White'], description: 'FG Signature Cap (Gray) — refined FG signature cap in neutral grey. Versatile and stylish for any outfit with premium finishing.' },
+  30: { colors: ['Red', 'White'], description: 'FG Signature Beanie (Red) — vibrant red signature beanie with premium knit quality. Provides warmth and style with iconic FG branding.' },
+  31: { colors: ['Black', 'White'], description: 'FG Signature Beanie (Black) — classic black signature beanie with soft, comfortable knit. Perfect for everyday wear with distinctive FG styling.' },
+  32: { colors: ['Red', 'Burgundy'], description: 'FG Signature Cap (Red) — bold red signature cap with premium quality construction. Makes a statement with vibrant color and iconic FG design.' },
+  33: { colors: ['Black', 'White'], description: 'FG 1% Better Tee Black — celebrating the grind and constant improvement in style. Premium quality t-shirt with bold graphic design and comfortable fit for all-day wear.' }
+}
 
+
+
+function Dynamic({ product: propProduct }) {
+  const { id } = useParams() || {}
+  const productId = propProduct?.id || (id ? parseInt(id, 10) : null)
+
+  const product = useMemo(() => {
+    if (propProduct) return propProduct
+    if (productId) return products.find(p => p.id === productId) || products[1]
+    return products[1]
+  }, [propProduct, productId])
+
+  // single main image only
   const [qty, setQty] = useState(1)
-  const [selectedImage, setSelectedImage] = useState(0)
-  const [added, setAdded] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [toastVisible, setToastVisible] = useState(false)
+  const [toastMsg, setToastMsg] = useState('')
+  const toastTimer = useRef(null)
+  const mainImgRef = useRef(null)
+  // temporary added state for visual feedback after add-to-cart
+  const [justAdded, setJustAdded] = useState(false)
+  const addedTimer = useRef(null)
+  const [mainSrc, setMainSrc] = useState(product.image)
+  const [flipMain, setFlipMain] = useState(false)
+  const [selectedThumb, setSelectedThumb] = useState(0)
+  // responsive thumbnail size
+  const THUMB_CLASS = 'w-15 h-15 sm:w-14 sm:h-14 md:w-16 md:h-16'
+  // prepare thumbnails dynamically based on available images
+  const _baseImages = product.images || product.gallery || [product.image]
+  const thumbImages = _baseImages.length > 0 ? _baseImages : [product.image]
+
+  // insert <link rel="preload" as="image"> tags ASAP so thumbnails and main image are prioritized
+  useLayoutEffect(() => {
+    const created = []
+    const preloaders = []
+    try {
+      const imgs = thumbImages && thumbImages.length ? thumbImages : [product.image]
+      imgs.forEach(src => {
+        if (!src) return
+        if (!document.querySelector(`link[rel="preload"][href="${src}"]`)) {
+          const link = document.createElement('link')
+          link.rel = 'preload'
+          link.as = 'image'
+          link.href = src
+          // hint high priority for preloads
+          try { link.setAttribute('fetchpriority', 'high') } catch (e) { void e }
+          document.head.appendChild(link)
+          created.push(link)
+        }
+        // create an Image() in layout phase so the browser starts fetching immediately
+        try {
+          const im = new Image()
+          im.decoding = 'sync'
+          im.loading = 'eager'
+          // set attribute as some browsers honor it on dynamically created images
+          try { im.setAttribute('fetchpriority', 'high') } catch (e) { void e }
+          im.src = src
+          preloaders.push(im)
+        } catch (err) { void err }
+      })
+
+      if (product.image && !document.querySelector(`link[rel="preload"][href="${product.image}"]`)) {
+        const mainLink = document.createElement('link')
+        mainLink.rel = 'preload'
+        mainLink.as = 'image'
+        mainLink.href = product.image
+        try { mainLink.setAttribute('fetchpriority', 'high') } catch (e) { void e }
+        document.head.appendChild(mainLink)
+        created.push(mainLink)
+        try {
+          const im = new Image()
+          im.decoding = 'sync'
+          im.loading = 'eager'
+          try { im.setAttribute('fetchpriority', 'high') } catch (e) { void e }
+          im.src = product.image
+          preloaders.push(im)
+        } catch (err) { void err }
+      }
+    } catch (err) { void err }
+
+    return () => {
+      created.forEach(l => { if (l.parentNode) l.parentNode.removeChild(l) })
+      // release references
+      preloaders.forEach(p => { try { p.src = '' } catch (e) {} })
+    }
+  }, [product])
+
+  const cart = useCart()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    setSelectedImage(0)
-    setAdded(false)
-    
-    const found = products.find(p => String(p.id) === String(id))
-    setProduct(found || null)
-    
-    if (found) {
-      const related = products.filter(p => p.id !== found.id && p.category === found.category).slice(0, 6)
-      setRelated(related)
+    // clear timers when product changes/unmounts
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current)
+      if (addedTimer.current) clearTimeout(addedTimer.current)
     }
-  }, [id])
+  }, [product])
 
-  const handleAdd = () => {
-    if (!product || added) return
-    cart.addItem(product, { qty })
-    setAdded(true)
-    setTimeout(() => setAdded(false), 2000)
+  // keep mainSrc in sync when product changes and preload thumbnails
+  useEffect(() => {
+    setMainSrc(product.image)
+    setFlipMain(false)
+    setSelectedThumb(0)
+    // preload thumbnails so navigating from listing feels instant
+    const imgs = thumbImages && thumbImages.length ? thumbImages : [product.image]
+    imgs.forEach(src => {
+      try {
+        const img = new Image()
+        img.src = src
+      } catch (err) { void err }
+    })
+  }, [product])
+
+  const goToIndex = (idx) => {
+    const i = (idx + thumbImages.length) % thumbImages.length
+    const src = thumbImages[i]
+    setMainSrc(src)
+    setSelectedThumb(i)
+    setFlipMain(false)
+    if (mainImgRef.current) mainImgRef.current.src = src
   }
 
-  if (!product) {
-    return (
-      <div style={{ minHeight: '100vh', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
-        <div style={{ color: '#6b7280', fontSize: 18 }}>Product not found</div>
-        <Link to="/shop" style={{ color: '#064e3b', textDecoration: 'underline', fontSize: 16 }}>Back to Shop</Link>
-      </div>
-    )
+  const prevImage = () => {
+    let cur = selectedThumb
+    if (mainSrc !== thumbImages[selectedThumb]) {
+      const found = thumbImages.findIndex(s => s === mainSrc)
+      if (found !== -1) cur = found
+    }
+    goToIndex(cur - 1)
   }
 
-  const images = product.images && product.images.length > 0 ? product.images : [product.image]
+  const nextImage = () => {
+    let cur = selectedThumb
+    if (mainSrc !== thumbImages[selectedThumb]) {
+      const found = thumbImages.findIndex(s => s === mainSrc)
+      if (found !== -1) cur = found
+    }
+    goToIndex(cur + 1)
+  }
+
+  const toggleFavorite = () => {
+    setIsFavorite(prev => {
+      const next = !prev
+      if (next) {
+        setToastMsg('Item added to favorites')
+        setToastVisible(true)
+        if (toastTimer.current) clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToastVisible(false), 2500)
+      } else {
+        setToastMsg('Item removed from favorites')
+        setToastVisible(true)
+        if (toastTimer.current) clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToastVisible(false), 1500)
+      }
+      return next
+    })
+  }
+
+  const handleAddToCart = () => {
+    if (cart && cart.addItem) {
+      cart.addItem(product, { sourceEl: mainImgRef.current, imgSrc: product.image, qty })
+    }
+    // visual feedback: show green "Added" button briefly
+    setJustAdded(true)
+    if (addedTimer.current) clearTimeout(addedTimer.current)
+    addedTimer.current = setTimeout(() => setJustAdded(false), 1500)
+
+    setToastMsg('Added to cart')
+    setToastVisible(true)
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToastVisible(false), 1600)
+  }
+
+  const handleBuyNow = () => {
+    if (cart && cart.addItem) {
+      cart.addItem(product, { sourceEl: mainImgRef.current, imgSrc: product.image, qty })
+    }
+    // navigate to checkout after a small tick so state updates and animation can start
+    setTimeout(() => navigate('/checkout'), 150)
+  }
+
+  if (!product) return <div className="p-6">Product not found</div>
 
   return (
-    <div style={{ minHeight: '100vh', background: 'white' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '100px 24px 60px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'start' }} className="md:grid-cols-1">
-          {/* Image Gallery */}
-          <div>
-            <div style={{ position: 'sticky', top: 100 }}>
-              <div style={{ borderRadius: 16, overflow: 'hidden', background: '#f5f5f5', aspectRatio: '3/4' }}>
-                <img
-                  src={images[selectedImage]}
-                  alt={product.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              </div>
-              {images.length > 1 && (
-                <div style={{ display: 'flex', gap: 12, marginTop: 16, overflowX: 'auto' }}>
-                  {images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImage(idx)}
-                      style={{
-                        width: 80,
-                        height: 100,
-                        borderRadius: 8,
-                        overflow: 'hidden',
-                        border: selectedImage === idx ? '2px solid #064e3b' : '2px solid #e5e7eb',
-                        background: '#f5f5f5',
-                        cursor: 'pointer',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <img src={img} alt={`View ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </button>
+    <>
+    <MountReveal className="min-h-screen bg-white md:pt-25 font-inter text-[#111] px-3">
+      {/* Toast */}
+      <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${toastVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'}`} role="status" aria-live="polite">
+        <div className="bg-black text-gray-400 px-7 py-2 text-sm rounded-md shadow">{toastMsg}</div>
+      </div>
+      <div className="lg:max-w-8xl mx-auto lg:px-28 py-6 px-3">
+        {/* Back button */}
+        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 text-sm font-semibold shadow-sm hover:bg-gray-50 transition-colors"><ChevronLeft size={18} /> Back</Link>
+
+        {/* Top area */}
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-10 lg:gap-14 items-start">
+          {/* Left: Image */}
+          <div className="md:col-span-1 lg:col-span-1">
+            <div className="relative bg-[hsl(44,45%,98%)] rounded-xl overflow-hidden flex flex-col items-center justify-center">
+              {/* previous/next controls */}
+              <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+                <ChevronLeft size={20} className="text-gray-700" />
+              </button>
+
+              <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+                <ChevronRight size={20} className="text-gray-700" />
+              </button>
+
+              <img
+                ref={mainImgRef}
+                src={mainSrc}
+                alt={product.title}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                onError={(e) => {
+                  try {
+                    if (e.currentTarget.src !== product.image) {
+                      e.currentTarget.src = product.image
+                    } else {
+                      e.currentTarget.style.display = 'none'
+                    }
+                  } catch (err) { void err }
+                }}
+                className="w-full h-auto object-contain max-h-[320px] md:max-h-[480px] lg:max-h-[600px]"
+              />
+
+              {product.soldOut && (
+                <img src={soldBadge} alt="Sold out" className="absolute top-4 right-4 w-20 h-20 md:w-25 md:h-25 pointer-events-none z-30" />
+              )}
+
+              {/* Thumbnails */}
+              <div className="p-3 flex items-center gap-3 bg-white w-full overflow-x-auto">
+                {thumbImages.map((src, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setMainSrc(src)
+                      setFlipMain(false)
+                      setSelectedThumb(idx)
+                      if (mainImgRef.current) mainImgRef.current.src = src
+                    }}
+                    className={`${THUMB_CLASS} rounded-md overflow-hidden flex-shrink-0 border ${selectedThumb === idx ? 'ring-2 ring-amber-400 border-transparent' : 'border-gray-100'}`}
+                    aria-label={`Show image ${idx + 1}`}>
+                    <img src={src} alt={`${product.title} ${idx + 1}`} loading="eager" decoding="async" fetchPriority="high" width="80" height="80" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+
+                {/* Offscreen preloader images */}
+                <div aria-hidden="true" style={{position: 'absolute', left: -9999, top: -9999, width: 1, height: 1, overflow: 'hidden', pointerEvents: 'none'}}>
+                  {thumbImages.map((s, i) => (
+                    <img key={`pre-${i}`} src={s} alt="" loading="eager" decoding="sync" fetchPriority="high" width={1} height={1} style={{width: 1, height: 1}} />
                   ))}
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
-          {/* Product Info */}
-          <div style={{ padding: '20px 0' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6b7280', marginBottom: 12 }}>
-              {product.category || 'Product'}
-            </div>
-            <h1 style={{ fontSize: 28, fontWeight: 700, color: '#111827', marginBottom: 16, lineHeight: 1.2 }}>
-              {product.title}
-            </h1>
+          {/* Right: Details */}
+          <div className="md:col-span-1 lg:col-span-1 flex flex-col gap-5">
+            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest uppercase leading-tight">{product.title}</h2>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-              <div style={{ color: '#fbbf24', fontSize: 18 }}>
-                {'★'.repeat(Math.floor(product.rating))}
+            <div className="flex items-center gap-3 text-sm text-gray-400">
+              <div className="flex items-center gap-1 text-amber-400">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <svg key={i} className={`w-3.5 h-3.5 md:w-4 md:h-4 ${i < Math.round(product.rating) ? 'fill-current' : 'text-gray-200'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L24 9.75l-6 5.847 1.417 8.27L12 19.77l-7.417 4.097L6 15.597 0 9.75l8.332-1.732z"/></svg>
+                ))}
               </div>
-              <span style={{ color: '#6b7280', fontSize: 14 }}>{product.rating}</span>
+              <span className="text-xs md:text-sm">({product.rating} reviews)</span>
             </div>
 
-            <div style={{ fontSize: 28, fontWeight: 700, color: '#064e3b', marginBottom: 24 }}>
-              ₦ {Number(product.price).toLocaleString()}
-            </div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-extrabold text-[#111]">N{product.price.toLocaleString()}</div>
 
-            {product.soldOut && (
-              <div style={{ padding: '8px 16px', background: '#fee2e2', color: '#dc2626', borderRadius: 8, fontSize: 14, fontWeight: 600, marginBottom: 20, display: 'inline-block' }}>
-                Sold Out
-              </div>
-            )}
+            <p className="text-gray-500 text-sm md:text-base leading-7">{PRODUCT_META[product.id]?.description || 'Structured FG product description not available.'}</p>
 
-            <div style={{ marginBottom: 24 }}>
-              <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: '#374151', marginBottom: 8 }}>Quantity</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, maxWidth: 200 }}>
-                <button
-                  onClick={() => setQty(Math.max(1, qty - 1))}
-                  style={{ width: 40, height: 40, borderRadius: 8, border: '1px solid #d1d5db', background: 'white', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                >
-                  -
-                </button>
-                <span style={{ fontSize: 16, fontWeight: 600, minWidth: 40, textAlign: 'center' }}>{qty}</span>
-                <button
-                  onClick={() => setQty(qty + 1)}
-                  style={{ width: 40, height: 40, borderRadius: 8, border: '1px solid #d1d5db', background: 'white', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                >
-                  +
-                </button>
+            <div className="mt-2">
+              <div className="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Quantity</div>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">−</button>
+                <div className="min-w-[48px] text-center border border-gray-100 rounded-md py-2 text-sm">{qty}</div>
+                <button onClick={() => setQty(q => q + 1)} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">+</button>
               </div>
             </div>
 
-            <button
-              onClick={handleAdd}
-              disabled={product.soldOut || added}
-              style={{
-                width: '100%',
-                maxWidth: 300,
-                padding: '14px 32px',
-                background: product.soldOut ? '#e5e7eb' : added ? '#16a34a' : '#064e3b',
-                color: product.soldOut ? '#9ca3af' : 'white',
-                border: 'none',
-                borderRadius: 10,
-                fontSize: 15,
-                fontWeight: 600,
-                cursor: product.soldOut || added ? 'not-allowed' : 'pointer',
-                marginBottom: 20,
-              }}
-            >
-              {product.soldOut ? 'Sold Out' : added ? 'Added to Cart ✓' : 'Add to Cart'}
-            </button>
+            <div className="mt-2 flex items-center gap-3">
+              {(() => {
+                const isAdded = justAdded
+                return (
+                  <button
+                    onClick={!product.soldOut && !isAdded ? handleAddToCart : undefined}
+                    disabled={product.soldOut || isAdded}
+                    className={`${
+                      product.soldOut
+                        ? 'flex items-center gap-1 bg-gray-300 text-gray-600 px-5 py-3 rounded-md font-semibold text-xs cursor-not-allowed'
+                        : isAdded
+                        ? 'flex items-center gap-2 bg-green-500 text-white px-5 py-3 rounded-md font-semibold text-xs cursor-not-allowed'
+                        : 'flex items-center gap-1 bg-black text-xs text-white px-5 py-3 rounded-md font-semibold cursor-pointer hover:opacity-90 transition-opacity'
+                    }`}>
+                    {product.soldOut ? (
+                      'SOLD OUT'
+                    ) : isAdded ? (
+                      <>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <span>Added</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="20" r="1"/><circle cx="20" cy="20" r="1"/></svg>
+                        ADD TO CART
+                      </>
+                    )}
+                  </button>
+                )
+              })()}
 
-            {!product.soldOut && (
-              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>
-                In Stock - Ready to ship
-              </p>
-            )}
+              {!product.soldOut && (
+                <button onClick={handleBuyNow} className="px-5 py-3 rounded-md border border-black/20 text-xs font-semibold cursor-pointer hover:bg-black hover:text-white transition-colors">BUY NOW</button>
+              )}
+
+              <button
+                onClick={toggleFavorite}
+                aria-pressed={isFavorite}
+                className={`w-10 h-10 md:w-11 md:h-11 rounded-md border flex items-center justify-center transition-colors ${isFavorite ? 'border-red-300 bg-red-50 text-red-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Related Products */}
-        {related.length > 0 && (
-          <div style={{ marginTop: 80 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 32 }}>You May Also Like</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 24 }}>
-              {related.map(p => (
-                <Link
-                  key={p.id}
-                  to={`/product/${p.id}`}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div style={{
-                    background: 'white',
-                    border: '1px solid #f5f5f5',
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-                  }}>
-                    <div style={{ width: '100%', aspectRatio: '3/4', background: '#f5f5f5', overflow: 'hidden' }}>
-                      <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </div>
-                    <div style={{ padding: '12px' }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#111827', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title}</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#064e3b' }}>₦ {Number(p.price).toLocaleString()}</div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <hr className="my-10 border-gray-200" />
+
+        <h3 className="text-sm tracking-widest font-semibold">YOU MIGHT ALSO LIKE</h3>
+        <NewArrival limit={4} className="mt-6" hideTitle product={product} />
+    
       </div>
-      <Footer />
-    </div>
+    </MountReveal>
+    <Footer />
+    </>
   )
 }
 

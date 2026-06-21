@@ -75,7 +75,10 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
 
   const getLimit = () => {
     if (typeof limit === 'number') return limit
-    return 12
+    const w = windowWidth
+    if (w >= 1024) return 14    // lg: 7 cols × 2 rows
+    if (w >= 768) return 15     // md: 5 cols × 3 rows
+    return 12                    // sm / mobile: 4 cols × 3 rows or 3 cols × 4 rows
   }
 
   const [items, setItems] = useState(() => {
@@ -122,7 +125,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
     <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>
       {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, letterSpacing: '-0.01em' }}>New Arrivals</div>}
 
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3">
         {items.map((p) => (
           <div key={p.id} className="rounded-lg overflow-hidden" style={{
             backgroundColor: 'white',

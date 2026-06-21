@@ -104,7 +104,6 @@ const Navbar = () => {
       </>
     )
   }
-
   const mobileNavItems = [
     { path: '/home', label: 'Home', Icon: Home },
     { path: '/shop', label: 'Shop', Icon: ShoppingCart },
@@ -175,7 +174,7 @@ const Navbar = () => {
         </nav>
 
         {/* Cart Icon (always visible) */}
-        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 absolute right-4 md:relative md:right-auto md:ml-auto lg:ml-6 relative z-20" aria-label="Go to checkout">
+        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 ml-auto md:ml-4 lg:ml-6 relative z-20" aria-label="Go to checkout">
           <div id="cart-icon" className="relative inline-flex items-center justify-center h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 rounded-full hover:bg-gray-100 transition-colors duration-200">
             <ShoppingCart size={18} className="md:w-[19px] md:h-[19px] lg:w-5 lg:h-5 text-black" />
             <span className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 bg-red-500 text-white text-[10px] md:text-xs min-w-[18px] md:min-w-[20px] h-[18px] md:h-[20px] rounded-full flex items-center justify-center px-1 font-medium shadow-sm">{cart.count || 0}</span>

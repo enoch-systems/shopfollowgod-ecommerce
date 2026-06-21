@@ -27,6 +27,7 @@ const StarRow = ({ rating = 5 }) => {
 
 const Shop = () => {
   const cart = useCart()
+  // temporary added state per product for visual feedback after clicking Add to cart
   const [addedIds, setAddedIds] = useState(() => new Set())
   const addedTimers = useRef({})
   const productsRef = useRef(null)
@@ -69,9 +70,11 @@ const Shop = () => {
     const img = card ? (card.querySelector('img[data-product-image]') || card.querySelector('img')) : null
     const rect = img && img.getBoundingClientRect ? img.getBoundingClientRect() : null
     cart.addItem(p, { sourceEl: img, imgSrc: img?.src || p.image, imgRect: rect })
+    // show visual added state while preserving fly animation
     markAdded(p.id)
   }
 
+  // preload images for faster product page loads (on hover/focus/touch)
   const preloadImages = (p) => {
     if (!p) return
     const list = p.images && p.images.length ? p.images : [p.image]
@@ -101,9 +104,9 @@ const Shop = () => {
   }
 
   const getPageSize = () => {
-    if (windowWidth >= 1024) return 21
-    if (windowWidth >= 768) return 20
-    return 12
+    if (windowWidth >= 1024) return 14    // lg: 7 cols × 2 rows
+    if (windowWidth >= 768) return 15     // md: 5 cols × 3 rows
+    return 12                              // sm / mobile: 4 cols × 3 rows or 3 cols × 4 rows
   }
 
   const displayedProducts = useMemo(() => {
@@ -117,6 +120,7 @@ const Shop = () => {
     }
     if (sort === 'low-high') return list.sort((a, b) => a.price - b.price);
     if (sort === 'high-low') return list.sort((a, b) => b.price - a.price);
+    // Shuffle products in default sort
     if (sort === 'default') {
       for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -132,11 +136,14 @@ const Shop = () => {
   const startIdx = (safePage - 1) * pageSize
   const pageItems = displayedProducts.slice(startIdx, startIdx + pageSize)
 
+  // Reset to page 1 when filters change
   useEffect(() => { setPage(1) }, [sort, category, windowWidth])
 
+  // Compute a sliding window of 4 page numbers centered around current page
   const getPageNumbers = () => {
     const total = totalPages
     const current = safePage
+    // Always show 4-page window
     let start = current - 1
     if (start < 1) start = 1
     if (start + 3 > total) start = Math.max(1, total - 3)
@@ -253,7 +260,7 @@ const Shop = () => {
           {/* Top pagination */}
           {Pagination()}
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
             {pageItems.map((p) => (
               <div key={p.id} className="rounded-lg overflow-hidden" style={{
                 backgroundColor: 'white',

@@ -24,29 +24,4 @@ export function cldRaw(name) {
   return `${CLOUD_RAW}/followgod/assets/${name}`
 }
 
-/**
- * Upload an image to Cloudinary using unsigned upload preset.
- * @param {File} file
- * @param {string} uploadPreset - your unsigned preset name
- * @returns {Promise<{secure_url: string}>}
- */
-export async function upload(file, uploadPreset = 'ml_default') {
-  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
-  const form = new FormData()
-  form.append('file', file)
-  form.append('upload_preset', uploadPreset)
-
-  const res = await fetch(url, {
-    method: 'POST',
-    body: form,
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Cloudinary upload failed: ${res.status} ${text}`)
-  }
-
-  return await res.json()
-}
-
-export default { image: cld, raw: cldRaw, upload }
+export default { image: cld, raw: cldRaw }
