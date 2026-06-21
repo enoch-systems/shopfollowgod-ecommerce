@@ -109,7 +109,7 @@ const Navbar = () => {
     { path: '/shop', label: 'Shop', Icon: ShoppingCart },
     { path: '/collections', label: 'Collections', Icon: Layers },
     { path: '/faq', label: 'FAQ', Icon: HelpCircle },
-    { path: '/checkout', label: 'Checkout', Icon: CreditCard },
+    { path: '/checkout', label: `Checkout (${cart.count || 0})`, Icon: CreditCard },
   ];
 
   return (
@@ -206,6 +206,23 @@ const Navbar = () => {
         <div className="flex-1 overflow-auto">
           <div className="divide-y divide-gray-100">
             {mobileNavItems.map(({ path, label, Icon }) => {
+              if (path === '/checkout') {
+                return (
+                  <button
+                    key={path}
+                    onClick={() => { navigate('/checkout'); setIsOpen(false); }}
+                    className={`flex items-center gap-4 px-6 py-4 text-gray-800 hover:bg-gray-50 relative`}
+                  >
+                    <div className="relative inline-flex items-center justify-center">
+                      <Icon size={18} className="text-gray-600" />
+                      {(cart.count || 0) > 0 && (
+                        <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-0.5 font-medium shadow-sm">{cart.count || 0}</span>
+                      )}
+                    </div>
+                    <span>{label}</span>
+                  </button>
+                );
+              }
               if (path === '/collections') {
                 return (
                   <button
