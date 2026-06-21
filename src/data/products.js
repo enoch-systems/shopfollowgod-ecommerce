@@ -61,9 +61,6 @@ const Signaturecap_pink3 = cld('Signaturecap_pink3', { width: 1024 })
 const Signaturecap_gray = cld('Signaturecap_gray', { width: 1024 })
 const Signaturecap_gray2 = cld('Signaturecap_gray2', { width: 1024 })
 const Signaturecap_gray3 = cld('Signaturecap_gray3', { width: 1024 })
-const Signaturecap_red = cld('Signaturecap_red', { width: 1024 })
-const Signaturecap_red2 = cld('Signaturecap_red2', { width: 1024 })
-const Signaturecap_red3 = cld('Signaturecap_red3', { width: 1024 })
 const signred = cld('signred', { width: 1024 })
 
 export const products = [
@@ -97,7 +94,6 @@ export const products = [
   { id:27, title:'FG SIGNATURE CAP (BLACK)', price:20000, image:Signaturecap_black, images:[Signaturecap_black, Signaturecap_black2, Signaturecap_black3], rating:5},
   { id:28, title:'FG SIGNATURE CAP (PINK)', price:20000, image:Signaturecap_pink, images:[Signaturecap_pink, Signaturecap_pink2, Signaturecap_pink3], rating:5},
   { id:29, title:'FG SIGNATURE CAP (GRAY)', price:20000, image:Signaturecap_gray, images:[Signaturecap_gray, Signaturecap_gray2, Signaturecap_gray3], rating:5},
-  { id:32, title:'FG SIGNATURE CAP (RED)', price:20000, image:Signaturecap_red, images:[Signaturecap_red, Signaturecap_red2, Signaturecap_red3], rating:5},
   { id:30, title:'FG SIGNATURE BEANIE (RED)', price:10000, image:signred, images:[signred], rating:5},
 ]
 
