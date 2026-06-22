@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import Footer from '../pages/Footer'
 import { Home, ShoppingCart, ShoppingBag, Tag } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import ConfirmModal from './ConfirmModal'
@@ -639,8 +638,6 @@ function Checkout() {
           </div>
         )}
       </main>
-
-      <Footer />
 
       {/* Mobile Bottom Navigation - hides on md+ with creative animation */}
       <MobileBottomNav onTagsClick={() => setShowComingSoon(true)} />
