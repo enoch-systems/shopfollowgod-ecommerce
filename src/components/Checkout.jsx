@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Footer from '../pages/Footer'
+import { Home, ShoppingCart, ShoppingBag, Tag } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import ConfirmModal from './ConfirmModal'
 import { jsPDF } from 'jspdf'
 import { cld } from '../utils/cloudinary'
+import MobileBottomNav from './MobileBottomNav'
 const deleteIcon = cld('delete', { width: 32 })
 
 function Checkout() {
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
+  const [showComingSoon, setShowComingSoon] = useState(false)
   const cart = useCart()
   const navigate = useNavigate()
   const [orderTotal, setOrderTotal] = useState(0.0)
@@ -283,7 +286,7 @@ function Checkout() {
   return (
     <>
       <main className="min-h-screen bg-white">
-        <div className="checkout-container" style={{ maxWidth: 960, margin: '0 auto', padding: '48px 20px 64px' }}>
+        <div className="checkout-container" style={{ maxWidth: 960, margin: '0 auto', padding: '48px 16px 80px' }}>
           <style>{`
             @media (min-width: 768px) {
               .checkout-container {
@@ -311,7 +314,7 @@ function Checkout() {
           </div>
 
           {/* Progress steps */}
-          <div style={{ maxWidth: 480, margin: '0 auto 48px' }}>
+          <div style={{ maxWidth: 480, margin: '0 auto 48px', padding: '0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
               {/* Background line */}
               <div style={{ position: 'absolute', top: 14, left: 0, right: 0, height: 1, background: '#e5e7eb', zIndex: 0 }} />
@@ -638,6 +641,27 @@ function Checkout() {
       </main>
 
       <Footer />
+
+      {/* Mobile Bottom Navigation - hides on md+ with creative animation */}
+      <MobileBottomNav onTagsClick={() => setShowComingSoon(true)} />
+
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setShowComingSoon(false)} aria-hidden="true" />
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 z-10 p-6" role="dialog" aria-modal="true" aria-labelledby="coming-soon-title-checkout">
+            <div className="flex justify-between items-start">
+              <div className="text-center w-full">
+                <h2 id="coming-soon-title-checkout" className="text-xl font-bold">Coming Soon</h2>
+                <p className="text-sm text-gray-600 mt-2">We're working on something amazing. Stay tuned</p>
+              </div>
+              <button onClick={() => setShowComingSoon(false)} className="text-gray-500 hover:text-gray-700 ml-4" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

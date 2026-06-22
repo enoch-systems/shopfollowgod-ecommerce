@@ -248,17 +248,35 @@ const Home = () => {
         {/* Hero content moved above the background image */}
         {/* Mobile search */}
         <div className="w-full px-4 flex justify-center md:hidden mt-2">
-          <div ref={searchRef} className="w-full max-w-md relative flex items-center gap-2" style={{ background: '#f5f5f5', borderRadius: 999, padding: '10px 16px', border: '1px solid #e5e7eb' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, color: '#9ca3af', flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z" />
+          <div ref={searchRef} className="w-full max-w-md relative" style={{ maxWidth: 400 }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#d1d5db', pointerEvents: 'none' }}>
+              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
             <input
               value={query}
               onChange={onChange}
               id="mobile-search"
-              className="bg-transparent flex-1 outline-none"
-              style={{ fontSize: 16, color: '#111827', fontWeight: 400 }}
               placeholder="Search products..."
+              style={{
+                width: '100%',
+                padding: '11px 14px 11px 40px',
+                borderRadius: 8,
+                border: '1px solid #e5e7eb',
+                background: '#f9fafb',
+                color: '#111827',
+                fontSize: 14,
+                outline: 'none',
+                transition: 'all 0.15s ease',
+                boxSizing: 'border-box',
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#9ca3af';
+                e.target.style.background = '#ffffff';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e5e7eb';
+                e.target.style.background = '#f9fafb';
+              }}
             />
           </div>
         </div>

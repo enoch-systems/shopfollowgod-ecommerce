@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import Footer from "../pages/Footer";
 import { useCart } from '../context/CartContext'
 
 import { products } from '../data/products'
@@ -7,7 +6,9 @@ import { cld } from '../utils/cloudinary'
 const soldBadge = cld('soldout', { width: 200 })
 import { Link } from 'react-router-dom'
 import MountReveal from '../components/MountReveal'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, ShoppingCart, ShoppingBag, Tag } from 'lucide-react'
+import Footer from '../pages/Footer'
+import MobileBottomNav from '../components/MobileBottomNav'
 
 // cache preloaded image urls so we don't create duplicate Image objects
 const preloadedImages = new Set()
@@ -27,6 +28,7 @@ const StarRow = ({ rating = 5 }) => {
 
 const Shop = () => {
   const cart = useCart()
+  const [showComingSoon, setShowComingSoon] = useState(false)
   // temporary added state per product for visual feedback after clicking Add to cart
   const [addedIds, setAddedIds] = useState(() => new Set())
   const addedTimers = useRef({})
@@ -87,6 +89,7 @@ const Shop = () => {
     })
   }
 
+  const [searchQuery, setSearchQuery] = useState('')
   const [sort, setSort] = useState('default');
   const [category, setCategory] = useState('all');
   const [page, setPage] = useState(1);
@@ -111,24 +114,41 @@ const Shop = () => {
 
   const displayedProducts = useMemo(() => {
     let list = [...products];
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim()
+      list = list.filter(p =>
+        p.title.toLowerCase().includes(q)
+      )
+    }
     if (category && category !== 'all') {
       if (category === 'trucker') list = list.filter((p) => /trucker/i.test(p.title));
       if (category === 'beanie') list = list.filter((p) => /beanie/i.test(p.title));
       if (category === 'signature') list = list.filter((p) => /signature/i.test(p.title));
       if (category === 'tactical') list = list.filter((p) => /tactical/i.test(p.title));
       if (category === 'tee') list = list.filter((p) => /tee/i.test(p.title));
+      if (category === 'track') list = list.filter((p) => /track/i.test(p.title));
+      if (category === 'pants') list = list.filter((p) => /pants|pant/i.test(p.title));
+      if (category === 'caps') list = list.filter((p) => /cap|trucker/i.test(p.title));
+      if (category === 'tank') list = list.filter((p) => /tank/i.test(p.title));
     }
-    if (sort === 'low-high') return list.sort((a, b) => a.price - b.price);
-    if (sort === 'high-low') return list.sort((a, b) => b.price - a.price);
-    // Shuffle products in default sort
-    if (sort === 'default') {
-      for (let i = list.length - 1; i > 0; i--) {
+    // Separate new arrivals and regular products
+    const newProducts = list.filter(p => p.isNew && !p.soldOut)
+    const regularProducts = list.filter(p => !p.isNew || p.soldOut)
+    
+    // Sort regular products based on selected sort option
+    if (sort === 'low-high') regularProducts.sort((a, b) => a.price - b.price);
+    else if (sort === 'high-low') regularProducts.sort((a, b) => b.price - a.price);
+    else if (sort === 'default') {
+      // Shuffle only regular products in default sort
+      for (let i = regularProducts.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [list[i], list[j]] = [list[j], list[i]];
+        [regularProducts[i], regularProducts[j]] = [regularProducts[j], regularProducts[i]];
       }
     }
-    return list;
-  }, [sort, category]);
+    
+    // Combine: new products first (in their original order), then sorted/shuffled regular products
+    return [...newProducts, ...regularProducts];
+  }, [sort, category, searchQuery]);
 
   const pageSize = getPageSize()
   const totalPages = Math.max(1, Math.ceil(displayedProducts.length / pageSize))
@@ -250,73 +270,108 @@ const Shop = () => {
             <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6, maxWidth: 440, margin: '0 auto' }}>
               Browse our collection of faith-inspired apparel and accessories.
             </p>
+            {/* Search */}
+            <div style={{ maxWidth: 400, margin: '24px auto 0', position: 'relative' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#d1d5db', pointerEvents: 'none' }}>
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '11px 14px 11px 40px',
+                  borderRadius: 8,
+                  border: '1px solid #e5e7eb',
+                  background: '#f9fafb',
+                  color: '#111827',
+                  fontSize: 14,
+                  outline: 'none',
+                  transition: 'all 0.15s ease',
+                  boxSizing: 'border-box',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#9ca3af';
+                  e.target.style.background = '#ffffff';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e5e7eb';
+                  e.target.style.background = '#f9fafb';
+                }}
+              />
+            </div>
           </div>
 
-          {/* Filters */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Sort By</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {[
-                    { value: 'default', label: 'Default' },
-                    { value: 'low-high', label: 'Low to High' },
-                    { value: 'high-low', label: 'High to Low' },
-                  ].map(opt => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setSort(opt.value)}
-                      style={{
-                        padding: '6px 14px',
-                        borderRadius: 8,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        border: sort === opt.value ? '1px solid #111827' : '1px solid #e5e7eb',
-                        background: sort === opt.value ? '#111827' : '#ffffff',
-                        color: sort === opt.value ? '#ffffff' : '#374151',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
-                      onMouseEnter={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
-                      onMouseLeave={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
+          {/* Filters: Sort & Category */}
+          <div style={{ marginBottom: 20 }}>
+            {/* Sort row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, flexWrap: 'wrap', padding: '12px 0', borderBottom: '1px solid #f3f4f6' }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Sort</span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {['default', 'low-high', 'high-low'].map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setSort(s)}
+                    style={{
+                      padding: '5px 14px',
+                      borderRadius: 999,
+                      border: 'none',
+                      background: sort === s ? '#111827' : '#f3f4f6',
+                      color: sort === s ? '#ffffff' : '#6b7280',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                    onMouseEnter={e => { if (sort !== s) e.currentTarget.style.background = sort === s ? '#111827' : '#e5e7eb'; }}
+                    onMouseLeave={e => { if (sort !== s) e.currentTarget.style.background = '#f3f4f6'; }}
+                  >
+                    {s === 'default' ? 'Default' : s === 'low-high' ? 'Price: Low' : 'Price: High'}
+                  </button>
+                ))}
               </div>
-
-              <div>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Categories</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {[
-                    { value: 'all', label: 'All' },
-                    { value: 'trucker', label: 'Trucker' },
-                    { value: 'beanie', label: 'Beanie' },
-                    { value: 'signature', label: 'Signature' },
-                    { value: 'tactical', label: 'Tactical' },
-                    { value: 'tee', label: 'Tee' },
-                  ].map(opt => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setCategory(opt.value)}
-                      style={{
-                        padding: '6px 14px',
-                        borderRadius: 8,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        border: category === opt.value ? '1px solid #111827' : '1px solid #e5e7eb',
-                        background: category === opt.value ? '#111827' : '#ffffff',
-                        color: category === opt.value ? '#ffffff' : '#374151',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
-                      onMouseEnter={e => { if (category !== opt.value) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
-                      onMouseLeave={e => { if (category !== opt.value) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
-                    >
-                      {opt.label}
-                    </button>
+            </div>
+            {/* Category dropdown */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, flexWrap: 'wrap', paddingTop: 10 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Category</span>
+              <div style={{ position: 'relative' }}>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  style={{
+                    appearance: 'none',
+                    padding: '6px 32px 6px 14px',
+                    borderRadius: 8,
+                    border: '1px solid #e5e7eb',
+                    background: '#f9fafb',
+                    color: '#111827',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textTransform: 'capitalize',
+                    transition: 'all 0.15s ease',
+                    outline: 'none',
+                    minWidth: 140,
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#9ca3af';
+                    e.target.style.background = '#ffffff';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#e5e7eb';
+                    e.target.style.background = '#f9fafb';
+                  }}
+                >
+                  {['all', 'trucker', 'beanie', 'tee', 'tactical', 'signature', 'track', 'pants', 'caps', 'tank'].map(cat => (
+                    <option key={cat} value={cat}>{cat === 'all' ? 'All Products' : cat}</option>
                   ))}
+                </select>
+                <div style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -346,6 +401,24 @@ const Shop = () => {
                       <img src={p.image} alt={p.title} data-product-image="true" className="w-full h-full object-cover" />
                     </Link>
                     {p.soldOut && <img src={soldBadge} alt="Sold out" className="absolute top-2 right-2 w-12 h-12 pointer-events-none" />}
+                    {p.isNew && !p.soldOut && (
+                      <div style={{
+                        position: 'absolute',
+                        top: 8,
+                        left: 8,
+                        background: '#dc2626',
+                        color: '#ffffff',
+                        fontSize: 9,
+                        fontWeight: 700,
+                        padding: '3px 8px',
+                        borderRadius: 4,
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        pointerEvents: 'none',
+                      }}>
+                        NEW
+                      </div>
+                    )}
                   </div>
 
                 <div className="p-4 text-center">
@@ -381,12 +454,33 @@ const Shop = () => {
           </div>
 
           {/* Bottom pagination */}
-          <div style={{ marginTop: 28 }}>
+          <div style={{ marginTop: 28, marginBottom: 40 }}>
             {Pagination()}
           </div>
         </div>
       </MountReveal>
       <Footer />
+
+      {/* Mobile Bottom Navigation - hides on md+ with creative animation */}
+      <MobileBottomNav onTagsClick={() => setShowComingSoon(true)} />
+
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setShowComingSoon(false)} aria-hidden="true" />
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 z-10 p-6" role="dialog" aria-modal="true" aria-labelledby="coming-soon-title-shop">
+            <div className="flex justify-between items-start">
+              <div className="text-center w-full">
+                <h2 id="coming-soon-title-shop" className="text-xl font-bold">Coming Soon</h2>
+                <p className="text-sm text-gray-600 mt-2">We're working on something amazing. Stay tuned</p>
+              </div>
+              <button onClick={() => setShowComingSoon(false)} className="text-gray-500 hover:text-gray-700 ml-4" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

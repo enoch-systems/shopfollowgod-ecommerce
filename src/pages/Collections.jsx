@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "../pages/Footer";
 import MountReveal from '../components/MountReveal'
+import Footer from "../pages/Footer"
 
 const Collections = () => {
   return (
@@ -13,10 +13,19 @@ const Collections = () => {
             <p className="text-sm text-gray-600 mt-2">Hand-picked selections designed for style and comfort</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="border border-gray-200 rounded-lg p-6 bg-white">Collection 1 placeholder</div>
-            <div className="border border-gray-200 rounded-lg p-6 bg-white">Collection 2 placeholder</div>
-            <div className="border border-gray-200 rounded-lg p-6 bg-white">Collection 3 placeholder</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="border border-gray-200 rounded-lg p-8 bg-white text-center">
+              <div className="text-2xl font-bold text-gray-900 mb-2">Track</div>
+              <p className="text-sm text-gray-600">Coming soon</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-8 bg-white text-center">
+              <div className="text-2xl font-bold text-gray-900 mb-2">Pants</div>
+              <p className="text-sm text-gray-600">Coming soon</p>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-8 bg-white text-center">
+              <div className="text-2xl font-bold text-gray-900 mb-2">Caps</div>
+              <p className="text-sm text-gray-600">Browse our cap collection</p>
+            </div>
           </div>
         </div>
       </MountReveal>

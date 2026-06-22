@@ -1,6 +1,6 @@
 
-import Footer from '../pages/Footer'
 import MountReveal from '../components/MountReveal' 
+import Footer from '../pages/Footer'
 
 const Contact = () => {
   return (

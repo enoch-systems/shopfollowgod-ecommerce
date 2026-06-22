@@ -97,14 +97,25 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null, 
     }
     if (product && product.id) pool = pool.filter(p => p.id !== product.id)
 
-    // Fisher-Yates shuffle
-    const shuffled = pool.slice()
-    for (let i = shuffled.length - 1; i > 0; i--) {
+    // Separate new arrivals and regular products
+    const newArrivals = pool.filter(p => p.isNew && !p.soldOut)
+    const regularProducts = pool.filter(p => !p.isNew || p.soldOut)
+    
+    // When used as "You May Also Like" (product is passed), limit new arrivals to max 2
+    // When used as main "New Arrivals" section, show all new arrivals
+    const limitedNewArrivals = product ? newArrivals.slice(0, 2) : newArrivals
+    
+    // Shuffle only regular products
+    const shuffledRegular = regularProducts.slice()
+    for (let i = shuffledRegular.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
-      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      ;[shuffledRegular[i], shuffledRegular[j]] = [shuffledRegular[j], shuffledRegular[i]]
     }
+    
+    // Combine: limited new arrivals first, then shuffled regular products
+    const combined = [...limitedNewArrivals, ...shuffledRegular]
     const initialLimit = typeof limit === 'number' ? limit : (limit && typeof limit === 'object' ? (limit.base ?? 6) : 8)
-    const result = shuffled.slice(0, initialLimit)
+    const result = combined.slice(0, initialLimit)
     // Remove duplicates based on id
     return result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index)
   })
@@ -118,13 +129,25 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null, 
     }
     if (product && product.id) pool = pool.filter(p => p.id !== product.id)
 
-    const shuffled = pool.slice()
-    for (let i = shuffled.length - 1; i > 0; i--) {
+    // Separate new arrivals and regular products
+    const newArrivals = pool.filter(p => p.isNew && !p.soldOut)
+    const regularProducts = pool.filter(p => !p.isNew || p.soldOut)
+    
+    // When used as "You May Also Like" (product is passed), limit new arrivals to max 2
+    // When used as main "New Arrivals" section, show all new arrivals
+    const limitedNewArrivals = product ? newArrivals.slice(0, 2) : newArrivals
+    
+    // Shuffle only regular products
+    const shuffledRegular = regularProducts.slice()
+    for (let i = shuffledRegular.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
-      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      ;[shuffledRegular[i], shuffledRegular[j]] = [shuffledRegular[j], shuffledRegular[i]]
     }
+    
+    // Combine: limited new arrivals first, then shuffled regular products
+    const combined = [...limitedNewArrivals, ...shuffledRegular]
     const currentLimit = getLimit()
-    const result = shuffled.slice(0, currentLimit)
+    const result = combined.slice(0, currentLimit)
     // Remove duplicates based on id
     setItems(result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index))
   }, [limit, product, windowWidth])
@@ -146,6 +169,24 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null, 
                   <img src={p.image} alt={p.title} data-product-image="true" className="w-full h-full object-cover" />
                 </Link>
                 {p.soldOut && <img src={soldBadge} alt="Sold out" style={{ position: 'absolute', top: 8, right: 8, width: 36, height: 36, pointerEvents: 'none' }} />}
+                {p.isNew && !p.soldOut && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 8,
+                    left: 8,
+                    background: '#dc2626',
+                    color: '#ffffff',
+                    fontSize: 9,
+                    fontWeight: 700,
+                    padding: '3px 8px',
+                    borderRadius: 4,
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    pointerEvents: 'none',
+                  }}>
+                    NEW
+                  </div>
+                )}
               </div>
 
             <div style={{ padding: '6px 4px 8px', textAlign: 'center' }}>

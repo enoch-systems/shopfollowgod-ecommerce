@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Footer from "../pages/Footer";
 import MountReveal from '../components/MountReveal';
-import { ChevronDown, Search, Mail, MessageCircle } from 'lucide-react';
+import { ChevronDown, Search, Mail, MessageSquare } from 'lucide-react';
+import Footer from "../pages/Footer"
+import MobileBottomNav from '../components/MobileBottomNav'
 
 const FAQ_ITEMS = [
   {
@@ -79,7 +80,7 @@ const Faq = () => {
 
   return (
     <>
-      <MountReveal className="min-h-screen" style={{ backgroundColor: "#ffffff" }}>
+      <MountReveal className="min-h-screen mb-40 md:mb-0" style={{ backgroundColor: "#ffffff" }}>
         {/* Simple header */}
         <div style={{ borderBottom: "1px solid #e5e7eb" }}>
           <div
@@ -402,13 +403,14 @@ const Faq = () => {
                   e.currentTarget.style.background = "#ffffff";
                 }}
               >
-                <MessageCircle size={14} />
-                WhatsApp
+                <MessageSquare size={14} />
+                Chat with us
               </a>
             </div>
           </div>
         </div>
       </MountReveal>
+      <MobileBottomNav />
       <Footer />
     </>
   );

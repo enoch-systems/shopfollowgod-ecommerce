@@ -1,55 +1,61 @@
 import React, { useMemo, useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Heart, Share2, Home, Grid, ShoppingCart, Tag, User, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, Share2, Home, ShoppingCart, ShoppingBag, Tag, User } from 'lucide-react'
 import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
 import NewArrival from '../pages/NewArrival'
-import Footer from '../pages/Footer'
 import { cld } from '../utils/cloudinary'
 const soldBadge = cld('soldout', { width: 200 })
-import MountReveal from '../components/MountReveal' 
+import MountReveal from '../components/MountReveal'
+import MobileBottomNav from '../components/MobileBottomNav'
 
 // Product metadata (colors and descriptions)
 const PRODUCT_META = {
-  1: { colors: ['Camo Yellow', 'Black', 'Olive', 'Khaki'], description: 'Structured FG trucker cap with a breathable mesh back and a curved brim. Features an embroidered front patch and an adjustable snapback for a comfortable, onesize fit  durable and ready for daily wear.' },
-  2: { colors: ['Black', 'Charcoal', 'White'], description: 'Classic FG black trucker with a reinforced front panel and lightweight mesh to keep you cool. Clean embroidered branding and an adjustable snap closure for secure fit.' },
-  3: { colors: ['Sky Blue', 'White', 'Navy'], description: 'FG sky blue trucker featuring a soft front panel and airy mesh back. Embroidered branding and adjustable snapback combine style and function for everyday wear.' },
-  4: { colors: ['Silver Grey', 'Black', 'White'], description: 'Neutral silver grey trucker with structured shape and breathable construction. Pairs effortlessly with layered streetwear looks.' },
-  5: { colors: ['Burnt Orange', 'Beige'], description: 'Bold burnt orange trucker with a durable front panel and classic mesh back. Built to hold its shape while providing all day comfort.' },
-  6: { colors: ['Deep Red', 'Black'], description: 'Deep red FG trucker with premium embroidery and an adjustable snapback. Lightweight, breathable, and made to stand out.' },
-  7: { colors: ['Burgundy Camo', 'Forest'], description: 'Burgundy camo trucker  statement styling with a reinforced front and ventilated mesh for comfortable wear.' },
-  8: { colors: ['Forest Camo', 'Olive'], description: 'Forest camo FG trucker, designed for breathability and lasting shape. A versatile cap for casual and outdoor looks.' },
-  9: { colors: ['Royal Purple', 'Black'], description: 'Vibrant royal purple trucker with a structured silhouette, embroidered logo, and adjustable snap for a personalized fit.' },
-  10: { colors: ['Bright Red', 'Black'], description: 'Bright red FG trucker made for impact. Breathable mesh back and durable front deliver a standout everyday cap.' },
-  11: { colors: ['Charcoal Grey', 'Black'], description: 'FG charcoal beanie knitted from a soft acrylic blend with a folded cuff and subtle embroidered logo. Provides comfortable warmth and a snug fit.' },
-  12: { colors: ['Jet Black', 'Graphite'], description: 'Classic jet black beanie with a ribbed knit and clean finish. Lightweight, insulating and easy to style.' },
-  13: { colors: ['Earth Brown', 'Tan'], description: 'Earth brown FG beanie offering soft warmth and a relaxed silhouette. The folded cuff adds structure while keeping ears cozy.' },
-  14: { colors: ['Light Green', 'Mint'], description: 'Light green beanie with a soft handfeel and a close, comfortable fit. Ideal for layering under hoods or wearing solo.' },
-  15: { colors: ['Light Grey', 'Heather'], description: 'Light grey beanie crafted for everyday warmth. The classic ribbed knit and moderate stretch ensure a secure, flattering fit.' },
-  16: { colors: ['Navy Blue', 'Indigo'], description: 'Navy FG beanie combining a refined finish with insulating warmth. Subtle branding keeps the look clean and versatile.' },
-  17: { colors: ['Deep Purple', 'Plum'], description: 'Deep purple beanie with a rich knit texture and snug fit. Comfortable for daily wear and cooler evenings.' },
-  18: { colors: ['Wine Red', 'Burgundy'], description: 'Wine red FG beanie with a cozy ribbed knit and fold over cuff. A stylish, warm accessory that complements fall and winter outfits.' },
-  19: { colors: ['Black', 'White', 'Grey'], description: 'FG Fear of Average Tee  a bold statement piece celebrating individuality and breaking away from mediocrity. Premium cotton blend with screenprinted graphics for everyday wear.' },
-  20: { colors: ['Black', 'Navy', 'Grey'], description: 'FG Too Fly to Pray Tee  a lifestyle tee that blends street culture with confidence. Crafted from soft, durable cotton with embroidered FG branding.' },
-  21: { colors: ['Black', 'White', 'Navy'], description: 'FG 1% Better Tee  celebrating the grind and constant improvement. Premium quality tshirt with bold graphic design and comfortable fit for all day wear.' },
-  22: { colors: ['Black', 'White', 'Grey'], description: 'FG Highway to Heaven Tee  a spiritual yet streetinspired design. Made from premium cotton, perfect for layering or wearing solo with premium finishing.' },
-  23: { colors: ['Black', 'Navy', 'Charcoal'], description: 'FG Logo Tee  classic FG branding with premium finishing. Made from durable cotton with a comfortable fit for everyday wear.' },
-  34: { colors: ['Black'], description: 'FG Too Fly to Pray Tee (Black)  a lifestyle tee that blends street culture with confidence. Crafted from soft, durable cotton with printed graphics for everyday wear.' },
-  24: { colors: ['Camo', 'Olive'], description: 'FG Tactical Cap (Camo)  rugged and versatile with a tactical design. Features reinforced stitching and an adjustable strap for a secure fit in any condition.' },
-  25: { colors: ['Grey', 'Charcoal'], description: 'FG Tactical Cap (Grey)  sleek and functional design perfect for tactical or casual styling. Built with durable materials and an adjustable closure.' },
-  26: { colors: ['Navy Blue', 'Black'], description: 'FG Tactical Cap (Navy Blue)  professional and versatile tactical cap with a structured design. Features breathable construction and adjustable fit.' },
-  27: { colors: ['Black', 'White'], description: 'FG Signature Cap (Black)  iconic FG signature design in classic black. Premium embroidery and quality construction for a distinctive look.' },
-  28: { colors: ['Pink', 'White'], description: 'FG Signature Cap (Pink)  bold and vibrant FG signature style. Stand out with this premium quality cap in a striking pink color.' },
-  29: { colors: ['Gray', 'White'], description: 'FG Signature Cap (Gray)  refined FG signature cap in neutral grey. Versatile and stylish for any outfit with premium finishing.' },
-  30: { colors: ['Red', 'White'], description: 'FG Signature Beanie (Red)  vibrant red signature beanie with premium knit quality. Provides warmth and style with iconic FG branding.' },
-  31: { colors: ['Black', 'White'], description: 'FG Signature Beanie (Black)  classic black signature beanie with soft, comfortable knit. Perfect for everyday wear with distinctive FG styling.' },
-  32: { colors: ['Red', 'Burgundy'], description: 'FG Signature Cap (Red)  bold red signature cap with premium quality construction. Makes a statement with vibrant color and iconic FG design.' },
-  33: { colors: ['Black', 'White'], description: 'FG 1% Better Tee Black  celebrating the grind and constant improvement in style. Premium quality tshirt with bold graphic design and comfortable fit for all day wear.' }
+  1: { colors: ['Camo Yellow', 'Black', 'Olive', 'Khaki'], description: 'Structured FG trucker cap with a breathable mesh back and a curved brim. Features an embroidered front patch and an adjustable snapback for a comfortable, onesize fit  durable and ready for daily wear. The camo yellow color adds a bold statement to your outfit while maintaining the classic trucker silhouette that works with any casual or streetwear look.' },
+  2: { colors: ['Black', 'Charcoal', 'White'], description: 'Classic FG black trucker with a reinforced front panel and lightweight mesh to keep you cool. Clean embroidered branding and an adjustable snap closure for secure fit. The timeless black colorway makes this cap a versatile staple that pairs perfectly with any outfit, from casual streetwear to athletic wear.' },
+  3: { colors: ['Sky Blue', 'White', 'Navy'], description: 'FG sky blue trucker featuring a soft front panel and airy mesh back. Embroidered branding and adjustable snapback combine style and function for everyday wear. The light blue hue brings a fresh, summery vibe to your wardrobe while the breathable construction keeps you comfortable during long days out.' },
+  4: { colors: ['Silver Grey', 'Black', 'White'], description: 'Neutral silver grey trucker with structured shape and breathable construction. Pairs effortlessly with layered streetwear looks. The versatile grey tone makes this cap an essential everyday accessory that complements both casual and elevated outfits.' },
+  5: { colors: ['Burnt Orange', 'Beige'], description: 'Bold burnt orange trucker with a durable front panel and classic mesh back. Built to hold its shape while providing all day comfort. The vibrant orange color adds an energetic pop to your ensemble while maintaining the classic trucker functionality you expect from FG.' },
+  6: { colors: ['Deep Red', 'Black'], description: 'Deep red FG trucker with premium embroidery and an adjustable snapback. Lightweight, breathable, and made to stand out. The rich burgundy red tone commands attention while the quality construction ensures this cap remains a favorite for seasons to come.' },
+  7: { colors: ['Burgundy Camo', 'Forest'], description: 'Burgundy camo trucker  statement styling with a reinforced front and ventilated mesh for comfortable wear. The unique camo pattern in rich burgundy tones sets you apart from the crowd while the breathable design keeps you cool during active days.' },
+  8: { colors: ['Forest Camo', 'Olive'], description: 'Forest camo FG trucker, designed for breathability and lasting shape. A versatile cap for casual and outdoor looks. The earthy green camo pattern blends naturally with outdoor adventures while maintaining the structured fit that FG is known for.' },
+  9: { colors: ['Royal Purple', 'Black'], description: 'Vibrant royal purple trucker with a structured silhouette, embroidered logo, and adjustable snap for a personalized fit. The regal purple hue makes a sophisticated statement while the breathable mesh back ensures all day comfort.' },
+  10: { colors: ['Bright Red', 'Black'], description: 'Bright red FG trucker made for impact. Breathable mesh back and durable front deliver a standout everyday cap. The bold red color commands attention and pairs perfectly with neutral streetwear for a pop of color.' },
+  11: { colors: ['Charcoal Grey', 'Black'], description: 'FG charcoal beanie knitted from a soft acrylic blend with a folded cuff and subtle embroidered logo. Provides comfortable warmth and a snug fit during cold weather. The charcoal grey shade offers a modern neutral that works with any winter wardrobe, from casual coats to sporty jackets.' },
+  12: { colors: ['Jet Black', 'Graphite'], description: 'Classic jet black beanie with a ribbed knit and clean finish. Lightweight, insulating and easy to style with any outfit. The timeless black design makes this beanie a cold weather essential that never goes out of fashion.' },
+  13: { colors: ['Earth Brown', 'Tan'], description: 'Earth brown FG beanie offering soft warmth and a relaxed silhouette. The folded cuff adds structure while keeping ears cozy during chilly days. The warm brown tone brings a natural, grounded feel to your winter accessories collection.' },
+  14: { colors: ['Light Green', 'Mint'], description: 'Light green beanie with a soft handfeel and a close, comfortable fit. Ideal for layering under hoods or wearing solo on cool days. The refreshing mint green color adds a subtle pop of color to neutral winter outfits.' },
+  15: { colors: ['Light Grey', 'Heather'], description: 'Light grey beanie crafted for everyday warmth. The classic ribbed knit and moderate stretch ensure a secure, flattering fit for all head sizes. The heather grey finish gives this beanie a premium textured look that elevates any casual ensemble.' },
+  16: { colors: ['Navy Blue', 'Indigo'], description: 'Navy FG beanie combining a refined finish with insulating warmth. Subtle branding keeps the look clean and versatile for any occasion. The deep navy blue pairs effortlessly with denim, coats, and streetwear for a polished cold weather look.' },
+  17: { colors: ['Deep Purple', 'Plum'], description: 'Deep purple beanie with a rich knit texture and snug fit. Comfortable for daily wear and cooler evenings when you need extra warmth. The plum purple shade adds a distinctive touch to your winter style without being overpowering.' },
+  18: { colors: ['Wine Red', 'Burgundy'], description: 'Wine red FG beanie with a cozy ribbed knit and fold over cuff. A stylish, warm accessory that complements fall and winter outfits beautifully. The rich burgundy red brings a touch of sophistication to your cold weather wardrobe.' },
+  19: { colors: ['Black', 'White', 'Grey'], description: 'FG Fear of Average Tee  a bold statement piece celebrating individuality and breaking away from mediocrity. Premium cotton blend with screenprinted graphics for everyday wear. This tee is designed for those who refuse to settle, featuring a powerful message that sparks conversation and inspires others to embrace their unique path.' },
+  20: { colors: ['Black', 'Navy', 'Grey'], description: 'FG Too Fly to Pray Tee  a lifestyle tee that blends street culture with confidence. Crafted from soft, durable cotton with embroidered FG branding. The bold graphic design makes a statement about staying grounded while reaching for greatness, perfect for those who live life with purpose and style.' },
+  21: { colors: ['Black', 'White', 'Navy'], description: 'FG 1% Better Tee  celebrating the grind and constant improvement. Premium quality tshirt with bold graphic design and comfortable fit for all day wear. This tee embodies the philosophy of continuous growth, reminding you that every small step toward becoming better counts in the journey of life.' },
+  22: { colors: ['Black', 'White', 'Grey'], description: 'FG Highway to Heaven Tee  a spiritual yet streetinspired design. Made from premium cotton, perfect for layering or wearing solo with premium finishing. The design reflects the journey of faith and purpose, blending contemporary streetwear aesthetics with meaningful symbolism that resonates deeply.' },
+  24: { colors: ['Camo', 'Olive'], description: 'FG Tactical Cap (Camo)  rugged and versatile with a tactical design. Features reinforced stitching and an adjustable strap for a secure fit in any condition. The camo pattern delivers a bold military inspired aesthetic while the robust construction ensures this cap can handle your most demanding daily activities.' },
+  25: { colors: ['Grey', 'Charcoal'], description: 'FG Tactical Cap (Grey)  sleek and functional design perfect for tactical or casual styling. Built with durable materials and an adjustable closure for a customized fit. The understated grey color keeps the look professional while the tactical details add an edge to your everyday style.' },
+  26: { colors: ['Navy Blue', 'Black'], description: 'FG Tactical Cap (Navy Blue)  professional and versatile tactical cap with a structured design. Features breathable construction and adjustable fit for all day comfort. The navy blue colorway offers a refined alternative that transitions seamlessly from work to weekend wear.' },
+  27: { colors: ['Black', 'White'], description: 'FG Signature Cap (Black)  iconic FG signature design in classic black. Premium embroidery and quality construction for a distinctive look that sets you apart. The clean black finish makes this cap a timeless addition to any collection, suitable for both casual outings and elevated streetwear moments.' },
+  28: { colors: ['Pink', 'White'], description: 'FG Signature Cap (Pink)  bold and vibrant FG signature style. Stand out with this premium quality cap in a striking pink color that commands attention. The eye catching pink hue adds personality and flair to any outfit, making it the perfect statement piece for those who love to express themselves.' },
+  29: { colors: ['Gray', 'White'], description: 'FG Signature Cap (Gray)  refined FG signature cap in neutral grey. Versatile and stylish for any outfit with premium finishing and comfortable wear. The versatile grey shade complements every color in your wardrobe, making this cap your go to accessory for effortless everyday style.' },
+  30: { colors: ['Red', 'White'], description: 'FG Signature Beanie (Red)  vibrant red signature beanie with premium knit quality. Provides warmth and style with iconic FG branding that stands out during cold weather. The bright red color adds a bold pop to winter outfits while the soft knit keeps you comfortable and cozy all season long.' },
+  31: { colors: ['Black', 'White'], description: 'FG Skull Cap  a sleek lowprofile cap with a minimalist design. The perfect accessory for those who value subtle style and clean lines in their everyday wardrobe. Its formfitting silhouette works seamlessly under helmets or worn alone for a modern urban look that never feels bulky.' },
+  32: { colors: ['Black', 'Olive'], description: 'FG 跟随上帝 Track Pant  premium athletic inspired track pants designed for comfort and style. Features a relaxed fit with tapered legs and side stripes for a modern streetwear look that moves with you. The versatile design pairs perfectly with any top in your collection, from basic tees to oversized hoodies.' },
+  33: { colors: ['Black', 'White'], description: 'FG 1% Better Tee Black  celebrating the grind and constant improvement in style. Premium quality tshirt with bold graphic design and comfortable fit for all day wear. The black version brings a sleek edge to your wardrobe while the motivational messaging keeps you focused on becoming the best version of yourself every single day.' },
+  34: { colors: ['Black'], description: 'FG 2FLY 2PRAY TEE BLACK  a sleek black tee that redefines what it means to move through life with purpose and grace. Premium cotton construction with striking typography that blends street culture with spiritual confidence. This tee is for those who understand that true success comes from staying grounded while reaching for something greater than yourself, making every step a statement of faith and ambition.' },
+  35: { colors: ['White', 'Black', 'Grey'], description: 'FG 跟随上帝 (Follow God) Tee  a powerful expression of faith and devotion. Made from soft premium cotton with inspiring designs that celebrate your spiritual journey. The Chinese text adds a unique cultural dimension while the message transcends language, reminding you to stay faithful and focused on whats truly important.' },
+  36: { colors: ['White', 'Black'], description: 'FG Heaven Is Home Tee  a beautiful reminder of our eternal destination. Soft comfortable tee with uplifting designs that celebrate the promise of heavenly home. This tee serves as a daily affirmation of faith, letting you wear your beliefs with pride while maintaining a stylish contemporary look.' },
+  37: { colors: ['Leopard Print', 'Black'], description: 'FG Leopard Skin Tee  bold and daring fashion for those who refuse to blend in. Premium cotton tee with striking leopard print that makes a fierce statement everywhere you go. The animal print design channels confidence and wild energy, perfect for making unforgettable impressions at any event or gathering.' },
+  38: { colors: ['White', 'Black'], description: 'FG Tanks  lightweight and breathable tank tops perfect for warm weather. Made from soft cotton blend with a relaxed fit that keeps you cool and stylish all day long. The sleeveless design offers maximum ventilation and freedom of movement, making it essential for hot days, workouts, or layering under open shirts.' },
+  50: { colors: ['White', 'Black', 'Grey'], description: 'FG DONT FOLLOW ME TEE  a bold statement piece for those who walk their own path and refuse to follow the crowd. Made from premium cotton with striking graphics that celebrate individuality and personal choice. This tee challenges the status quo and encourages you to forge your own direction, making it the perfect addition to any wardrobe that values authenticity over conformity.' }
 }
 
 function Dynamic({ product: propProduct }) {
   const { id } = useParams() || {}
   const productId = propProduct?.id || (id ? parseInt(id, 10) : null)
+  const [showComingSoon, setShowComingSoon] = useState(false)
+  const [showCollections, setShowCollections] = useState(false)
 
   const product = useMemo(() => {
     if (propProduct) return propProduct
@@ -231,33 +237,14 @@ function Dynamic({ product: propProduct }) {
     setTimeout(() => navigate('/checkout'), 150)
   }
 
-  const alsoLikeLimit = useMemo(() => ({ base: 6, sm: 8, md: 10, lg: 10 }), [])
+  const alsoLikeLimit = useMemo(() => ({ base: 4, sm: 6, md: 8, lg: 10 }), [])
 
   if (!product) return <div className="p-6">Product not found</div>
 
   return (
     <>
-      {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
-        <div className="flex items-center justify-around py-2">
-          <Link to="/" className="flex flex-col items-center gap-1 p-2 text-gray-400">
-            <Home size={20} />
-            <span className="text-xs">Home</span>
-          </Link>
-          <button className="flex flex-col items-center gap-1 p-2 text-gray-400">
-            <Grid size={20} />
-            <span className="text-xs">Browse</span>
-          </button>
-          <Link to="/cart" className="flex flex-col items-center gap-1 p-2 text-gray-400 relative">
-            <ShoppingCart size={20} />
-            <span className="text-xs">Cart</span>
-          </Link>
-          <button className="flex flex-col items-center gap-1 p-2 text-gray-400">
-            <Heart size={20} />
-            <span className="text-xs">Saved</span>
-          </button>
-        </div>
-      </nav>
+      {/* Mobile Bottom Navigation - hides on md+ with creative animation */}
+      <MobileBottomNav onTagsClick={() => setShowComingSoon(true)} />
 
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex fixed left-0 top-0 h-full w-16 bg-white border-r border-gray-100 flex-col items-center py-4 z-40">
@@ -271,13 +258,13 @@ function Dynamic({ product: propProduct }) {
           <Link to="/" className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors">
             <Home size={20} />
           </Link>
-          <button className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors">
-            <Grid size={20} />
-          </button>
-          <Link to="/cart" className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors relative">
+          <Link to="/shop" className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors">
+            <ShoppingBag size={20} />
+          </Link>
+          <Link to="/checkout" className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors relative">
             <ShoppingCart size={20} />
           </Link>
-          <button className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors">
+          <button onClick={() => setShowComingSoon(true)} className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors">
             <Tag size={20} />
           </button>
           <button className="p-2 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors mt-auto">
@@ -345,7 +332,7 @@ function Dynamic({ product: propProduct }) {
                 </div>
 
                 {/* Thumbnails */}
-                <div className="flex items-center gap-2 lg:gap-3 overflow-x-auto pb-2">
+                <div className="flex items-center justify-center gap-2 lg:gap-3 overflow-x-auto pb-2">
                   {thumbImages.map((src, idx) => (
                     <button
                       key={idx}
@@ -354,7 +341,7 @@ function Dynamic({ product: propProduct }) {
                         setSelectedThumb(idx)
                         if (mainImgRef.current) mainImgRef.current.src = src
                       }}
-                      className={`flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all ${selectedThumb === idx ? 'border-gray-900 ring-2 ring-gray-900 ring-offset-2' : 'border-gray-200 hover:border-gray-300'}`}
+                      className={`flex-shrink-0 w-14 h-14 lg:w-16 lg:h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all ${selectedThumb === idx ? 'border-gray-900' : 'border-gray-200 hover:border-gray-300'}`}
                       aria-label={`Show image ${idx + 1}`}>
                       <img src={src} alt={`${product.title} ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
                     </button>
@@ -437,17 +424,6 @@ function Dynamic({ product: propProduct }) {
                 {/* Secondary Actions */}
                 <div className="flex gap-2 lg:gap-3 mb-6 lg:mb-8">
                   <button 
-                    onClick={toggleFavorite}
-                    className={`flex-1 py-2 lg:py-2.5 rounded-lg border text-xs lg:text-sm font-medium transition-colors flex items-center justify-center gap-1.5 lg:gap-2 ${
-                      isFavorite 
-                        ? 'border-red-300 bg-red-50 text-red-600' 
-                        : 'border-gray-200 text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    <Heart size={14} className={`lg:w-4 lg:h-4 ${isFavorite ? 'fill-current' : ''}`} />
-                    <span className="hidden sm:inline">{isFavorite ? 'Saved' : 'Save'}</span>
-                  </button>
-                  <button 
                     onClick={handleShare}
                     className="flex-1 py-2 lg:py-2.5 rounded-lg border border-gray-200 text-xs lg:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 lg:gap-2"
                   >
@@ -503,19 +479,23 @@ function Dynamic({ product: propProduct }) {
         </MountReveal>
       </div>
 
-      {/* Mobile Bottom Search Bar */}
-      <div className="lg:hidden fixed bottom-16 left-0 right-0 z-30 px-4 pb-2 bg-white border-t border-gray-100">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-          />
-          <button className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white">
-            <Search size={16} />
-          </button>
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setShowComingSoon(false)} aria-hidden="true" />
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 z-10 p-6" role="dialog" aria-modal="true" aria-labelledby="coming-soon-title">
+            <div className="flex justify-between items-start">
+              <div className="text-center w-full">
+                <h2 id="coming-soon-title" className="text-xl font-bold">Coming Soon</h2>
+                <p className="text-sm text-gray-600 mt-2">We're working on something amazing. Stay tuned</p>
+              </div>
+              <button onClick={() => setShowComingSoon(false)} className="text-gray-500 hover:text-gray-700 ml-4" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

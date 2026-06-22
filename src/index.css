@@ -148,6 +148,11 @@ input, textarea, select {
   }
 }
 
+/* Global mt-7 for all mobile bottom navigation bars */
+nav.lg\\:hidden.fixed.bottom-0 {
+  margin-top: 1.75rem;
+}
+
 /* Hero carousel scroll ticker - all images side by side scrolling right to left */
 @keyframes scrollTicker {
   0% {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MapPinCheck, Mail, Phone, Send, ArrowRight } from 'lucide-react'
+import { MapPinCheck, Mail, Phone, Send } from 'lucide-react'
 import { cld } from '../utils/cloudinary'
 const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp64sddl6r4e7stmelk.png'
 const eye = cld('eye', { width: 32 })
@@ -109,7 +109,12 @@ const Footer = () => {
   }
 
   return (
-    <footer style={{ backgroundColor: '#ffffff', color: '#111827', position: 'relative', overflow: 'hidden' }}>
+    <footer className="hidden md:block" style={{ 
+      backgroundColor: '#ffffff',
+      color: '#111827', 
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
       {/* Main footer content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 24px 40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 40 }}>
