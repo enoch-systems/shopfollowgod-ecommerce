@@ -162,12 +162,53 @@ function Dynamic({ product: propProduct }) {
   const toggleFavorite = () => {
     setIsFavorite(prev => {
       const next = !prev
-      setToastMsg(next ? 'Item added to favorites' : 'Item removed from favorites')
-      setToastVisible(true)
-      if (toastTimer.current) clearTimeout(toastTimer.current)
-      toastTimer.current = setTimeout(() => setToastVisible(false), next ? 2500 : 1500)
+      if (next) {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+        favorites.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          addedAt: new Date().toISOString()
+        })
+        localStorage.setItem('favorites', JSON.stringify(favorites))
+        setToastMsg('Added product to favorite')
+        setToastVisible(true)
+        if (toastTimer.current) clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToastVisible(false), 2500)
+      } else {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+        const updatedFavorites = favorites.filter(item => item.id !== product.id)
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+        setToastMsg('Removed from favorites')
+        setToastVisible(true)
+        if (toastTimer.current) clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToastVisible(false), 1500)
+      }
       return next
     })
+  }
+
+  const handleShare = async () => {
+    const shareData = {
+      title: product.title,
+      text: `Check out ${product.title} - NGN ${product.price.toLocaleString()}`,
+      url: window.location.href
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        await navigator.clipboard.writeText(window.location.href)
+        setToastMsg('Link copied to clipboard')
+        setToastVisible(true)
+        if (toastTimer.current) clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToastVisible(false), 2000)
+      }
+    } catch (err) {
+      console.log('Share cancelled or failed:', err)
+    }
   }
 
   const handleAddToCart = () => {
@@ -253,7 +294,9 @@ function Dynamic({ product: propProduct }) {
         <MountReveal className="min-h-screen bg-white">
           {/* Toast */}
           <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${toastVisible ? 'translate-y-0 opacity-100' : '-translate-y-6 opacity-0'}`} role="status" aria-live="polite">
-            <div className="bg-black text-gray-400 px-7 py-2 text-sm rounded-md shadow">{toastMsg}</div>
+            <div className={`px-7 py-2 text-sm rounded-md shadow ${toastMsg.includes('favorite') || toastMsg.includes('Added') ? 'bg-green-500 text-white' : 'bg-black text-gray-400'}`}>
+              {toastMsg}
+            </div>
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
@@ -379,16 +422,16 @@ function Dynamic({ product: propProduct }) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
+                <div className="grid grid-cols-2 gap-2 lg:gap-3 mb-4 lg:mb-6">
                   <button
                     onClick={handleAddToCart}
                     disabled={product.soldOut || justAdded}
-                    className={`w-full py-3 lg:py-3.5 rounded-lg font-semibold text-xs lg:text-sm transition-all ${
+                    className={`py-3 lg:py-3.5 rounded-lg font-semibold text-xs lg:text-sm transition-all ${
                       product.soldOut
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                         : justAdded
                         ? 'bg-green-500 text-white cursor-not-allowed'
-                        : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                        : 'bg-black text-white hover:bg-gray-800'
                     }`}
                   >
                     {product.soldOut ? 'SOLD OUT' : justAdded ? 'Added' : 'Add to cart'}
@@ -397,7 +440,7 @@ function Dynamic({ product: propProduct }) {
                   {!product.soldOut && (
                     <button
                       onClick={handleBuyNow}
-                      className="w-full py-3 lg:py-3.5 rounded-lg font-semibold text-xs lg:text-sm bg-gray-900 text-white hover:bg-gray-800 transition-colors"
+                      className="py-3 lg:py-3.5 rounded-lg font-semibold text-xs lg:text-sm border border-gray-900 text-gray-900 hover:bg-gray-50 transition-colors"
                     >
                       Buy now
                     </button>
@@ -406,11 +449,21 @@ function Dynamic({ product: propProduct }) {
 
                 {/* Secondary Actions */}
                 <div className="flex gap-2 lg:gap-3 mb-6 lg:mb-8">
-                  <button className="flex-1 py-2 lg:py-2.5 rounded-lg border border-gray-200 text-xs lg:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 lg:gap-2">
-                    <Heart size={14} className="lg:w-4 lg:h-4" />
-                    <span className="hidden sm:inline">Save</span>
+                  <button 
+                    onClick={toggleFavorite}
+                    className={`flex-1 py-2 lg:py-2.5 rounded-lg border text-xs lg:text-sm font-medium transition-colors flex items-center justify-center gap-1.5 lg:gap-2 ${
+                      isFavorite 
+                        ? 'border-red-300 bg-red-50 text-red-600' 
+                        : 'border-gray-200 text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Heart size={14} className={`lg:w-4 lg:h-4 ${isFavorite ? 'fill-current' : ''}`} />
+                    <span className="hidden sm:inline">{isFavorite ? 'Saved' : 'Save'}</span>
                   </button>
-                  <button className="flex-1 py-2 lg:py-2.5 rounded-lg border border-gray-200 text-xs lg:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 lg:gap-2">
+                  <button 
+                    onClick={handleShare}
+                    className="flex-1 py-2 lg:py-2.5 rounded-lg border border-gray-200 text-xs lg:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 lg:gap-2"
+                  >
                     <Share2 size={14} className="lg:w-4 lg:h-4" />
                     <span className="hidden sm:inline">Share</span>
                   </button>
