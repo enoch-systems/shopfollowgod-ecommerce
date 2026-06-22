@@ -74,7 +74,7 @@ function Dynamic({ product: propProduct }) {
   const [selectedThumb, setSelectedThumb] = useState(0)
   // responsive thumbnail size
   const THUMB_CLASS = 'w-15 h-15 sm:w-14 sm:h-14 md:w-16 md:h-16'
-  // prepare thumbnails dynamically based on available images
+  // prepare thumbnails dynaically based on available images
   const _baseImages = product.images || product.gallery || [product.image]
   const thumbImages = _baseImages.length > 0 ? _baseImages : [product.image]
 

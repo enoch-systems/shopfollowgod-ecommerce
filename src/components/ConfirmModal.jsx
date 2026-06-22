@@ -12,8 +12,8 @@ export default function ConfirmModal({ open, title = 'Confirm', message = '', on
         <p className="text-sm text-gray-600 mb-4">{message}</p>
 
         <div className="flex justify-end gap-3">
-          <button onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded-md">No</button>
-          <button onClick={onConfirm} className="px-4 py-2 bg-red-600 text-white rounded-md">Yes, clear</button>
+          <button onClick={onCancel} className="px-4 py-2 bg-gray-100 rounded-md cursor-pointer">No</button>
+          <button onClick={onConfirm} className="px-4 py-2 bg-red-600 text-white rounded-md cursor-pointer">Yes, clear</button>
         </div>
       </div>
     </div>
