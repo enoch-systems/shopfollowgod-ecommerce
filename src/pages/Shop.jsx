@@ -126,7 +126,6 @@ const Shop = () => {
       if (category === 'tactical') list = list.filter((p) => /tactical/i.test(p.title));
       if (category === 'tee') list = list.filter((p) => /tee/i.test(p.title));
       if (category === 'track') list = list.filter((p) => /track/i.test(p.title));
-      if (category === 'pants') list = list.filter((p) => /pants|pant/i.test(p.title));
       if (category === 'caps') list = list.filter((p) => /cap|trucker/i.test(p.title));
       if (category === 'tank') list = list.filter((p) => /tank/i.test(p.title));
     }
@@ -363,7 +362,7 @@ const Shop = () => {
                     e.target.style.background = '#f9fafb';
                   }}
                 >
-                  {['all', 'trucker', 'beanie', 'tee', 'tactical', 'signature', 'track', 'pants', 'caps', 'tank'].map(cat => (
+                  {['all', 'trucker', 'beanie', 'tee', 'tactical', 'signature', 'track', 'caps', 'tank'].map(cat => (
                     <option key={cat} value={cat}>{cat === 'all' ? 'All Products' : cat}</option>
                   ))}
                 </select>
