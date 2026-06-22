@@ -7,7 +7,6 @@ const soldBadge = cld('soldout', { width: 200 })
 import { Link } from 'react-router-dom'
 import MountReveal from '../components/MountReveal'
 import { ChevronLeft, ChevronRight, Home, ShoppingCart, ShoppingBag, Tag } from 'lucide-react'
-import Footer from '../pages/Footer'
 import MobileBottomNav from '../components/MobileBottomNav'
 
 // cache preloaded image urls so we don't create duplicate Image objects
@@ -459,7 +458,6 @@ const Shop = () => {
           </div>
         </div>
       </MountReveal>
-      <Footer />
 
       {/* Mobile Bottom Navigation - hides on md+ with creative animation */}
       <MobileBottomNav onTagsClick={() => setShowComingSoon(true)} />

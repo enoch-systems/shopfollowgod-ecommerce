@@ -411,7 +411,6 @@ const Faq = () => {
         </div>
       </MountReveal>
       <MobileBottomNav />
-      <Footer />
     </>
   );
 };
