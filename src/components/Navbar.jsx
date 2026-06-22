@@ -260,7 +260,7 @@ const Navbar = () => {
         </nav>
 
         {/* Cart Icon (always visible) */}
-        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 relative z-20" aria-label="Go to checkout" style={{ padding: 8, borderRadius: 8, background: 'transparent', border: 'none', cursor: 'pointer' }}>
+        <button id="cart-icon" onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 relative z-20" aria-label="Go to checkout" style={{ padding: 8, borderRadius: 8, background: 'transparent', border: 'none', cursor: 'pointer' }}>
           <div className="relative inline-flex items-center justify-center" style={{ width: 32, height: 32 }}>
             <ShoppingCart size={17} style={{ color: '#111827' }} />
             <span style={{
