@@ -249,11 +249,11 @@ function Dynamic({ product: propProduct }) {
           <div className="md:col-span-1 lg:col-span-1">
             <div className="relative bg-[hsl(44,45%,98%)] rounded-xl overflow-hidden flex flex-col items-center justify-center">
               {/* previous/next controls */}
-              <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+              <button onClick={prevImage} aria-label="Previous image" className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform cursor-pointer">
                 <ChevronLeft size={20} className="text-gray-700" />
               </button>
 
-              <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform">
+              <button onClick={nextImage} aria-label="Next image" className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/80 rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-transform cursor-pointer">
                 <ChevronRight size={20} className="text-gray-700" />
               </button>
 
@@ -291,7 +291,7 @@ function Dynamic({ product: propProduct }) {
                       setSelectedThumb(idx)
                       if (mainImgRef.current) mainImgRef.current.src = src
                     }}
-                    className={`${THUMB_CLASS} rounded-md overflow-hidden flex-shrink-0 border ${selectedThumb === idx ? 'ring-2 ring-amber-400 border-transparent' : 'border-gray-100'}`}
+                    className={`${THUMB_CLASS} rounded-md overflow-hidden flex-shrink-0 border cursor-pointer ${selectedThumb === idx ? 'ring-2 ring-amber-400 border-transparent' : 'border-gray-100'}`}
                     aria-label={`Show image ${idx + 1}`}>
                     <img src={src} alt={`${product.title} ${idx + 1}`} loading="eager" decoding="async" fetchPriority="high" width="80" height="80" className="w-full h-full object-cover" />
                   </button>
@@ -327,9 +327,9 @@ function Dynamic({ product: propProduct }) {
             <div className="mt-2">
               <div className="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Quantity</div>
               <div className="flex items-center gap-2">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">−</button>
+                <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg cursor-pointer">−</button>
                 <div className="min-w-[48px] text-center border border-gray-100 rounded-md py-2 text-sm">{qty}</div>
-                <button onClick={() => setQty(q => q + 1)} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg">+</button>
+                <button onClick={() => setQty(q => q + 1)} className="w-9 h-9 rounded-md border border-gray-200 bg-white/20 hover:bg-gray-100 transition-colors text-lg cursor-pointer">+</button>
               </div>
             </div>
 
