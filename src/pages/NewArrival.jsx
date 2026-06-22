@@ -24,7 +24,7 @@ const preloadImages = (p) => {
   })
 }
 
-function NewArrival({ limit, className = '', hideTitle = false, product = null }) {
+function NewArrival({ limit, className = '', hideTitle = false, product = null, gridClass }) {
   const cart = useCart()
   const navigate = useNavigate()
   // show temporary "Added" state per product when user clicks add-to-cart
@@ -75,6 +75,13 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
 
   const getLimit = () => {
     if (typeof limit === 'number') return limit
+    if (limit && typeof limit === 'object') {
+      const w = windowWidth
+      if (w >= 1024) return limit.lg ?? limit.md ?? limit.sm ?? limit.base ?? 10
+      if (w >= 768) return limit.md ?? limit.sm ?? limit.base ?? 10
+      if (w >= 640) return limit.sm ?? limit.base ?? 6
+      return limit.base ?? 6
+    }
     const w = windowWidth
     if (w >= 1024) return 14    // lg: 7 cols × 2 rows
     if (w >= 768) return 15     // md: 5 cols × 3 rows
@@ -96,7 +103,8 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
       const j = Math.floor(Math.random() * (i + 1))
       ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
-    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled.slice(0, 8)
+    const initialLimit = typeof limit === 'number' ? limit : (limit && typeof limit === 'object' ? (limit.base ?? 6) : 8)
+    const result = shuffled.slice(0, initialLimit)
     // Remove duplicates based on id
     return result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index)
   })
@@ -116,7 +124,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
       ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
     const currentLimit = getLimit()
-    const result = typeof limit === 'number' ? shuffled.slice(0, limit) : shuffled.slice(0, currentLimit)
+    const result = shuffled.slice(0, currentLimit)
     // Remove duplicates based on id
     setItems(result.filter((item, index, self) => self.findIndex(p => p.id === item.id) === index))
   }, [limit, product, windowWidth])
@@ -125,7 +133,7 @@ function NewArrival({ limit, className = '', hideTitle = false, product = null }
     <MountReveal className={`${className}`} style={{ maxWidth: '100%', padding: '0 12px 48px' }}>
       {!hideTitle && <div style={{ fontSize: 16, fontWeight: 600, color: '#111827', marginBottom: 20, letterSpacing: '-0.01em' }}>New Arrivals</div>}
 
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3">
+      <div className={gridClass || "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3"}>
         {items.map((p) => (
           <div key={p.id} className="rounded-lg overflow-hidden" style={{
             backgroundColor: 'white',

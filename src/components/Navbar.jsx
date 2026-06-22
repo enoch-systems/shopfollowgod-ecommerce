@@ -6,7 +6,6 @@ const logo = 'https://res.cloudinary.com/djdbcoyot/image/upload/v1781776847/zfp6
 import { useCart } from '../context/CartContext'
 import { createPortal } from 'react-dom'
 import { products } from '../data/products'
-const searchIcon = cld('search', { width: 48 })
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,21 +75,48 @@ const Navbar = () => {
 
     return (
       <>
-        <div ref={searchRef} className="ml-3 w-full flex items-center gap-2" style={{ background: '#f5f5f5', borderRadius: 999, padding: '8px 14px' }}>
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, color: '#9ca3af', flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div ref={searchRef} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f9fafb', borderRadius: 8, border: '1px solid #e5e7eb', padding: '8px 12px', transition: 'all 0.15s ease' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 15, height: 15, color: '#d1d5db', flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z" />
           </svg>
           <input
             value={query}
             onChange={onChange}
             className="bg-transparent w-full outline-none"
-            style={{ fontSize: 14, color: '#111827', fontWeight: 400, letterSpacing: '0.01em' }}
+            style={{ fontSize: 13, color: '#111827', fontWeight: 400 }}
             placeholder="Search products..."
           />
-          <kbd style={{ fontSize: 11, color: '#9ca3af', background: '#e5e5e5', borderRadius: 4, padding: '2px 6px', fontFamily: 'inherit', lineHeight: '1.4', flexShrink: 0, fontWeight: 500 }}>⌘K</kbd>
+          <kbd style={{ fontSize: 10, color: '#d1d5db', background: '#f3f4f6', borderRadius: 4, padding: '2px 5px', fontFamily: 'inherit', lineHeight: '1.4', flexShrink: 0, fontWeight: 500, border: '1px solid #e5e7eb' }}>⌘K</kbd>
         </div>
         {results && results.length > 0 && coords && createPortal(
-          <div ref={dropdownRef} style={{ position: 'fixed', top: coords.top + 4 + 'px', left: coords.left + 'px', width: coords.width + 'px', border: '1px solid #e5e7eb', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }} className="bg-white rounded-xl shadow-lg max-h-80 overflow-auto z-[4000]">
+          <div ref={dropdownRef} className="search-dropdown" style={{ position: 'fixed', top: coords.top + 4 + 'px', left: coords.left + 'px', width: coords.width + 'px', border: '1px solid #e5e7eb', boxShadow: '0 12px 32px rgba(0,0,0,0.1)' }}>
+            <style>{`
+              .search-dropdown {
+                border-radius: 12px;
+                background: #ffffff;
+                max-height: 320px;
+                overflow: auto;
+                z-index: 4000;
+              }
+              @media (min-width: 640px) and (max-width: 767px) {
+                .search-dropdown {
+                  width: 480px !important;
+                  left: calc(50% - 240px) !important;
+                }
+              }
+              @media (min-width: 768px) {
+                .search-dropdown {
+                  width: 520px !important;
+                  left: calc(50% - 260px) !important;
+                }
+              }
+              @media (min-width: 1024px) {
+                .search-dropdown {
+                  width: 600px !important;
+                  left: calc(50% - 300px) !important;
+                }
+              }
+            `}</style>
             {results.map(r => (
               <button key={r.id} onClick={() => onSelect(r)} className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0" style={{ transition: 'background 0.15s ease' }}>
                 <img src={r.image} alt={r.title} className="w-12 h-12 object-cover rounded-lg" width="48" height="48" loading="eager" fetchPriority="high" decoding="async" style={{ borderRadius: 8 }} />
@@ -105,40 +131,77 @@ const Navbar = () => {
       </>
     )
   }
-  const mobileNavItems = [
-    { path: '/home', label: 'Home', Icon: Home },
-    { path: '/shop', label: 'Shop', Icon: ShoppingCart },
-    { path: '/collections', label: 'Collections', Icon: Layers },
-    { path: '/faq', label: 'FAQ', Icon: HelpCircle },
-  ];
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 w-full text-black pt-3"
+      className="fixed top-0 left-0 right-0 z-50 w-full"
       style={{
-        backgroundColor: 'white',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #f3f4f6',
       }}
     >
-      <div className="relative max-w-7xl mx-auto px-4 py-6 flex items-center md:px-20">
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between navbar-inner" style={{ height: 64 }}>
+        <style>{`
+          .navbar-inner {
+            padding-left: 24px;
+            padding-right: 24px;
+          }
+          @media (min-width: 640px) and (max-width: 767px) {
+            .navbar-inner {
+              padding-left: 48px !important;
+              padding-right: 48px !important;
+            }
+          }
+          @media (min-width: 768px) {
+            .navbar-inner {
+              padding-left: 40px;
+              padding-right: 40px;
+            }
+          }
+          @media (min-width: 1024px) {
+            .navbar-inner {
+              padding-left: 64px;
+              padding-right: 64px;
+            }
+          }
+        `}</style>
         {/* Mobile Menu Toggle */}
-        <button className="md:hidden z-20 flex-shrink-0" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} aria-controls="mobile-menu">
-          {isOpen ? <X /> : <Menu />}
+        <button className="md:hidden z-20 flex-shrink-0" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} aria-controls="mobile-menu" style={{ padding: 8, borderRadius: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#111827' }}>
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center flex-shrink-0 absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none md:mr-6 lg:mr-10 z-10">
-          <img src={logo} alt="Logo" className="h-10 md:h-11 lg:h-12 w-auto" width="48" height="48" loading="eager" fetchPriority="high" decoding="sync" style={{objectFit: 'contain'}} />
+        <Link to="/" className="flex items-center flex-shrink-0 absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none z-10">
+          <img src={logo} alt="Logo" style={{ height: 32, width: 'auto' }} width="48" height="48" loading="eager" fetchPriority="high" decoding="sync" />
         </Link>
 
         {/* Search (desktop only) */}
-        <div className="hidden md:flex items-center flex-1 justify-center md:mx-4 lg:mx-8">
-          <div className="w-full max-w-xs lg:max-w-md xl:max-w-lg relative">
-            <DesktopSearch />
-          </div>
+        <div className="hidden md:flex items-center flex-1 justify-center search-wrapper" style={{ margin: '0 24px' }}>
+          <style>{`
+            .search-wrapper {
+              max-width: 320px;
+            }
+            @media (min-width: 640px) and (max-width: 767px) {
+              .search-wrapper {
+                max-width: 400px !important;
+              }
+            }
+            @media (min-width: 768px) {
+              .search-wrapper {
+                max-width: 400px !important;
+              }
+            }
+            @media (min-width: 1024px) {
+              .search-wrapper {
+                max-width: 480px !important;
+              }
+            }
+          `}</style>
+          <DesktopSearch />
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2 flex-shrink-0 md:ml-4 lg:ml-8">
+        <nav className="hidden md:flex items-center gap-1">
           {['/home', '/shop', '/collections', '/faq', '/checkout'].map((path) => {
             const labelMap = {
               '/home': 'Home',
@@ -148,14 +211,25 @@ const Navbar = () => {
               '/checkout': 'Checkout',
             };
             const label = labelMap[path];
-            const commonClasses = "relative inline-block text-sm lg:text-base font-normal text-gray-700 transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full hover:text-gray-900";
             if (path === '/collections') {
               return (
                 <button
                   key={path}
                   onClick={(e) => { e.preventDefault(); setShowCollections(true); }}
-                  className={`${commonClasses} px-3 py-2`}
-                  aria-haspopup="dialog"
+                  style={{
+                    padding: '6px 12px',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: '#374151',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    transition: 'color 0.15s ease',
+                    letterSpacing: '0.01em',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#111827'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#374151'; }}
                 >
                   {label}
                 </button>
@@ -166,20 +240,18 @@ const Navbar = () => {
                 key={path}
                 to={path}
                 end={path === '/home' || path === '/checkout'}
-                className="relative inline-flex items-center px-3 py-2 text-sm lg:text-base no-underline transition-all duration-200 hover:bg-gray-100"
-                style={({ isActive }) => isActive ? {
-                  color: '#ffffff',
-                  backgroundColor: '#111827',
-                  borderRadius: '0 8px 8px 0',
-                  marginRight: '8px',
-                  padding: '8px 20px',
-                } : {
-                  color: '#374151',
-                  backgroundColor: 'transparent',
-                  borderRadius: '0',
-                  marginRight: '0',
-                  padding: '8px 12px',
-                }}
+                style={({ isActive }) => ({
+                  padding: '6px 12px',
+                  fontSize: 13,
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? '#111827' : '#374151',
+                  background: 'transparent',
+                  textDecoration: 'none',
+                  fontFamily: 'inherit',
+                  transition: 'color 0.15s ease',
+                  letterSpacing: '0.01em',
+                  borderBottom: isActive ? '2px solid #111827' : '2px solid transparent',
+                })}
               >
                 {label}
               </NavLink>
@@ -188,99 +260,165 @@ const Navbar = () => {
         </nav>
 
         {/* Cart Icon (always visible) */}
-        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 ml-auto md:ml-4 lg:ml-6 relative z-20" aria-label="Go to checkout">
-          <div id="cart-icon" className="relative inline-flex items-center justify-center h-9 w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 rounded-full hover:bg-gray-100 transition-colors duration-200">
-            <ShoppingCart size={18} className="md:w-[19px] md:h-[19px] lg:w-5 lg:h-5 text-black" />
-            <span className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 bg-red-500 text-white text-[10px] md:text-xs min-w-[18px] md:min-w-[20px] h-[18px] md:h-[20px] rounded-full flex items-center justify-center px-1 font-medium shadow-sm">{cart.count || 0}</span>
+        <button onClick={(e) => { e.preventDefault(); navigate('/checkout'); }} className="flex items-center justify-center flex-shrink-0 relative z-20" aria-label="Go to checkout" style={{ padding: 8, borderRadius: 8, background: 'transparent', border: 'none', cursor: 'pointer' }}>
+          <div className="relative inline-flex items-center justify-center" style={{ width: 32, height: 32 }}>
+            <ShoppingCart size={17} style={{ color: '#111827' }} />
+            <span style={{
+              position: 'absolute',
+              top: -2,
+              right: -4,
+              background: '#ef4444',
+              color: '#ffffff',
+              fontSize: 9,
+              fontWeight: 600,
+              minWidth: 16,
+              height: 16,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 3px',
+              boxShadow: '0 1px 3px rgba(239,68,68,0.3)',
+            }}>{cart.count || 0}</span>
           </div>
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile overlay */}
       <div
-        className={`md:hidden fixed inset-0 z-30 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto bg-black/20 backdrop-blur-sm' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed inset-0 z-30 transition-all duration-300 ease-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsOpen(false)}
         aria-hidden={!isOpen}
-        style={{ backdropFilter: isOpen ? 'blur(6px)' : 'none' }}
+        style={{
+          background: isOpen ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0)',
+          backdropFilter: isOpen ? 'blur(8px)' : 'blur(0px)',
+          WebkitBackdropFilter: isOpen ? 'blur(8px)' : 'blur(0px)',
+        }}
       />
 
-      <nav
+      {/* Mobile menu */}
+      <div
         id="mobile-menu"
-        className={`md:hidden fixed top-0 left-0 h-full w-57 pt-6 rounded-r-2xl shadow-lg transform origin-left transition-transform duration-600 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40 flex flex-col`}
+        className={`md:hidden fixed top-0 left-0 h-full z-40 flex flex-col ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
         aria-hidden={!isOpen}
         role="navigation"
-        style={{ backgroundColor: 'white' }}
+        style={{
+          width: 280,
+          backgroundColor: '#ffffff',
+          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+          boxShadow: isOpen ? '4px 0 24px rgba(0,0,0,0.08)' : 'none',
+        }}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
-          <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3">
-            <img src={logo} alt="Logo" className="h-10 w-auto mb-3" width="40" height="40" loading="eager" fetchPriority="high" decoding="sync" style={{objectFit: 'contain'}} />
+        {/* Header */}
+        <div style={{ padding: '24px 24px 16px', borderBottom: '1px solid #f3f4f6' }}>
+          <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center">
+            <img src={logo} alt="Logo" style={{ height: 30, width: 'auto' }} />
           </Link>
         </div>
 
-        <div className="flex-1 overflow-auto">
-          <div className="divide-y divide-gray-100">
-            {[
-              { path: '/home', label: 'Home', Icon: Home },
-              { path: '/shop', label: 'Shop', Icon: ShoppingCart },
-              { path: '/checkout', label: 'Checkout', Icon: CreditCard },
-              { path: '/faq', label: 'FAQ', Icon: HelpCircle },
-            ].map(({ path, label, Icon }) => {
-              const isActive = location.pathname === path
-              return (
-                <Link
-                  key={path}
-                  to={path}
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    display: 'flex',
+        {/* Nav items */}
+        <div style={{ flex: 1, overflow: 'auto', padding: '12px 12px' }}>
+          {[
+            { path: '/home', label: 'Home', Icon: Home },
+            { path: '/shop', label: 'Shop', Icon: ShoppingCart },
+            { path: '/collections', label: 'Collections', Icon: Layers, isCollections: true },
+            { path: '/faq', label: 'FAQ', Icon: HelpCircle },
+            { path: '/checkout', label: 'Checkout', Icon: CreditCard },
+          ].map(({ path, label, Icon, isCollections }, index) => {
+            const isActive = location.pathname === path
+            return (
+              <Link
+                key={path}
+                to={isCollections ? '#' : path}
+                onClick={(e) => {
+                  if (isCollections) {
+                    e.preventDefault();
+                    setIsOpen(false);
+                    setShowCollections(true);
+                  } else {
+                    setIsOpen(false);
+                  }
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '12px 14px',
+                  marginBottom: 2,
+                  borderRadius: 10,
+                  color: isActive ? '#111827' : '#374151',
+                  backgroundColor: isActive ? '#f3f4f6' : 'transparent',
+                  textDecoration: 'none',
+                  fontSize: 14,
+                  fontWeight: isActive ? 600 : 450,
+                  transition: 'all 0.2s ease',
+                  opacity: isOpen ? 1 : 0,
+                  transform: isOpen ? 'translateY(0)' : 'translateY(8px)',
+                  transitionDelay: `${index * 0.04}s`,
+                }}
+                onMouseEnter={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = '#f9fafb';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                <Icon size={16} style={{ color: isActive ? '#111827' : '#9ca3af', flexShrink: 0 }} />
+                <span style={{ flex: 1 }}>{label}</span>
+                {path === '/checkout' && (cart.count || 0) > 0 && (
+                  <span style={{
+                    backgroundColor: '#ef4444',
+                    color: '#ffffff',
+                    fontSize: 10,
+                    fontWeight: 600,
+                    minWidth: 18,
+                    height: 18,
+                    borderRadius: 9,
+                    display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '16px',
-                    padding: '16px 24px',
-                    color: isActive ? '#ffffff' : '#1f2937',
-                    backgroundColor: isActive ? '#111827' : 'transparent',
-                    textDecoration: 'none',
-                  }}
-                  onMouseEnter={e => {
-                    const bg = e.currentTarget.style.backgroundColor
-                    if (bg !== 'rgb(17, 24, 39)' && bg !== '#111827') {
-                      e.currentTarget.style.backgroundColor = '#f9fafb'
-                    }
-                  }}
-                  onMouseLeave={e => {
-                    const bg = e.currentTarget.style.backgroundColor
-                    if (bg !== 'rgb(17, 24, 39)' && bg !== '#111827') {
-                      e.currentTarget.style.backgroundColor = 'transparent'
-                    }
-                  }}
-                >
-                  <Icon size={18} style={{ color: isActive ? '#ffffff' : '#4b5563' }} />
-                  <span>{label}</span>
-                  {path === '/checkout' && (cart.count || 0) > 0 && (
-                    <span style={{
-                      backgroundColor: '#ef4444',
-                      color: '#ffffff',
-                      fontSize: '10px',
-                      minWidth: '16px',
-                      height: '16px',
-                      borderRadius: '9999px',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '0 2px',
-                      fontWeight: 500,
-                      marginLeft: 'auto',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-                    }}>
-                      {cart.count}
-                    </span>
-                  )}
-                </Link>
-              )
-            })}
-          </div>
-
+                    justifyContent: 'center',
+                    padding: '0 5px',
+                  }}>
+                    {cart.count}
+                  </span>
+                )}
+              </Link>
+            )
+          })}
         </div>
-      </nav>
+
+        {/* Bottom */}
+        <div style={{ padding: '16px 20px', borderTop: '1px solid #f3f4f6' }}>
+          <Link
+            to="/collections"
+            onClick={(e) => { e.preventDefault(); setIsOpen(false); setShowCollections(true); }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '10px 14px',
+              borderRadius: 10,
+              color: '#6b7280',
+              textDecoration: 'none',
+              fontSize: 13,
+              fontWeight: 500,
+              backgroundColor: '#f9fafb',
+              transition: 'background 0.15s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f3f4f6'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f9fafb'; }}
+          >
+            <Layers size={15} />
+            <span>Collections</span>
+            <span style={{ marginLeft: 'auto', fontSize: 11, color: '#9ca3af' }}>Coming Soon</span>
+          </Link>
+        </div>
+      </div>
 
       {/* Collections modal */}
       {showCollections && (

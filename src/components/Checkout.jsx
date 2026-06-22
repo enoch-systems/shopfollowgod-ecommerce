@@ -283,40 +283,59 @@ function Checkout() {
   return (
     <>
       <main className="min-h-screen bg-white">
-        <div className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16 md:pt-28">
+        <div className="checkout-container" style={{ maxWidth: 960, margin: '0 auto', padding: '48px 20px 64px' }}>
+          <style>{`
+            @media (min-width: 768px) {
+              .checkout-container {
+                padding: 100px 24px 100px !important;
+              }
+            }
+            @media (min-width: 1024px) {
+              .checkout-container {
+                padding: 140px 24px 140px !important;
+              }
+            }
+          `}</style>
+
           {/* Header */}
-          <div className="text-center mb-8 md:mb-12">
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900">Checkout</h1>
-            <p className="mt-2 text-sm md:text-base text-gray-500 max-w-lg mx-auto">
-              Complete your order and we'll connect with you on WhatsApp to confirm and arrange delivery.
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Checkout
+            </p>
+            <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', fontWeight: 500, color: '#111827', lineHeight: 1.2, letterSpacing: '-0.02em', marginBottom: 8 }}>
+              Complete Your Order
+            </h1>
+            <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6, maxWidth: 440, margin: '0 auto' }}>
+              Fill in your details and we'll connect with you on WhatsApp to confirm and arrange delivery.
             </p>
           </div>
 
           {/* Progress steps */}
-          <div className="max-w-2xl mx-auto mb-10 md:mb-14">
-            <div className="flex items-center justify-between relative">
+          <div style={{ maxWidth: 480, margin: '0 auto 48px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
               {/* Background line */}
-              <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
+              <div style={{ position: 'absolute', top: 14, left: 0, right: 0, height: 1, background: '#e5e7eb', zIndex: 0 }} />
               
               {/* Active progress fill */}
               <div 
-                className="absolute top-4 left-0 h-0.5 bg-gray-900 transition-all duration-500 -z-10"
-                style={{ width: step === 1 ? '25%' : step === 2 ? '60%' : '100%' }}
+                style={{ position: 'absolute', top: 14, left: 0, height: 1, background: '#111827', transition: 'width 0.5s ease', zIndex: 0 }}
+                className="progress-fill"
               />
+              <style>{`.progress-fill { width: ${step === 1 ? '25%' : step === 2 ? '60%' : '100%'}; }`}</style>
 
               {/* Step 1 */}
-              <div className="flex flex-col items-center">
-                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-colors duration-300 ${step >= 1 ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, background: step >= 1 ? '#111827' : '#e5e7eb', color: step >= 1 ? '#ffffff' : '#9ca3af', transition: 'all 0.3s ease' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
-                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 1 ? 'text-gray-900' : 'text-gray-400'}`}>Filling</span>
+                <span style={{ fontSize: 11, fontWeight: 500, marginTop: 6, color: step >= 1 ? '#111827' : '#9ca3af' }}>Filling</span>
               </div>
 
               {/* Step 2 */}
-              <div className="flex flex-col items-center">
-                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-colors duration-300 ${step >= 2 ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-500'}`}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, background: step >= 2 ? '#111827' : '#e5e7eb', color: step >= 2 ? '#ffffff' : '#9ca3af', transition: 'all 0.3s ease' }}>
                   {step === 2 ? (
-                    <svg className="animate-spin w-4 h-4 md:w-5 md:h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
@@ -324,54 +343,86 @@ function Checkout() {
                     '2'
                   )}
                 </div>
-                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 2 ? 'text-gray-900' : 'text-gray-400'}`}>Order</span>
+                <span style={{ fontSize: 11, fontWeight: 500, marginTop: 6, color: step >= 2 ? '#111827' : '#9ca3af' }}>Order</span>
               </div>
 
               {/* Step 3 */}
-              <div className="flex flex-col items-center">
-                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-colors duration-300 ${step >= 3 ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, background: step >= 3 ? '#111827' : '#e5e7eb', color: step >= 3 ? '#ffffff' : '#9ca3af', transition: 'all 0.3s ease' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
-                <span className={`text-xs md:text-sm mt-2 font-medium ${step >= 3 ? 'text-gray-900' : 'text-gray-400'}`}>WhatsApp</span>
+                <span style={{ fontSize: 11, fontWeight: 500, marginTop: 6, color: step >= 3 ? '#111827' : '#9ca3af' }}>WhatsApp</span>
               </div>
             </div>
           </div>
 
           {/* Main grid */}
-          <section className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 lg:gap-10 items-start">
-            {/* Form - takes 3/5 of space on md+ */}
-            <form className="md:col-span-3 bg-white rounded-xl border border-gray-200 p-5 md:p-7 lg:p-8 shadow-sm">
-              <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-6">Shipping Details</h2>
+          <section className="checkout-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
+            <style>{`
+              @media (min-width: 768px) {
+                .checkout-grid {
+                  grid-template-columns: 3fr 2fr !important;
+                  gap: 32px !important;
+                }
+              }
+              @media (min-width: 1024px) {
+                .checkout-grid {
+                  gap: 40px !important;
+                }
+              }
+            `}</style>
 
-              <div className="space-y-5">
+            {/* Form */}
+            <form style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #f3f4f6', padding: 24 }}>
+              <h2 style={{ fontSize: 15, fontWeight: 600, color: '#111827', marginBottom: 24 }}>Shipping Details</h2>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {/* Full Name */}
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
-                  <div className="relative">
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#374151', marginBottom: 6 }}>Full Name</label>
+                  <div style={{ position: 'relative' }}>
                     <input
                       ref={fullNameRef}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50))}
                       placeholder="Your full name"
-                      className={`w-full rounded-lg border ${formErrors.fullName ? 'border-red-400' : 'border-gray-300'} py-2.5 md:py-3 pl-4 pr-10 text-sm md:text-base outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors`}
-                      style={{ fontSize: 16 }}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 8,
+                        border: formErrors.fullName ? '1px solid #f87171' : '1px solid #e5e7eb',
+                        background: '#f9fafb',
+                        color: '#111827',
+                        fontSize: 14,
+                        outline: 'none',
+                        transition: 'all 0.15s ease',
+                        boxSizing: 'border-box',
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#9ca3af';
+                        e.target.style.background = '#ffffff';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = formErrors.fullName ? '#f87171' : '#e5e7eb';
+                        e.target.style.background = '#f9fafb';
+                      }}
                     />
                     {fullName.trim().length >= 3 && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <div style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                           <circle cx="12" cy="12" r="12" fill="#16A34A" />
                           <path d="M17 8L10 15L7 12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
                     )}
                   </div>
-                  {formErrors.fullName && <p className="text-xs text-red-500 mt-1">{formErrors.fullName}</p>}
+                  {formErrors.fullName && <p style={{ fontSize: 12, color: '#ef4444', marginTop: 4 }}>{formErrors.fullName}</p>}
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
-                  <div className="relative">
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#374151', marginBottom: 6 }}>Phone Number</label>
+                  <div style={{ position: 'relative' }}>
                     <input
                       ref={phoneRef}
                       value={phone}
@@ -379,123 +430,192 @@ function Checkout() {
                       placeholder="e.g 07031111111"
                       type="tel"
                       maxLength={11}
-                      className={`w-full rounded-lg border ${formErrors.phone ? 'border-red-400' : 'border-gray-300'} py-2.5 md:py-3 pl-4 pr-10 text-sm md:text-base outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors`}
-                      style={{ fontSize: 16 }}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 8,
+                        border: formErrors.phone ? '1px solid #f87171' : '1px solid #e5e7eb',
+                        background: '#f9fafb',
+                        color: '#111827',
+                        fontSize: 14,
+                        outline: 'none',
+                        transition: 'all 0.15s ease',
+                        boxSizing: 'border-box',
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#9ca3af';
+                        e.target.style.background = '#ffffff';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = formErrors.phone ? '#f87171' : '#e5e7eb';
+                        e.target.style.background = '#f9fafb';
+                      }}
                     />
                     {phone.length === 11 && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <div style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                           <circle cx="12" cy="12" r="12" fill="#16A34A" />
                           <path d="M17 8L10 15L7 12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
                     )}
                   </div>
-                  {formErrors.phone && <p className="text-xs text-red-500 mt-1">{formErrors.phone}</p>}
+                  {formErrors.phone && <p style={{ fontSize: 12, color: '#ef4444', marginTop: 4 }}>{formErrors.phone}</p>}
                 </div>
 
                 {/* Address */}
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Delivery Address</label>
-                  <div className="relative">
+                  <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#374151', marginBottom: 6 }}>Delivery Address</label>
+                  <div style={{ position: 'relative' }}>
                     <textarea
                       ref={addressRef}
                       value={address}
                       onChange={(e) => setAddress(e.target.value.slice(0, 200))}
                       placeholder="Enter your delivery address"
                       rows={3}
-                      className={`w-full rounded-lg border ${formErrors.address ? 'border-red-400' : 'border-gray-300'} py-2.5 md:py-3 pl-4 pr-10 text-sm md:text-base outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors resize-none`}
-                      style={{ fontSize: 16 }}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 8,
+                        border: formErrors.address ? '1px solid #f87171' : '1px solid #e5e7eb',
+                        background: '#f9fafb',
+                        color: '#111827',
+                        fontSize: 14,
+                        outline: 'none',
+                        transition: 'all 0.15s ease',
+                        boxSizing: 'border-box',
+                        resize: 'none',
+                        fontFamily: 'inherit',
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#9ca3af';
+                        e.target.style.background = '#ffffff';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = formErrors.address ? '#f87171' : '#e5e7eb';
+                        e.target.style.background = '#f9fafb';
+                      }}
                     />
                     {address.trim().length >= 5 && (
-                      <div className="absolute right-3 top-3">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <div style={{ position: 'absolute', right: 10, top: 10 }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                           <circle cx="12" cy="12" r="12" fill="#16A34A" />
                           <path d="M17 8L10 15L7 12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
                     )}
                   </div>
-                  {formErrors.address && <p className="text-xs text-red-500 mt-1">{formErrors.address}</p>}
+                  {formErrors.address && <p style={{ fontSize: 12, color: '#ef4444', marginTop: 4 }}>{formErrors.address}</p>}
                 </div>
               </div>
             </form>
 
-            {/* Order summary - takes 2/5 of space on md+ */}
-            <aside className="md:col-span-2 bg-white rounded-xl border border-gray-200 p-5 md:p-7 lg:p-8 shadow-sm">
-              <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-5">Your Order</h3>
+            {/* Order summary */}
+            <aside style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #f3f4f6', padding: 24 }}>
+              <h3 style={{ fontSize: 15, fontWeight: 600, color: '#111827', marginBottom: 20 }}>Your Order</h3>
 
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {cart.items && cart.items.length > 0 ? (
                   cart.items.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3 pb-4 border-b border-gray-100 last:border-b-0">
+                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 12, paddingBottom: 12, borderBottom: '1px solid #f3f4f6' }}>
                       <button
                         type="button"
                         onClick={() => navigate(`/product/${item.id}`)}
-                        className="p-0 rounded focus:outline-none flex-shrink-0"
+                        style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, borderRadius: 8, overflow: 'hidden' }}
                       >
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="w-14 h-14 md:w-16 md:h-16 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                          style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8 }}
                         />
                       </button>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs md:text-sm font-medium text-gray-900 truncate">{item.title}</div>
-                        <div className="flex items-center gap-2 mt-2">
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
                           <button
                             onClick={() => cart.decrementItem(item.id)}
                             disabled={item.qty <= 1}
-                            className={`w-6 h-6 md:w-7 md:h-7 rounded border border-gray-300 text-sm flex items-center justify-center ${item.qty <= 1 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-100 transition-colors'}`}
+                            style={{
+                              width: 24, height: 24, borderRadius: 6, border: '1px solid #e5e7eb', background: '#ffffff',
+                              fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              cursor: item.qty <= 1 ? 'not-allowed' : 'pointer', opacity: item.qty <= 1 ? 0.4 : 1,
+                              color: '#374151', transition: 'background 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => { if (item.qty > 1) e.currentTarget.style.background = '#f3f4f6'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; }}
                           >
                             −
                           </button>
-                          <span className="min-w-[28px] text-center text-xs md:text-sm font-medium">{item.qty}</span>
+                          <span style={{ minWidth: 24, textAlign: 'center', fontSize: 13, fontWeight: 500, color: '#111827' }}>{item.qty}</span>
                           <button
                             onClick={() => cart.addItem(item, { qty: 1 })}
-                            className="w-6 h-6 md:w-7 md:h-7 rounded border border-gray-300 text-sm flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            style={{
+                              width: 24, height: 24, borderRadius: 6, border: '1px solid #e5e7eb', background: '#ffffff',
+                              fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              cursor: 'pointer', color: '#374151', transition: 'background 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = '#f3f4f6'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; }}
                           >
                             +
                           </button>
                           <button
                             onClick={() => cart.removeItem(item.id)}
-                            className="ml-auto p-1 rounded hover:bg-gray-100 transition-colors"
+                            style={{
+                              marginLeft: 'auto', padding: 4, border: 'none', background: 'none', cursor: 'pointer',
+                              borderRadius: 4, transition: 'background 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = '#f3f4f6'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
                           >
-                            <img src={deleteIcon} alt="Delete" className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                            <img src={deleteIcon} alt="Delete" style={{ width: 14, height: 14 }} />
                           </button>
                         </div>
                       </div>
-                      <div className="text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">{fmt(Number(item.price) * item.qty)}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap' }}>{fmt(Number(item.price) * item.qty)}</div>
                     </div>
                   ))
                 ) : (
-                  <div className="py-8 text-center text-sm text-gray-400">Your cart is empty</div>
+                  <div style={{ padding: '32px 0', textAlign: 'center', fontSize: 13, color: '#9ca3af' }}>Your cart is empty</div>
                 )}
               </div>
 
-              <div className="mt-5 pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm md:text-base font-semibold text-gray-900">Order Total</span>
-                  <span className="text-sm md:text-base font-bold text-gray-900">{fmt(orderTotal)}</span>
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#111827' }}>Order Total</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{fmt(orderTotal)}</span>
                 </div>
               </div>
 
-              <div className="mt-6 space-y-3">
+              <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <button
                   onClick={handlePlaceOrder}
                   disabled={isProcessing}
-                  className="w-full py-2.5 md:py-3 rounded-lg font-semibold text-sm md:text-base bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                  style={{
+                    width: '100%', padding: '11px 0', borderRadius: 8, border: 'none',
+                    background: '#111827', color: '#ffffff', fontSize: 13, fontWeight: 600,
+                    cursor: isProcessing ? 'not-allowed' : 'pointer', opacity: isProcessing ? 0.6 : 1,
+                    transition: 'background 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => { if (!isProcessing) e.currentTarget.style.background = '#374151'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#111827'; }}
                 >
                   {isProcessing ? 'Processing...' : 'Place Order — WhatsApp'}
                 </button>
                 <button
                   onClick={handleClearCart}
-                  className="w-full bg-white border border-gray-300 text-gray-500 hover:text-red-600 hover:border-red-300 py-2.5 md:py-3 rounded-lg text-sm md:text-base font-medium transition-colors"
+                  style={{
+                    width: '100%', padding: '11px 0', borderRadius: 8, border: '1px solid #e5e7eb',
+                    background: '#ffffff', color: '#6b7280', fontSize: 13, fontWeight: 500,
+                    cursor: 'pointer', transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#fca5a5'; e.currentTarget.style.color = '#ef4444'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.color = '#6b7280'; }}
                 >
                   Clear Cart
                 </button>
                 {emptyErrorVisible && (
-                  <p className="text-xs text-red-500 text-center">Your cart is empty</p>
+                  <p style={{ fontSize: 12, color: '#ef4444', textAlign: 'center' }}>Your cart is empty</p>
                 )}
               </div>
             </aside>
@@ -511,8 +631,8 @@ function Checkout() {
         />
 
         {toastVisible && (
-          <div className="fixed bottom-6 right-6 z-50">
-            <div className="bg-gray-900 text-white px-4 py-2.5 rounded-lg shadow-lg text-sm">{toastMessage}</div>
+          <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 50 }}>
+            <div style={{ background: '#111827', color: '#ffffff', padding: '10px 20px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontSize: 13 }}>{toastMessage}</div>
           </div>
         )}
       </main>

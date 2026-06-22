@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 md:pt-10">
+      <main className="pt-16">
         <Routes>
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />

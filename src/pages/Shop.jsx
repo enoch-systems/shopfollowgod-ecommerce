@@ -224,80 +224,99 @@ const Shop = () => {
 
   return (
     <>
-      <MountReveal className="min-h-screen py-8 md:pt-28" style={{ backgroundColor: 'white' }}>
-        <div ref={productsRef} className="max-w-8xl mx-auto px-3 md:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
-            <div>
-              <p className="text-black font-semibold uppercase text-lg md:text-xl lg:text-2xl" style={{ letterSpacing: '-0.01em' }}>Shop</p>
-            </div>
+      <MountReveal className="min-h-screen" style={{ backgroundColor: '#ffffff' }}>
+        <div className="shop-container" ref={productsRef} style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 20px 64px' }}>
+          <style>{`
+            @media (min-width: 768px) {
+              .shop-container {
+                padding: 100px 24px 100px !important;
+              }
+            }
+            @media (min-width: 1024px) {
+              .shop-container {
+                padding: 140px 24px 140px !important;
+              }
+            }
+          `}</style>
 
-            <div className="w-full md:w-auto">
-              <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                <div className="w-full md:w-auto">
-                  <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Sort By</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {[
-                      { value: 'default', label: 'Default' },
-                      { value: 'low-high', label: 'Low to High' },
-                      { value: 'high-low', label: 'High to Low' },
-                    ].map(opt => (
-                      <button
-                        key={opt.value}
-                        onClick={() => setSort(opt.value)}
-                        style={{
-                          padding: '6px 14px',
-                          borderRadius: 8,
-                          fontSize: 12,
-                          fontWeight: 600,
-                          border: 'none',
-                          background: sort === opt.value ? '#111827' : '#f3f4f6',
-                          color: sort === opt.value ? '#ffffff' : '#374151',
-                          cursor: 'pointer',
-                          transition: 'background 0.15s ease, color 0.15s ease, transform 0.1s ease',
-                          letterSpacing: '0.02em',
-                        }}
-                        onMouseEnter={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#e5e7eb' } }}
-                        onMouseLeave={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#f3f4f6' } }}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Products
+            </p>
+            <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', fontWeight: 500, color: '#111827', lineHeight: 1.2, letterSpacing: '-0.02em', marginBottom: 8 }}>
+              Shop
+            </h1>
+            <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6, maxWidth: 440, margin: '0 auto' }}>
+              Browse our collection of faith-inspired apparel and accessories.
+            </p>
+          </div>
+
+          {/* Filters */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div>
+                <p style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Sort By</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {[
+                    { value: 'default', label: 'Default' },
+                    { value: 'low-high', label: 'Low to High' },
+                    { value: 'high-low', label: 'High to Low' },
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setSort(opt.value)}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: 8,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        border: sort === opt.value ? '1px solid #111827' : '1px solid #e5e7eb',
+                        background: sort === opt.value ? '#111827' : '#ffffff',
+                        color: sort === opt.value ? '#ffffff' : '#374151',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
+                      onMouseLeave={e => { if (sort !== opt.value) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                <div className="w-full md:w-auto">
-                  <div className="text-xs text-gray-600 mb-2 uppercase tracking-wider">Categories</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {[
-                      { value: 'all', label: 'All' },
-                      { value: 'trucker', label: 'Trucker' },
-                      { value: 'beanie', label: 'Beanie' },
-                      { value: 'signature', label: 'Signature' },
-                      { value: 'tactical', label: 'Tactical' },
-                      { value: 'tee', label: 'Tee' },
-                    ].map(opt => (
-                      <button
-                        key={opt.value}
-                        onClick={() => setCategory(opt.value)}
-                        style={{
-                          padding: '6px 14px',
-                          borderRadius: 8,
-                          fontSize: 12,
-                          fontWeight: 600,
-                          border: 'none',
-                          background: category === opt.value ? '#111827' : '#f3f4f6',
-                          color: category === opt.value ? '#ffffff' : '#374151',
-                          cursor: 'pointer',
-                          transition: 'background 0.15s ease, color 0.15s ease, transform 0.1s ease',
-                          letterSpacing: '0.02em',
-                        }}
-                        onMouseEnter={e => { if (category !== opt.value) { e.currentTarget.style.background = '#e5e7eb' } }}
-                        onMouseLeave={e => { if (category !== opt.value) { e.currentTarget.style.background = '#f3f4f6' } }}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
+              <div>
+                <p style={{ fontSize: 11, fontWeight: 600, color: '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Categories</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {[
+                    { value: 'all', label: 'All' },
+                    { value: 'trucker', label: 'Trucker' },
+                    { value: 'beanie', label: 'Beanie' },
+                    { value: 'signature', label: 'Signature' },
+                    { value: 'tactical', label: 'Tactical' },
+                    { value: 'tee', label: 'Tee' },
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setCategory(opt.value)}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: 8,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        border: category === opt.value ? '1px solid #111827' : '1px solid #e5e7eb',
+                        background: category === opt.value ? '#111827' : '#ffffff',
+                        color: category === opt.value ? '#ffffff' : '#374151',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={e => { if (category !== opt.value) { e.currentTarget.style.background = '#f3f4f6'; e.currentTarget.style.borderColor = '#d1d5db'; } }}
+                      onMouseLeave={e => { if (category !== opt.value) { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.borderColor = '#e5e7eb'; } }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -306,6 +325,7 @@ const Shop = () => {
           {/* Top pagination */}
           {Pagination()}
 
+          {/* Product grid */}
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-4 lg:gap-3" style={{ marginTop: 12 }}>
             {pageItems.map((p) => (
               <div key={p.id} className="rounded-lg overflow-hidden" style={{
