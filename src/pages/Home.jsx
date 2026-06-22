@@ -300,7 +300,9 @@ const Home = () => {
       <div className="md:mt-10 lg:mt-16 mt-7">
         <NewArrival />
       </div>
-      <Footer />
+      <div className="md:hidden">
+        <Footer />
+      </div>
     </>
   );
 };

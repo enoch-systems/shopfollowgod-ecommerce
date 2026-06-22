@@ -109,7 +109,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="hidden md:block" style={{ 
+    <footer className="block" style={{ 
       backgroundColor: '#ffffff',
       color: '#111827', 
       position: 'relative',
