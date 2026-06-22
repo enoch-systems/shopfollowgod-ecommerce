@@ -228,6 +228,8 @@ function Dynamic({ product: propProduct }) {
     setTimeout(() => navigate('/checkout'), 150)
   }
 
+  const alsoLikeLimit = useMemo(() => ({ base: 6, sm: 8, md: 10, lg: 10 }), [])
+
   if (!product) return <div className="p-6">Product not found</div>
 
   return (
@@ -381,7 +383,7 @@ function Dynamic({ product: propProduct }) {
         <hr className="my-10 border-gray-200" />
 
         <h3 className="text-sm tracking-widest font-semibold">YOU MIGHT ALSO LIKE</h3>
-        <NewArrival limit={{ base: 6, sm: 8, md: 10, lg: 10 }} className="mt-6" hideTitle product={product} gridClass="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-2 md:gap-4 lg:gap-3 md:max-w-3xl lg:max-w-4xl mx-auto" />
+        <NewArrival limit={alsoLikeLimit} className="mt-6" hideTitle product={product} gridClass="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-2 md:gap-4 lg:gap-3 md:max-w-3xl lg:max-w-4xl mx-auto" />
     
       </div>
     </MountReveal>
