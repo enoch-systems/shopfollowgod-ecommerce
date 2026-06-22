@@ -364,29 +364,16 @@ function Dynamic({ product: propProduct }) {
 
               {/* Right: Product Details */}
               <div className="flex flex-col">
-                {/* Brand & Rating */}
-                <div className="flex items-start justify-between mb-3 lg:mb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 lg:w-8 lg:h-8 bg-gray-900 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">FG</span>
-                    </div>
-                    <div>
-                      <div className="text-xs lg:text-sm font-semibold text-gray-900">FG</div>
-                      <div className="flex items-center gap-1">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <svg key={i} className={`w-2.5 h-2.5 lg:w-3 lg:h-3 ${i < Math.round(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-200'}`} viewBox="0 0 20 20">
-                              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                            </svg>
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-500 ml-1">({product.rating})</span>
-                      </div>
-                    </div>
+                {/* Rating */}
+                <div className="flex items-center gap-2 mb-3 lg:mb-4">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className={`w-3 h-3 lg:w-4 lg:h-4 ${i < Math.round(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-200'}`} viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                    ))}
                   </div>
-                  <button className="p-1.5 lg:p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <svg className="w-4 h-4 lg:w-5 lg:h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
-                  </button>
+                  <span className="text-xs lg:text-sm text-gray-500">({product.rating})</span>
                 </div>
 
                 {/* Product Title */}
